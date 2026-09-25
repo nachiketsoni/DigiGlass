@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiGlass | One security operation. Whatever the stack.</title>
+<meta name="description" content="DigiGlass connects and operates the security tools you already own as a single, accountable 24×7 security operation.">
+<meta name="theme-color" content="#0A0F1C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<noscript><style>.loader{display:none}.w>span,.hero__title .line>span{transform:none!important}</style></noscript>
+</head>
+<body>
+
+<!-- ============ SVG SPRITE ============ -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-shield" x1="0" y1="41" x2="0" y2="454" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9E713C"/><stop offset=".5" stop-color="#CDA468"/><stop offset="1" stop-color="#F3D69E"/>
+    </linearGradient>
+    <linearGradient id="g-bar" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F3D59A"/><stop offset=".55" stop-color="#C79E60"/><stop offset="1" stop-color="#9A6428"/>
+    </linearGradient>
+    <linearGradient id="g-ring" x1="0" y1="138" x2="0" y2="292" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B08650"/><stop offset="1" stop-color="#EFD29A"/>
+    </linearGradient>
+    <linearGradient id="g-sweep" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F2D59C" stop-opacity="0"/><stop offset="1" stop-color="#F2D59C" stop-opacity=".42"/>
+    </linearGradient>
+  </defs>
+
+  <!-- DigiGlass monogram, redrawn from the brand logo (400 × 454 grid) -->
+  <symbol id="dg-mark" viewBox="0 0 400 454">
+    <rect width="400" height="32" fill="url(#g-bar)"/>
+    <g fill="url(#g-shield)">
+      <path d="M187 160V41H0V258C0 340 100 420 187 454V270H172V410C100 385 18 330 18 250V73H172V160Z"/>
+      <path d="M210 41H400V93H370V73H242V160H210Z"/>
+      <path d="M210 270H242V400C320 368 370 310 370 218H314V191H400V258C400 360 300 425 210 454Z"/>
+    </g>
+    <circle cx="202" cy="215" r="63.5" fill="none" stroke="url(#g-ring)" stroke-width="27"/>
+  </symbol>
+  <symbol id="dg-line" viewBox="-6 -6 412 466">
+    <rect width="400" height="32"/>
+    <path d="M187 160V41H0V258C0 340 100 420 187 454V270H172V410C100 385 18 330 18 250V73H172V160Z"/>
+    <path d="M210 41H400V93H370V73H242V160H210Z"/>
+    <path d="M210 270H242V400C320 368 370 310 370 218H314V191H400V258C400 360 300 425 210 454Z"/>
+    <circle cx="202" cy="215" r="77"/><circle cx="202" cy="215" r="50"/>
+  </symbol>
+
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10.5a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.4 9.6 4.5 4.5 0 0 0 7 18.5z"/></symbol>
+  <symbol id="i-endpoint" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19.5h20"/></symbol>
+  <symbol id="i-identity" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.2-3.6 4-5.2 7-5.2s5.8 1.6 7 5.2"/></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5m0 0l-5.6 5.6M12 12l5.6 5.6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="M3.8 6.6l8.2 6.4 8.2-6.4"/></symbol>
+  <symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="15.5" cy="15" r=".8"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5M5 10.5v7.5M9.5 10.5v7.5M14.5 10.5v7.5M19 10.5v7.5M3 20.5h18"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M3 12.5l18-7-6.5 15.5-2.8-6.2z"/><path d="M11.7 14.8L21 5.5"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M4 16.5V13l2-4.5h12L20 13v3.5zM4 16.5V19h3v-2.5M17 16.5V19h3v-2.5"/><circle cx="7.6" cy="13.3" r=".9"/><circle cx="16.4" cy="13.3" r=".9"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 8h8v13M3 21h18M7.5 8h1.5M7.5 12h1.5M7.5 16h1.5M15 12h2M15 16h2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2.5h-15zM10 21h4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></symbol>
+  <symbol id="i-factory" viewBox="0 0 24 24"><path d="M3 21V11l5 3v-3l5 3v-3l5 3V4h3v17zM7 17.5h2M12 17.5h2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5v2.5"/></symbol>
+  <symbol id="i-siren" viewBox="0 0 24 24"><path d="M6 18v-5a6 6 0 0 1 12 0v5M4 18h16v3H4zM12 3v2M4.2 6.2l1.4 1.4M19.8 6.2l-1.4 1.4"/></symbol>
+  <symbol id="i-rosette" viewBox="0 0 24 24"><path d="M12 2.8l2.3 1.7 2.9-.1.9 2.7 2.3 1.8-.9 2.8.9 2.7-2.3 1.8-.9 2.7-2.9-.1-2.3 1.7-2.3-1.7-2.9.1-.9-2.7-2.3-1.8.9-2.7-.9-2.8 2.3-1.8.9-2.7 2.9.1z"/><path d="M8.7 12l2.3 2.3 4.4-4.6"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6.5V20l6-2.5 6 2.5 6-2.5V4l-6 2.5zM9 4v13.5M15 6.5V20"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.6 13.8L7.2 21l4.8-2.6 4.8 2.6-1.4-7.2M12 6.5l.8 1.7 1.9.3-1.4 1.3.3 1.9-1.6-.9-1.7.9.4-1.9-1.4-1.3 1.9-.3z"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z"/></symbol>
+  <symbol id="i-sprawl" viewBox="0 0 24 24"><rect x="2.5" y="4" width="9" height="7" rx="1"/><rect x="12.5" y="9" width="9" height="7" rx="1"/><rect x="5" y="14" width="8" height="6" rx="1"/></symbol>
+  <symbol id="i-ring" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></symbol>
+</svg>
+
+<!-- ============ LOADER ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__center">
+    <svg class="loader__mark" viewBox="-6 -6 412 466"><use href="#dg-line"/></svg>
+    <div class="loader__words"><span>Integrate</span><span>Tune</span><span>Investigate</span><span>Improve</span></div>
+  </div>
+  <div class="loader__num"><span id="loadNum">0</span></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="DigiGlass home">
+    <svg class="brand__mark" viewBox="0 0 400 454"><use href="#dg-mark"/></svg>
+    <span class="brand__word">DIGIGLASS</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#why">Why DigiGlass</a>
+    <a href="#packages">Solutions</a>
+    <a href="#industries">Industries</a>
+    <a href="#assessment">Assessments</a>
+  </nav>
+  <div class="nav__cta">
+    <a class="btn btn--gold btn--sm" href="#contact">Speak to a Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+    <button class="nav__menu" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <nav class="menu__links" aria-label="Mobile">
+    <a href="#why">Why DigiGlass</a>
+    <a href="#packages">Solutions</a>
+    <a href="#industries">Industries</a>
+    <a href="#assessment">Assessments</a>
+    <a href="#estimator">Cyber Impact Estimator</a>
+  </nav>
+  <a class="btn btn--gold" href="#contact">Speak to a Security Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+</div>
+
+<a class="alert-tab" href="#contact"><svg class="ico"><use href="#i-siren"/></svg><span>Under attack?</span></a>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <canvas class="mosaic" data-mosaic="sides" aria-hidden="true"></canvas>
+  <canvas class="hero__gl" id="heroGL" aria-hidden="true"></canvas>
+  <div class="hero__fallback" aria-hidden="true"><svg viewBox="0 0 400 454"><use href="#dg-mark"/></svg></div>
+  <div class="hero__shade" aria-hidden="true"></div>
+
+  <div class="wrap hero__inner">
+    <h1 class="hero__title">
+      <span class="line"><span class="gold-text">No blind spots.</span></span>
+      <span class="line">
+        <span class="chip-ico chip-ico--shield" aria-hidden="true"><svg class="ico"><use href="#i-shield"/></svg></span>
+        <span class="chip-ico chip-ico--ring" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.5" fill="none" stroke="#0A0F1C" stroke-width="2.6"/></svg></span>
+        <span class="gold-text">No exceptions.</span>
+      </span>
+    </h1>
+
+    <!-- <div class="hero__aside">
+      <p class="hero__lead">You’ve invested in the tools. Now make them work as one.</p>
+      <p class="hero__body">Digiglass connects and operates what you already own as a single, accountable 24×7 security operation with clearly defined scope, ownership and response.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--gold" href="#assessment">Map Your Security Operation <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+        <a class="btn btn--ghost" href="#model">See how it works</a>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="hud wrap">
+    <ul class="hud__cells">
+      <li class="hud__live">SOC online</li>
+      <li><b id="eps">18,000</b> events per second</li>
+      <li class="hud__opt">20,000+ devices monitored</li>
+      <li class="hud__opt">3 SOCs, 24×7×365</li>
+    </ul>
+    <a href="#operation" class="scroll-cue" aria-label="Scroll to content"><span>Scroll</span><i></i></a>
+  </div>
+</section>
+
+<!-- ============ METRICS + CERTIFICATIONS ============ -->
+<section class="stats" aria-label="Operating metrics">
+  <div class="stat-row">
+    <div class="stat-row__track">
+      <div class="stat">
+        <span class="stat__num gold-text"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
+        <span class="stat__label"><b>MTTD</b>Mean Time to Detect</span>
+        <span class="stat__chip"><svg class="ico"><use href="#i-radar"/></svg></span>
+      </div>
+      <div class="stat">
+        <span class="stat__num stat__num--outline">1.55B</span>
+        <span class="stat__label"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
+        <span class="stat__chip"><svg class="ico"><use href="#i-data"/></svg></span>
+      </div>
+      <div class="stat">
+        <span class="stat__num gold-text">12%</span>
+        <span class="stat__label"><b>False-positive rate</b>Alerts requiring no escalation</span>
+        <span class="stat__chip"><svg class="ico"><use href="#i-check"/></svg></span>
+      </div>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-row__track">
+      <div class="stat">
+        <span class="stat__num stat__num--outline"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
+        <span class="stat__label"><b>MTTR</b>Response to P0 incidents</span>
+        <span class="stat__chip"><svg class="ico"><use href="#i-shield"/></svg></span>
+      </div>
+      <div class="stat">
+        <span class="stat__num gold-text">20+</span>
+        <span class="stat__label"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
+        <span class="stat__chip"><svg class="ico"><use href="#i-identity"/></svg></span>
+      </div>
+      <div class="stat">
+        <span class="stat__num stat__num--outline">100+</span>
+        <span class="stat__label"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
+        <span class="stat__chip"><svg class="ico"><use href="#i-network"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="certs">
+      <h3 class="certs__title">Recognised. Certified. Trusted.</h3>
+      <ul class="certs__list">
+        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-rosette"/></svg></span><strong>ISO 27001</strong><span>Audited security management</span></li>
+        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-map"/></svg></span><strong>NCA Certified, KSA</strong><span>Approved to operate in Saudi Arabia</span></li>
+        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-award"/></svg></span><strong>MSSP Excellence Award</strong><span>Securonix, 2025</span></li>
+        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-trophy"/></svg></span><strong>Leading MSS by Distributor</strong><span>Industry recognition, 2024</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CORE PROPOSITION ============ -->
+<section class="prop sec--light" id="why">
+  <div class="wrap prop__grid">
+    <div class="prop__copy">
+      <h2 class="prop__title" id="propTitle">
+        <span class="l1">Your stack is not the problem.</span>
+        <span class="l2">The operating <span class="gap" id="gap" aria-hidden="true"><i></i></span>gap is.</span>
+      </h2>
+      <p class="prop__sub">You already have security tools across cloud, endpoint, identity, network, email and data. The challenge is making them work together; with clear ownership, coordinated response and less work for your team.</p>
+      <p class="prop__more">DigiGlass integrates and operates the security investments you already own, turning fragmented tools and signals into one accountable security operation.</p>
+      <a class="btn btn--ink" href="#assessment">Security Operations Review <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+    </div>
+
+    <figure class="orbit-card">
+      <figcaption class="orbit-card__head"><span class="kicker">Security signal ownership</span></figcaption>
+      <div class="orbit">
+        <svg class="orbit__lines" viewBox="0 0 600 600" aria-hidden="true">
+          <g class="orbit__spin">
+            <circle class="o-ticks" cx="300" cy="300" r="272"/>
+          </g>
+          <circle class="o-ring" cx="300" cy="300" r="210"/>
+          <circle class="o-ring o-ring--in" cx="300" cy="300" r="118"/>
+          <path class="flow" id="f0" d="M300 90L300 300"/>
+          <path class="flow" id="f1" d="M481.9 195L300 300"/>
+          <path class="flow" id="f2" d="M481.9 405L300 300"/>
+          <path class="flow" id="f3" d="M300 510L300 300"/>
+          <path class="flow" id="f4" d="M118.1 405L300 300"/>
+          <path class="flow" id="f5" d="M118.1 195L300 300"/>
+          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#f0"/></animateMotion></circle>
+          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".4s"><mpath href="#f1"/></animateMotion></circle>
+          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".9s"><mpath href="#f2"/></animateMotion></circle>
+          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.3s"><mpath href="#f3"/></animateMotion></circle>
+          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".2s"><mpath href="#f4"/></animateMotion></circle>
+          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.7s"><mpath href="#f5"/></animateMotion></circle>
+        </svg>
+        <div class="orbit__core"><svg viewBox="0 0 400 454"><use href="#dg-mark"/></svg></div>
+        <div class="orbit__node" style="--a:-90deg"><i><svg class="ico"><use href="#i-cloud"/></svg></i><span>Cloud</span></div>
+        <div class="orbit__node" style="--a:-30deg"><i><svg class="ico"><use href="#i-endpoint"/></svg></i><span>Endpoint</span></div>
+        <div class="orbit__node" style="--a:30deg"><i><svg class="ico"><use href="#i-identity"/></svg></i><span>Identity</span></div>
+        <div class="orbit__node" style="--a:90deg"><i><svg class="ico"><use href="#i-network"/></svg></i><span>Network</span></div>
+        <div class="orbit__node" style="--a:150deg"><i><svg class="ico"><use href="#i-mail"/></svg></i><span>Email &amp; Collaboration</span></div>
+        <div class="orbit__node" style="--a:210deg"><i><svg class="ico"><use href="#i-data"/></svg></i><span>Data</span></div>
+      </div>
+      <p class="orbit-card__foot">Connected into one accountable operating view</p>
+    </figure>
+  </div>
+
+</section>
+
+<!-- ============ OPERATING MODEL ============ -->
+<section class="model" id="model" data-step="0">
+  <canvas class="mosaic" data-mosaic="center" aria-hidden="true"></canvas>
+  <div class="wrap model__head">
+    <h2 class="h2" data-split>Make your stack work as one managed security operation.</h2>
+    <div class="model__intro">
+      <p>Keep the tools you already have. DigiGlass connects their signals into one 24×7×365 SOC operation: correlating, enriching, detecting, investigating, responding and reporting through a defined operating model and SLA.</p>
+      <a class="btn btn--gold" href="#packages">Explore the DigiGlass Operating Model <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="model__tabs" role="tablist" aria-label="DigiGlass operating model">
+      <button class="mtab is-active" role="tab" id="mt0" aria-selected="true" aria-controls="mp0" data-step="0"><span class="mtab__bar"><i></i></span><span class="mtab__n">01</span><span class="mtab__t">Integrate</span></button>
+      <button class="mtab" role="tab" id="mt1" aria-selected="false" aria-controls="mp1" data-step="1" tabindex="-1"><span class="mtab__bar"><i></i></span><span class="mtab__n">02</span><span class="mtab__t">Tune</span></button>
+      <button class="mtab" role="tab" id="mt2" aria-selected="false" aria-controls="mp2" data-step="2" tabindex="-1"><span class="mtab__bar"><i></i></span><span class="mtab__n">03</span><span class="mtab__t">Investigate &amp; Respond</span></button>
+      <button class="mtab" role="tab" id="mt3" aria-selected="false" aria-controls="mp3" data-step="3" tabindex="-1"><span class="mtab__bar"><i></i></span><span class="mtab__n">04</span><span class="mtab__t">Improve</span></button>
+    </div>
+
+    <div class="model__stage">
+      <canvas id="modelGL" aria-hidden="true"></canvas>
+      <div class="model__fallback" aria-hidden="true"><svg viewBox="0 0 400 454"><use href="#dg-mark"/></svg></div>
+      <div class="mpanel is-active" role="tabpanel" id="mp0" aria-labelledby="mt0">
+        <h3>Bring your existing security stack together.</h3>
+        <div class="mpanel__side"><p>Connect relevant tools and signals into one operating model, without forcing a technology reset.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Integration and Onboarding</span></div>
+      </div>
+      <div class="mpanel" role="tabpanel" id="mp1" aria-labelledby="mt1">
+        <h3>Make the signals that matter stand out.</h3>
+        <div class="mpanel__side"><p>Reduce noise, improve detection relevance and keep security use cases aligned to your environment.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Detection content, use cases and thresholds</span></div>
+      </div>
+      <div class="mpanel" role="tabpanel" id="mp2" aria-labelledby="mt2">
+        <h3>Turn alerts into coordinated action.</h3>
+        <div class="mpanel__side"><p>Triage and investigate what matters, coordinate escalation and execute agreed response actions within defined ownership.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Triage, investigation and response</span></div>
+      </div>
+      <div class="mpanel" role="tabpanel" id="mp3" aria-labelledby="mt3">
+        <h3>Turn operations into measurable progress.</h3>
+        <div class="mpanel__side"><p>Use reporting, reviews and operational insight to improve the service and strengthen your security posture over time.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Reporting, reviews and continuous improvement</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ IMPACT ESTIMATOR ============ -->
+<section class="calc sec--light" id="estimator">
+  <div class="wrap calc__grid">
+    <div class="calc__copy">
+      <h2 class="h2" data-split>What could a cyber incident cost your organisation?</h2>
+      <p>Estimate the potential financial impact of a cyber incident using industry breach-cost benchmarks and your organisation's revenue, exposure and security preparedness.</p>
+      <a class="text-link" href="#estimator">Open the full estimator <svg class="ico"><use href="#i-arrow"/></svg></a>
+    </div>
+
+    <form class="calc__panel" id="calc" onsubmit="return false">
+      <div class="field">
+        <div class="field__row"><label for="rev">Annual revenue</label><output id="revOut" for="rev">$250M</output></div>
+        <input type="range" id="rev" min="0" max="100" value="48" step="1">
+      </div>
+      <div class="field">
+        <label for="ind">Industry</label>
+        <select id="ind">
+          <option value="bfsi">BFSI &amp; Insurance</option>
+          <option value="health">Healthcare</option>
+          <option value="auto">Automotive &amp; Distribution</option>
+          <option value="digital">Digital &amp; Cloud-native</option>
+          <option value="realestate">Real Estate &amp; Hospitality</option>
+          <option value="ot">OT &amp; Industrial</option>
+        </select>
+      </div>
+      <fieldset class="field seg">
+        <legend>Sensitive data exposure</legend>
+        <div class="seg__opts">
+          <input type="radio" name="expo" id="e1" value="low"><label for="e1">Low</label>
+          <input type="radio" name="expo" id="e2" value="moderate" checked><label for="e2">Moderate</label>
+          <input type="radio" name="expo" id="e3" value="high"><label for="e3">High</label>
+        </div>
+      </fieldset>
+      <fieldset class="field seg">
+        <legend>Security preparedness</legend>
+        <div class="seg__opts">
+          <input type="radio" name="prep" id="p1" value="early"><label for="p1">Early</label>
+          <input type="radio" name="prep" id="p2" value="developing" checked><label for="p2">Developing</label>
+          <input type="radio" name="prep" id="p3" value="mature"><label for="p3">Mature</label>
+        </div>
+      </fieldset>
+
+      <div class="calc__result" aria-live="polite">
+        <svg class="gauge" viewBox="0 0 120 68" aria-hidden="true">
+          <path class="gauge__track" d="M10 60a50 50 0 0 1 100 0"/>
+          <path class="gauge__val" id="gaugeVal" d="M10 60a50 50 0 0 1 100 0" pathLength="100"/>
+        </svg>
+        <div>
+          <span class="calc__label">Estimated incident impact</span>
+          <strong class="calc__out gold-text" id="calcOut">$0</strong>
+          <span class="calc__range" id="calcRange"></span>
+        </div>
+      </div>
+
+      <details class="calc__how">
+        <summary>How is this calculated?</summary>
+        <p>Your estimate combines published breach-cost benchmarks with your organisation's size, exposure and preparedness inputs. Benchmark data is sourced from IBM's Cost of a Data Breach Report 2026.</p>
+        <p>Source: IBM, Cost of a Data Breach Report 2026.</p>
+        <p>Disclaimer: This calculator provides an illustrative planning estimate and does not predict the actual cost of a future incident.</p>
+      </details>
+    </form>
+  </div>
+</section>
+
+<!-- ============ PACKAGES ============ -->
+<section class="pkgs" id="packages">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <div>
+        <p class="kicker">Your security packages</p>
+        <h2 class="h2" data-split>Three ways to make your stack work.</h2>
+      </div>
+      <div class="pkgs__intro">
+        <p>Choose the level of managed security that fits your environment; from core detection and response to broader protection and resilience.</p>
+        <p class="pkgs__unsure">Not sure which package fits your environment? <a class="text-link" href="#assessment">Find your starting point <svg class="ico"><use href="#i-arrow"/></svg></a></p>
+      </div>
+    </header>
+
+    <div class="pkgs__grid">
+      <article class="pkg">
+        <div class="pkg__viz" aria-hidden="true"><div class="plates"><b></b><i style="--k:1"></i></div></div>
+        <h3 class="pkg__name">MDR Core</h3>
+        <p class="pkg__tag">Detect &amp; Respond</p>
+        <p class="pkg__desc">24×7 managed detection and response focused on identifying, investigating and containing threats across your environment.</p>
+        <p class="pkg__inc">Includes</p>
+        <ul class="ticks">
+          <li>24×7 security monitoring</li>
+          <li>Security event collection &amp; correlation</li>
+          <li>User &amp; entity behaviour analytics</li>
+          <li>Threat intelligence &amp; contextual enrichment</li>
+          <li>Alert investigation &amp; triage</li>
+          <li>Automated response and containment</li>
+          <li>Threat hunting</li>
+          <li>Detection engineering</li>
+          <li>Incident escalation</li>
+        </ul>
+      </article>
+      <article class="pkg">
+        <div class="pkg__viz" aria-hidden="true"><div class="plates"><b></b><i style="--k:1"></i><i style="--k:2"></i></div></div>
+        <h3 class="pkg__name">MDR Plus</h3>
+        <p class="pkg__tag">Protect People &amp; Communication</p>
+        <p class="pkg__desc">Extend your MDR operation to protect the people, communications and digital channels most often targeted by attackers.</p>
+        <p class="pkg__inc">Everything in MDR Core, plus</p>
+        <ul class="ticks">
+          <li>Managed email security</li>
+          <li>Phishing &amp; social-engineering simulations</li>
+          <li>Security awareness training</li>
+          <li>Brand impersonation &amp; exposed-credential monitoring</li>
+        </ul>
+      </article>
+      <article class="pkg pkg--top">
+        <div class="pkg__viz" aria-hidden="true"><div class="plates"><b></b><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i></div></div>
+        <h3 class="pkg__name">MDR 360</h3>
+        <p class="pkg__tag">Extend Protection &amp; Build Resilience</p>
+        <p class="pkg__desc">Go beyond detection and response with broader security management, resilience planning and emerging-risk protection.</p>
+        <p class="pkg__inc">Everything in MDR Plus, plus</p>
+        <ul class="ticks">
+          <li>Vulnerability &amp; remediation management</li>
+          <li>Security advisory reviews</li>
+          <li>Incident &amp; recovery readiness programme</li>
+          <li>Extended managed protection</li>
+          <li>AI Exposure Management</li>
+        </ul>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ ASSESSMENT ============ -->
+<section class="assess sec--light" id="assessment">
+  <div class="wrap assess__grid">
+    <div class="assess__copy">
+      <h2 class="assess__title" data-split>Assessment doesn't just tell you what is wrong. It shows you how your security operation needs to work.</h2>
+      <p>The DigiGlass Security Operations Review maps your existing security tools, signals, ownership and operating processes to show where your security operation is fragmented, and what it takes to make it work as one.</p>
+      <h3 class="assess__get">What you get</h3>
+      <ul class="checks">
+        <li><i><svg class="ico"><use href="#i-check"/></svg></i>A mapped view of your current security environment and operating scope</li>
+        <li><i><svg class="ico"><use href="#i-check"/></svg></i>Identification of integration, visibility, coverage and ownership gaps</li>
+        <li><i><svg class="ico"><use href="#i-check"/></svg></i>A clear view of who monitors, investigates, escalates and responds</li>
+        <li><i><svg class="ico"><use href="#i-check"/></svg></i>A prioritised roadmap for improving the way your security operation works</li>
+      </ul>
+      <div class="ctas">
+        <a class="btn btn--ink" href="#contact">Map Your Security Operation <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+        <a class="btn btn--line" href="#contact">Speak to a Security Specialist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES + TECHNOLOGY ============ -->
+<section class="inds" id="industries">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <h2 class="h2" data-split>The same operation, translated to your context.</h2>
+      <div class="inds__intro">
+        <p>Every environment has different critical assets, threat patterns and continuity requirements. DigiGlass adapts one accountable security operation to the realities of how your organisation operates.</p>
+        <div class="inds__ctrl">
+    <button class="rail-btn" id="indPrev" aria-label="Previous industry"><svg class="ico"><use href="#i-arrow-l"/></svg></button>
+    <span class="inds__count"><b id="indNow">01</b> / 06</span>
+    <button class="rail-btn" id="indNext" aria-label="Next industry"><svg class="ico"><use href="#i-arrow-r"/></svg></button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div class="inds__rail" id="indRail">
+    <article class="ind is-current"><div class="ind__art"><svg class="iso" data-iso="bfsi" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>BFSI &amp; Insurance</h3><p>Regulatory pressure, sensitive data and zero tolerance for disruption.</p></div></article>
+    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="health" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Healthcare</h3><p>Sensitive data, distributed systems and continuity-critical operations.</p></div></article>
+    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="auto" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Automotive &amp; Distribution</h3><p>Distributed estates, customer data and cloud-connected operations.</p></div></article>
+    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="digital" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Digital &amp; Cloud-native</h3><p>Cloud workloads, identity and data move faster than traditional security operations.</p></div></article>
+    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="realestate" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Real Estate &amp; Hospitality</h3><p>Multiple properties, disconnected systems and consistent security requirements.</p></div></article>
+    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="ot" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>OT &amp; Industrial</h3><p>Operational continuity comes first.</p></div></article>
+  </div>
+
+  <div class="inds__tech">
+    <div class="wrap tech__head">
+      <h3 class="tech__title">Technology systems we operate across:</h3>
+      <p class="tech__hint">Every tool that enters the lens comes out as part of one operation.</p>
+    </div>
+    <ul class="sr-only"><li>Palo Alto Networks</li><li>Sectrio</li><li>Securonix</li><li>Legit Security</li><li>Check Point</li><li>Klassify</li><li>CyberArk</li><li>Cato Networks</li><li>Upwind</li><li>Indusface</li></ul>
+
+    <div class="prail" id="prail" aria-hidden="true">
+      <div class="prail__viewport">
+        <div class="prail__line"><i></i></div>
+        <div class="prail__track">
+        <div class="pr-item pr-logo" data-i="0" data-name="Palo Alto Networks" data-tag="Network security">
+          <img class="pr-l pr-l--dim" src="assets/partners/paloalto.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/paloalto.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/paloalto.png" alt="" draggable="false">
+        </div>
+        <div class="pr-item pr-word" data-i="1" data-name="Sectrio" data-tag="OT &amp; IoT security"><span>Sectrio</span></div>
+        <div class="pr-item pr-logo" data-i="2" data-name="Securonix" data-tag="SIEM &amp; UEBA">
+          <img class="pr-l pr-l--dim" src="assets/partners/securonix.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/securonix.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/securonix.png" alt="" draggable="false">
+        </div>
+        <div class="pr-item pr-word" data-i="3" data-name="Legit Security" data-tag="Application security"><span>Legit</span></div>
+        <div class="pr-item pr-logo" data-i="4" data-name="Check Point" data-tag="Network &amp; cloud security">
+          <img class="pr-l pr-l--dim" src="assets/partners/checkpoint.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/checkpoint.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/checkpoint.png" alt="" draggable="false">
+        </div>
+        <div class="pr-item pr-word" data-i="5" data-name="Klassify" data-tag="Data classification"><span>Klassify</span></div>
+        <div class="pr-item pr-logo" data-i="6" data-name="CyberArk" data-tag="Identity security">
+          <img class="pr-l pr-l--dim" src="assets/partners/cyberark.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/cyberark.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/cyberark.png" alt="" draggable="false">
+        </div>
+        <div class="pr-item pr-word" data-i="7" data-name="Cato Networks" data-tag="SASE"><span>Cato Networks</span></div>
+        <div class="pr-item pr-logo" data-i="8" data-name="Upwind" data-tag="Cloud security">
+          <img class="pr-l pr-l--dim" src="assets/partners/upwind.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/upwind.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/upwind.png" alt="" draggable="false">
+        </div>
+        <div class="pr-item pr-word" data-i="9" data-name="Indusface" data-tag="Web app &amp; API security"><span>Indusface</span></div>
+        </div>
+      </div>
+      <div class="prail__lens">
+        <span class="prail__badge"><svg viewBox="0 0 400 454"><use href="#dg-mark"/></svg></span>
+        <b class="c c--tl"></b><b class="c c--tr"></b><b class="c c--bl"></b><b class="c c--br"></b>
+        <span class="prail__scan"></span>
+      </div>
+    </div>
+    <div class="prail__readout" aria-hidden="true">
+      <span class="prail__idx"><b id="prIdx">01</b>/10</span>
+      <span class="prail__name" id="prName">Palo Alto Networks</span>
+      <span class="prail__tag" id="prTag">Network security</span>
+    </div>
+
+    <p class="wrap tech__note">Listed technologies reflect environments DigiGlass operates and integrates with. Official technology partnerships are shown separately.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 14 · FOOTER ============ -->
+<footer class="foot sec--light" id="contact">
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__brand">
+        <a class="brand brand--light" href="#top" aria-label="DigiGlass home">
+          <svg class="brand__mark" viewBox="0 0 400 454"><use href="#dg-mark"/></svg>
+          <span class="brand__word">DIGIGLASS</span>
+        </a>
+        <p class="foot__tag">One security operation. Whatever the stack.</p>
+        <p class="foot__about">A Redington Gulf company and the managed security arm of a $13.5B global technology group.</p>
+        <a class="btn btn--ink" href="#contact">Speak to a Security Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+      </div>
+      <nav class="foot__nav" aria-label="Footer">
+        <div><h4>Solutions</h4><ul>
+          <li><a href="#">Security Operations</a></li><li><a href="#">Managed Detection &amp; Response</a></li><li><a href="#">Cloud Security</a></li><li><a href="#">Data Security</a></li><li><a href="#">Privacy &amp; AI Governance</a></li><li><a href="#">OT &amp; Industrial Security</a></li><li><a href="#">Identity Security</a></li><li><a href="#">Network &amp; Perimeter Security</a></li>
+        </ul></div>
+        <div><h4>Assessments</h4><ul>
+          <li><a href="#">Security Operations Review</a></li><li><a href="#">Cloud Security Assessment</a></li><li><a href="#">Data Security Posture Assessment</a></li><li><a href="#">Privacy &amp; Compliance Readiness</a></li><li><a href="#">OT Exposure Review</a></li>
+        </ul></div>
+        <div><h4>Company</h4><ul>
+          <li><a href="#why">Why Digiglass</a></li><li><a href="#estimator">Cyber Impact Estimator</a></li><li><a href="#industries">Industries</a></li><li><a href="#">Resources</a></li><li><a href="#contact">Contact</a></li>
+        </ul></div>
+        <div><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Notice</a></li><li><a href="#">Terms of Use</a></li>
+        </ul></div>
+      </nav>
+    </div>
+
+    <div class="foot__ops">
+      <p class="foot__ops-h">DigiGlass operation</p>
+      <p class="foot__ops-h foot__ops-h--r">Redington Group backing</p>
+      <div class="op"><strong>3</strong><span>Security Operations Centres, operating 24×7×365</span></div>
+      <div class="op"><strong>25+</strong><span>Cybersecurity specialists across threat, compliance, cloud, OT and privacy</span></div>
+      <div class="op"><strong>20+</strong><span>Direct technology alliances</span></div>
+      <div class="op op--gold"><strong>$13.5B</strong><span>Redington global revenue, FY26</span><small>Source: Redington FY26 Corporate Presentation</small></div>
+    </div>
+
+    <div class="foot__meta">
+      <a class="text-link" href="#">See the technology ecosystem <svg class="ico"><use href="#i-arrow"/></svg></a>
+      <span>United Arab Emirates, Saudi Arabia and wider Middle East &amp; Africa</span>
+    </div>
+
+    <div class="foot__bar">
+      <span>© 2026 Digiglass. All rights reserved.</span>
+      <nav aria-label="Legal"><a href="#">Privacy Notice</a><a href="#">Terms of Use</a><a href="#">Cookie Preferences</a><a href="#">Accessibility Statement</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/scene.js"></script>
+</body>
+</html>
