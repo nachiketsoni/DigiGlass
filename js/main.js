@@ -149,14 +149,19 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       size = w < 700 ? 38 : 64;
       cells = [];
-      const cols = Math.ceil(w / size), rows = Math.ceil(h / size);
+      const hexR = size * 0.55;
+      const dx = hexR * Math.sqrt(3);
+      const dy = hexR * 1.5;
+      const cols = Math.ceil(w / dx) + 1, rows = Math.ceil(h / dy) + 1;
       for (let j = 0; j < rows; j++) {
         for (let i = 0; i < cols; i++) {
-          const u = (i + 0.5) * size / w, v = (j + 0.5) * size / h;
+          const cx = i * dx + (j % 2 ? dx / 2 : 0);
+          const cy = j * dy;
+          const u = cx / w, v = cy / h;
           let base = 0, warm = true;
           if (mode === 'center') {
-            const dx = (u - 0.5) * 1.5, dy = v - 0.62;
-            base = Math.max(0, 0.5 - Math.hypot(dx, dy)) * 1.6;
+            const dnx = (u - 0.5) * 1.5, dny = v - 0.62;
+            base = Math.max(0, 0.5 - Math.hypot(dnx, dny)) * 1.6;
           } else if (mode === 'bottom') {
             base = Math.max(0, v - 0.45) * 1.5 * (0.35 + Math.abs(u - 0.5) * 1.3);
           } else {
@@ -164,19 +169,29 @@
             base = Math.max(l, rr) ** 1.3;
             warm = u < 0.5;
           }
-          if (base > 0.02) cells.push({ x: i * size, y: j * size, base: base * (0.55 + Math.random() * 0.45), warm, ph: Math.random() * 6.28, sp: 0.4 + Math.random() });
+          if (base > 0.02) cells.push({ x: cx, y: cy, base: base * (0.55 + Math.random() * 0.45), warm, ph: Math.random() * 6.28, sp: 0.4 + Math.random() });
         }
       }
       draw(performance.now(), true);
+    };
+    const drawHex = (x, y, r) => {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (i * Math.PI) / 3 - Math.PI / 6;
+        ctx[i === 0 ? 'moveTo' : 'lineTo'](x + r * Math.cos(a), y + r * Math.sin(a));
+      }
+      ctx.closePath();
+      ctx.fill();
     };
     const draw = (t, force) => {
       if (!force && t - last < 60) return;
       last = t;
       ctx.clearRect(0, 0, w, h);
+      const r = size * 0.5;
       for (const c of cells) {
         const a = c.base * (0.6 + 0.4 * Math.sin(t * 0.0012 * c.sp + c.ph));
         ctx.fillStyle = c.warm ? `rgba(201,160,99,${(a * 0.34).toFixed(3)})` : `rgba(64,84,128,${(a * 0.42).toFixed(3)})`;
-        ctx.fillRect(c.x, c.y, size - 1, size - 1);
+        drawHex(c.x, c.y, r);
       }
     };
     const loop = (t) => { if (!visible) return; draw(t); requestAnimationFrame(loop); };
@@ -433,39 +448,201 @@
 
   /* ---------------- isometric vector illustrations ---------------- */
   const NS = 'http://www.w3.org/2000/svg';
-  const isoDraw = (svg, boxes, { s = 13, cx = 160, cy = 150, links = [] } = {}) => {
+  const isoDraw = (svg, boxes, { s = 13, cx = 160, cy = 150, links = [], clouds = [] } = {}) => {
     const P = (x, y, z) => [cx + (x - y) * s * 0.866, cy + (x + y) * s * 0.5 - z * s];
     const pts = (...a) => a.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ');
-    const poly = (cls, ...a) => { const p = d.createElementNS(NS, 'path'); p.setAttribute('class', cls); p.setAttribute('d', 'M' + pts(...a).split(' ').join('L') + 'Z'); return p; };
+    const poly = (cls, ...a) => {
+      const p = d.createElementNS(NS, 'path');
+      p.setAttribute('class', cls);
+      p.setAttribute('d', 'M' + pts(...a).split(' ').join('L') + 'Z');
+      return p;
+    };
+
     boxes
       .map((b, i) => ({ z: 0, ...b, i }))
-      .sort((a, b) => (a.layer || 0) - (b.layer || 0) || (a.x + a.w / 2 + a.y + a.d / 2) - (b.x + b.w / 2 + b.y + b.d / 2) || a.z - b.z)
+      .sort((a, b) => {
+        const la = a.layer || 0, lb = b.layer || 0;
+        if (la !== lb) return la - lb;
+        const ca = (a.type === 'cylinder') ? (a.x + a.y) : (a.x + (a.w || 0) / 2 + a.y + (a.d || 0) / 2);
+        const cb = (b.type === 'cylinder') ? (b.x + b.y) : (b.x + (b.w || 0) / 2 + b.y + (b.d || 0) / 2);
+        return ca - cb || (a.z || 0) - (b.z || 0);
+      })
       .forEach((b, n) => {
-        const { x, y, z, w, d: dd, h } = b;
+        const { x, y, z, cls = '' } = b;
         const g = d.createElementNS(NS, 'g');
-        g.setAttribute('class', 'iso-box ' + (b.cls || ''));
+        g.setAttribute('class', 'iso-box ' + cls);
         g.style.setProperty('--d', n);
-        g.appendChild(poly('iso-l', P(x, y + dd, z), P(x + w, y + dd, z), P(x + w, y + dd, z + h), P(x, y + dd, z + h)));
-        g.appendChild(poly('iso-r', P(x + w, y, z), P(x + w, y + dd, z), P(x + w, y + dd, z + h), P(x + w, y, z + h)));
-        g.appendChild(poly('iso-top', P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + dd, z + h), P(x, y + dd, z + h)));
-        if (b.rows) {
-          for (let k = 1; k < b.rows; k++) {
-            const zk = z + (h * k) / b.rows;
-            const l = d.createElementNS(NS, 'path');
-            l.setAttribute('class', 'iso-row');
-            const a1 = P(x, y + dd, zk), a2 = P(x + w, y + dd, zk), a3 = P(x + w, y, zk);
-            l.setAttribute('d', `M${a1}L${a2}L${a3}`);
-            g.appendChild(l);
+
+        if (b.type === 'cylinder') {
+          const { r, h, rows } = b;
+          const [bx, by] = P(x, y, z);
+          const [tx, ty] = P(x, y, z + h);
+          const rx = r * s * 1.22474487;
+          const ry = r * s * 0.70710678;
+
+          const pL = d.createElementNS(NS, 'path');
+          pL.setAttribute('class', 'iso-l');
+          pL.setAttribute('d', `M${(bx - rx).toFixed(1)},${by.toFixed(1)} L${(tx - rx).toFixed(1)},${ty.toFixed(1)} A${rx.toFixed(1)},${ry.toFixed(1)} 0 0 0 ${tx.toFixed(1)},${(ty + ry).toFixed(1)} L${bx.toFixed(1)},${(by + ry).toFixed(1)} A${rx.toFixed(1)},${ry.toFixed(1)} 0 0 1 ${(bx - rx).toFixed(1)},${by.toFixed(1)}Z`);
+          g.appendChild(pL);
+
+          const pR = d.createElementNS(NS, 'path');
+          pR.setAttribute('class', 'iso-r');
+          pR.setAttribute('d', `M${tx.toFixed(1)},${(ty + ry).toFixed(1)} A${rx.toFixed(1)},${ry.toFixed(1)} 0 0 0 ${(tx + rx).toFixed(1)},${ty.toFixed(1)} L${(bx + rx).toFixed(1)},${by.toFixed(1)} A${rx.toFixed(1)},${ry.toFixed(1)} 0 0 1 ${bx.toFixed(1)},${(by + ry).toFixed(1)}Z`);
+          g.appendChild(pR);
+
+          const elTop = d.createElementNS(NS, 'ellipse');
+          elTop.setAttribute('class', 'iso-top');
+          elTop.setAttribute('cx', tx.toFixed(1));
+          elTop.setAttribute('cy', ty.toFixed(1));
+          elTop.setAttribute('rx', rx.toFixed(1));
+          elTop.setAttribute('ry', ry.toFixed(1));
+          g.appendChild(elTop);
+
+          if (rows) {
+            for (let k = 1; k < rows; k++) {
+              const yk = by - (h * k / rows) * s;
+              const l = d.createElementNS(NS, 'path');
+              l.setAttribute('class', 'iso-row');
+              l.setAttribute('d', `M${(bx - rx).toFixed(1)},${yk.toFixed(1)} A${rx.toFixed(1)},${ry.toFixed(1)} 0 0 0 ${(bx + rx).toFixed(1)},${yk.toFixed(1)}`);
+              g.appendChild(l);
+            }
+          }
+        } else if (b.type === 'wedge') {
+          const { w, d: dd, h, dir = '-x', rows } = b;
+          const p_bl = P(x, y, z), p_br = P(x + w, y, z), p_fr = P(x + w, y + dd, z), p_fl = P(x, y + dd, z);
+          if (dir === '-x') {
+            const p_tbr = P(x + w, y, z + h), p_tfr = P(x + w, y + dd, z + h);
+            g.appendChild(poly('iso-r', p_br, p_fr, p_tfr, p_tbr));
+            g.appendChild(poly('iso-l', p_fl, p_fr, p_tfr));
+            g.appendChild(poly('iso-top', p_bl, p_tbr, p_tfr, p_fl));
+            if (rows) {
+              for (let k = 1; k < rows; k++) {
+                const zk = z + (h * k) / rows;
+                const a1 = P(x + w, y, zk), a2 = P(x + w, y + dd, zk);
+                const l = d.createElementNS(NS, 'path');
+                l.setAttribute('class', 'iso-row');
+                l.setAttribute('d', `M${a1}L${a2}`);
+                g.appendChild(l);
+              }
+            }
+          } else if (dir === 'x') {
+            const p_tbl = P(x, y, z + h), p_tfl = P(x, y + dd, z + h);
+            g.appendChild(poly('iso-l', p_fl, p_fr, p_tfl));
+            g.appendChild(poly('iso-top', p_tbl, p_br, p_fr, p_tfl));
+          }
+        } else {
+          const { w, d: dd, h } = b;
+          g.appendChild(poly('iso-l', P(x, y + dd, z), P(x + w, y + dd, z), P(x + w, y + dd, z + h), P(x, y + dd, z + h)));
+          g.appendChild(poly('iso-r', P(x + w, y, z), P(x + w, y + dd, z), P(x + w, y + dd, z + h), P(x + w, y, z + h)));
+          g.appendChild(poly('iso-top', P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + dd, z + h), P(x, y + dd, z + h)));
+          if (b.rows) {
+            for (let k = 1; k < b.rows; k++) {
+              const zk = z + (h * k) / b.rows;
+              const l = d.createElementNS(NS, 'path');
+              l.setAttribute('class', 'iso-row');
+              const a1 = P(x, y + dd, zk), a2 = P(x + w, y + dd, zk), a3 = P(x + w, y, zk);
+              l.setAttribute('d', `M${a1}L${a2}L${a3}`);
+              g.appendChild(l);
+            }
           }
         }
         svg.appendChild(g);
       });
-    links.forEach(([a, b, cls]) => {
+
+    (clouds || []).forEach((c, idx) => {
+      const { cx: ccx = 160, cy: ccy = 78, s: cs = 1.15, dx = 14, dy = 8 } = c;
+      const f = (x, y) => `${(ccx + x * cs).toFixed(1)},${(ccy + y * cs).toFixed(1)}`;
+      const b = (x, y) => `${(ccx + x * cs - dx).toFixed(1)},${(ccy + y * cs - dy).toFixed(1)}`;
+
+      const frontPath = `M ${f(-30, 18)} ` +
+        `L ${f(30, 18)} ` +
+        `C ${f(44, 18)} ${f(56, 8)} ${f(56, -4)} ` +
+        `C ${f(56, -16)} ${f(44, -24)} ${f(32, -24)} ` +
+        `C ${f(30, -38)} ${f(16, -46)} ${f(-2, -46)} ` +
+        `C ${f(-18, -46)} ${f(-30, -38)} ${f(-34, -26)} ` +
+        `C ${f(-46, -26)} ${f(-56, -14)} ${f(-56, 0)} ` +
+        `C ${f(-56, 12)} ${f(-46, 18)} ${f(-30, 18)} Z`;
+
+      const backPath = `M ${b(-30, 18)} ` +
+        `L ${b(30, 18)} ` +
+        `C ${b(44, 18)} ${b(56, 8)} ${b(56, -4)} ` +
+        `C ${b(56, -16)} ${b(44, -24)} ${b(32, -24)} ` +
+        `C ${b(30, -38)} ${b(16, -46)} ${b(-2, -46)} ` +
+        `C ${b(-18, -46)} ${b(-30, -38)} ${b(-34, -26)} ` +
+        `C ${b(-46, -26)} ${b(-56, -14)} ${b(-56, 0)} ` +
+        `C ${b(-56, 12)} ${b(-46, 18)} ${b(-30, 18)} Z`;
+
+      const facets = [
+        `M ${b(-30, 18)} L ${b(30, 18)} L ${f(30, 18)} L ${f(-30, 18)} Z`,
+        `M ${b(30, 18)} C ${b(44, 18)} ${b(56, 8)} ${b(56, -4)} L ${f(56, -4)} C ${f(56, 8)} ${f(44, 18)} ${f(30, 18)} Z`,
+        `M ${b(56, -4)} C ${b(56, -16)} ${b(44, -24)} ${b(32, -24)} L ${f(32, -24)} C ${f(44, -24)} ${f(56, -16)} ${f(56, -4)} Z`,
+        `M ${b(32, -24)} C ${b(30, -38)} ${b(16, -46)} ${b(-2, -46)} L ${f(-2, -46)} C ${f(16, -46)} ${f(30, -38)} ${f(32, -24)} Z`,
+        `M ${b(-2, -46)} C ${b(-18, -46)} ${b(-30, -38)} ${b(-34, -26)} L ${f(-34, -26)} C ${f(-30, -38)} ${f(-18, -46)} ${f(-2, -46)} Z`,
+        `M ${b(-34, -26)} C ${b(-46, -26)} ${b(-56, -14)} ${b(-56, 0)} L ${f(-56, 0)} C ${f(-56, -14)} ${f(-46, -26)} ${f(-34, -26)} Z`,
+        `M ${b(-56, 0)} C ${b(-56, 12)} ${b(-46, 18)} ${b(-30, 18)} L ${f(-30, 18)} C ${f(-46, 18)} ${f(-56, 12)} ${f(-56, 0)} Z`
+      ];
+
+      const g = d.createElementNS(NS, 'g');
+      g.setAttribute('class', 'iso-box iso-cloud');
+      g.style.setProperty('--d', boxes.length + idx);
+
+      const pBack = d.createElementNS(NS, 'path');
+      pBack.setAttribute('class', 'cloud-back');
+      pBack.setAttribute('d', backPath);
+      g.appendChild(pBack);
+
+      facets.forEach((fct) => {
+        const pF = d.createElementNS(NS, 'path');
+        pF.setAttribute('class', 'cloud-facet');
+        pF.setAttribute('d', fct);
+        g.appendChild(pF);
+      });
+
+      const pFront = d.createElementNS(NS, 'path');
+      pFront.setAttribute('class', 'cloud-front');
+      pFront.setAttribute('d', frontPath);
+      g.appendChild(pFront);
+
+      const addNode = (nx, ny, r, col) => {
+        const cEl = d.createElementNS(NS, 'circle');
+        cEl.setAttribute('cx', nx.toFixed(1));
+        cEl.setAttribute('cy', ny.toFixed(1));
+        cEl.setAttribute('r', r);
+        cEl.setAttribute('fill', col);
+        g.appendChild(cEl);
+      };
+      const addLine = (x1, y1, x2, y2) => {
+        const lEl = d.createElementNS(NS, 'line');
+        lEl.setAttribute('x1', x1.toFixed(1));
+        lEl.setAttribute('y1', y1.toFixed(1));
+        lEl.setAttribute('x2', x2.toFixed(1));
+        lEl.setAttribute('y2', y2.toFixed(1));
+        lEl.setAttribute('stroke', '#F2D59C');
+        lEl.setAttribute('stroke-width', '1');
+        lEl.setAttribute('stroke-dasharray', '2 2');
+        g.appendChild(lEl);
+      };
+
+      addNode(ccx, ccy - 8, 4, '#F2D59C');
+      addNode(ccx - 22, ccy + 2, 3, '#C9A063');
+      addNode(ccx + 22, ccy + 2, 3, '#C9A063');
+      addLine(ccx - 22, ccy + 2, ccx, ccy - 8);
+      addLine(ccx + 22, ccy + 2, ccx, ccy - 8);
+
+      svg.appendChild(g);
+    });
+
+    links.forEach(([a, b, lcls]) => {
       const l = d.createElementNS(NS, 'path');
-      const p1 = P(...a), p2 = P(...b);
-      const mx = (p1[0] + p2[0]) / 2, my = Math.min(p1[1], p2[1]) - 24;
-      l.setAttribute('d', `M${p1}Q${mx},${my} ${p2}`);
-      l.setAttribute('class', 'map-link ' + (cls || ''));
+      const p1 = (Array.isArray(a) && a.length === 2) ? a : P(...a);
+      const p2 = (Array.isArray(b) && b.length === 2) ? b : P(...b);
+      if (lcls && lcls.includes('pipe')) {
+        l.setAttribute('d', `M${p1[0].toFixed(1)},${p1[1].toFixed(1)} L${p2[0].toFixed(1)},${p2[1].toFixed(1)}`);
+      } else {
+        const mx = (p1[0] + p2[0]) / 2, my = Math.min(p1[1], p2[1]) - 18;
+        l.setAttribute('d', `M${p1[0].toFixed(1)},${p1[1].toFixed(1)} Q${mx.toFixed(1)},${my.toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`);
+      }
+      l.setAttribute('class', 'map-link ' + (lcls || ''));
       svg.appendChild(l);
     });
   };
@@ -490,75 +667,249 @@
       { x: 1, y: -1, z: 0.3, w: 2, d: 2, h: 2.6 },
       { x: -1, y: 1, z: 0.3, w: 2, d: 2, h: 2.6 },
     ],
-    auto: [
-      plate,
-      { x: -3.4, y: -3.2, z: 0.3, w: 2.3, d: 2.3, h: 2.3 },
-      { x: -3.4, y: -0.7, z: 0.3, w: 2.3, d: 2.3, h: 2.3 },
-      { x: -3.4, y: -3.2, z: 2.6, w: 2.3, d: 2.3, h: 2.3, cls: 'hot' },
-      { x: -0.9, y: -3.2, z: 0.3, w: 2.3, d: 2.3, h: 2.3 },
-      { x: 1.7, y: 0.2, z: 0.3, w: 1.9, d: 3.4, h: 1.5 },
-      { x: 1.7, y: -1.5, z: 0.3, w: 1.9, d: 1.5, h: 2.3 },
-    ],
-    digital: [
-      plate,
-      { x: -3.2, y: -1.2, z: 0.3, w: 1.6, d: 1.6, h: 4.6, rows: 6 },
-      { x: -0.8, y: -1.2, z: 0.3, w: 1.6, d: 1.6, h: 5.8, rows: 7 },
-      { x: 1.6, y: -1.2, z: 0.3, w: 1.6, d: 1.6, h: 3.8, rows: 5 },
-      { x: -0.5, y: -0.9, z: 7.2, w: 1, d: 1, h: 1, cls: 'hot' },
-    ],
-    realestate: [
-      plate,
-      { x: -3.2, y: -2.4, z: 0.3, w: 2, d: 2, h: 5.6, rows: 8 },
-      { x: -0.6, y: -3.2, z: 0.3, w: 2.2, d: 2.2, h: 8.2, rows: 11, cls: 'hot' },
-      { x: 1.9, y: -1.6, z: 0.3, w: 1.8, d: 1.8, h: 4.2, rows: 6 },
-      { x: -1.2, y: 1.2, z: 0.3, w: 3, d: 1.6, h: 1.4 },
-    ],
-    ot: [
-      plate,
-      { x: -3.6, y: -1.2, z: 0.3, w: 6, d: 3, h: 2 },
-      { x: -3.6, y: -1.2, z: 2.3, w: 2, d: 3, h: 0.9, layer: 1 },
-      { x: -1.6, y: -1.2, z: 2.3, w: 2, d: 3, h: 0.9, layer: 1 },
-      { x: 0.4, y: -1.2, z: 2.3, w: 2, d: 3, h: 0.9, layer: 1 },
-      { x: 1.9, y: -3.4, z: 0.3, w: 0.9, d: 0.9, h: 6.2, cls: 'hot' },
-      { x: -3.3, y: -3.8, z: 0.3, w: 1.6, d: 1.6, h: 2.6 },
-    ],
+    auto: {
+      boxes: [
+        plate,
+        // Distribution Loading Dock & Staging Bay
+        { x: -3.6, y: -3.6, z: 0.3, w: 5.4, d: 3.2, h: 0.5 },
+        // Distribution Shipping Container 1 (corrugated freight)
+        { x: -3.2, y: -3.2, z: 0.8, w: 3.0, d: 1.6, h: 1.6, rows: 4, layer: 1 },
+        // Distribution Shipping Container 2 (stacked, gold accent)
+        { x: -2.7, y: -3.0, z: 2.4, w: 2.3, d: 1.4, h: 1.4, rows: 2, cls: 'hot', layer: 2 },
+        // Staged Cargo Pallet & Goods
+        { x: 0.4, y: -3.1, z: 0.8, w: 1.2, d: 1.2, h: 0.9, rows: 2, layer: 1 },
+        { x: 0.6, y: -1.6, z: 0.8, w: 0.8, d: 0.8, h: 0.6, layer: 1 },
+        
+        // Automotive Delivery Transport Truck Chassis
+        { x: -3.0, y: 0.7, z: 0.5, w: 5.3, d: 1.8, h: 0.35, layer: 1 },
+        // Truck Wheels (visible flank)
+        { x: 1.4, y: 2.35, z: 0.15, w: 0.75, d: 0.25, h: 0.65, cls: 'wheel', layer: 2 },
+        { x: -2.7, y: 2.35, z: 0.15, w: 0.75, d: 0.25, h: 0.65, cls: 'wheel', layer: 2 },
+        { x: -1.7, y: 2.35, z: 0.15, w: 0.75, d: 0.25, h: 0.65, cls: 'wheel', layer: 2 },
+        // Transport Freight Trailer / Container
+        { x: -3.0, y: 0.7, z: 0.85, w: 3.6, d: 1.8, h: 2.4, rows: 5, layer: 2 },
+        // Driver Cabin Base & Hood
+        { x: 1.7, y: 0.7, z: 0.85, w: 0.6, d: 1.8, h: 0.8, rows: 2, layer: 2 },
+        // Driver Cockpit Glass (glowing gold)
+        { x: 0.7, y: 0.7, z: 0.85, w: 1.0, d: 1.8, h: 1.9, cls: 'hot', layer: 2 },
+        // Aerodynamic Cab Roof Deflector
+        { x: 0.5, y: 0.7, z: 2.75, w: 1.2, d: 1.8, h: 0.35, layer: 3 },
+        // Chrome Bumper / Headlights
+        { x: 2.3, y: 0.8, z: 0.5, w: 0.15, d: 1.6, h: 0.4, cls: 'hot', layer: 3 },
+        // Truck Exhaust Stack
+        { x: 0.45, y: 0.75, z: 0.85, w: 0.2, d: 0.2, h: 2.3, cls: 'hot', layer: 3 }
+      ]
+    },
+    digital: {
+      boxes: [
+        plate,
+        // Microservice Server Cluster - Worker Node 1
+        { x: -2.8, y: 0.8, z: 0.3, w: 1.5, d: 1.5, h: 2.2, rows: 4 },
+        // Microservice Server Cluster - Core DB Node 2
+        { x: 1.3, y: -2.7, z: 0.3, w: 1.6, d: 1.6, h: 2.4, rows: 5 },
+        // Edge API Gateway Pod
+        { x: 1.2, y: 1.2, z: 0.3, w: 1.4, d: 1.4, h: 1.7, rows: 3 },
+        // Central Orchestrator / Cluster Master Pod
+        { x: -0.9, y: -0.9, z: 0.3, w: 1.8, d: 1.8, h: 2.0, rows: 3 },
+
+        // Floating Container Microservices / API Pods in mid-air
+        { x: -2.3, y: -1.7, z: 3.0, w: 0.8, d: 0.8, h: 0.8, cls: 'hot', layer: 1 },
+        { x: 1.9, y: -0.7, z: 3.1, w: 0.8, d: 0.8, h: 0.8, cls: 'hot', layer: 1 },
+        { x: -0.5, y: 2.1, z: 2.7, w: 0.7, d: 0.7, h: 0.7, cls: 'hot', layer: 1 }
+      ],
+      clouds: [
+        { cx: 160, cy: 78, s: 1.15, dx: 14, dy: 8 }
+      ],
+      links: [
+        // Luminous streaming data links from the cloud base to server clusters
+        [[160, 98], [-2.05, 1.55, 2.5], 'data-flow'],
+        [[160, 98], [2.1, -1.9, 2.7], 'data-flow'],
+        [[160, 98], [1.9, 1.9, 2.0], 'data-flow'],
+        [[160, 98], [0, 0, 2.3], 'data-flow'],
+        [[-1.9, -1.3, 3.4], [1.5, -0.3, 3.5], 'data-flow']
+      ]
+    },
+    realestate: {
+      boxes: [
+        plate,
+        // Hotel Tower Main Body (9 floors of suites & balconies)
+        { x: -0.6, y: -3.4, z: 0.3, w: 2.8, d: 2.6, h: 5.6, rows: 9 },
+        // Rooftop Resort Sky Terrace & Infinity Pool Deck (gold)
+        { x: -0.6, y: -3.4, z: 5.9, w: 2.8, d: 2.6, h: 0.35, cls: 'hot', layer: 1 },
+        // Upper Penthouse Suites
+        { x: -0.2, y: -3.0, z: 6.25, w: 2.0, d: 1.8, h: 1.8, rows: 3, layer: 2 },
+        // Architectural Crown Canopy
+        { x: 0.0, y: -2.8, z: 8.05, w: 1.6, d: 1.4, h: 0.4, cls: 'hot', layer: 3 },
+
+        // Two-story Grand Hotel Lobby & Glass Atrium
+        { x: 0.8, y: -2.0, z: 0.3, w: 1.8, d: 2.2, h: 1.8, rows: 2 },
+        // Hospitality Porte-Cochère Canopy (Valet drop-off)
+        { x: 1.8, y: -1.6, z: 1.3, w: 1.3, d: 1.8, h: 0.25, cls: 'hot', layer: 1 },
+        // Porte-Cochère Support Pillars
+        { x: 2.9, y: -1.5, z: 0.3, w: 0.2, d: 0.2, h: 1.0, layer: 1 },
+        { x: 2.9, y: -0.1, z: 0.3, w: 0.2, d: 0.2, h: 1.0, layer: 1 },
+        // Entrance Walkway & Steps
+        { x: 1.6, y: -1.8, z: 0.3, w: 1.6, d: 2.0, h: 0.25 },
+
+        // Adjoining Luxury Resort Wing (5 guest levels)
+        { x: -3.4, y: -1.8, z: 0.3, w: 2.2, d: 2.4, h: 3.4, rows: 5 },
+        // Resort Wing Rooftop Garden Terrace
+        { x: -3.2, y: -1.6, z: 3.7, w: 1.8, d: 2.0, h: 0.7, cls: 'hot', layer: 1 },
+
+        // Courtyard Garden Villa / Pool Cabana
+        { x: -3.0, y: 1.2, z: 0.3, w: 2.2, d: 1.8, h: 1.2 },
+        // Cabana Pergola Sun Shade
+        { x: -2.8, y: 1.4, z: 1.5, w: 1.8, d: 1.4, h: 0.2, cls: 'hot', layer: 1 },
+        // Resort Swimming Pool
+        { x: -0.4, y: 0.8, z: 0.3, w: 2.2, d: 1.6, h: 0.15, cls: 'hot' }
+      ]
+    },
+    ot: {
+      boxes: [
+        plate,
+        // Factory Main Production Hall
+        { x: -3.4, y: -1.0, z: 0.3, w: 4.8, d: 3.4, h: 2.2, rows: 2 },
+        // Factory Sawtooth Roof Ridge 1 (iconic industrial clerestory skylight)
+        { type: 'wedge', x: -3.4, y: -1.0, z: 2.5, w: 1.6, d: 3.4, h: 1.1, dir: '-x', rows: 2, layer: 1 },
+        // Factory Sawtooth Roof Ridge 2
+        { type: 'wedge', x: -1.8, y: -1.0, z: 2.5, w: 1.6, d: 3.4, h: 1.1, dir: '-x', rows: 2, layer: 1 },
+        // Factory Sawtooth Roof Ridge 3
+        { type: 'wedge', x: -0.2, y: -1.0, z: 2.5, w: 1.6, d: 3.4, h: 1.1, dir: '-x', rows: 2, layer: 1 },
+
+        // Large Industrial Processing Silo
+        { type: 'cylinder', x: -2.2, y: -2.8, z: 0.3, r: 1.0, h: 4.2, rows: 4 },
+        // Silo Dome Cap
+        { type: 'cylinder', x: -2.2, y: -2.8, z: 4.5, r: 0.9, h: 0.6, cls: 'hot', layer: 1 },
+        // Secondary Industrial Fluid Tank
+        { type: 'cylinder', x: -0.2, y: -2.8, z: 0.3, r: 0.8, h: 3.0, rows: 3 },
+        { type: 'cylinder', x: -0.2, y: -2.8, z: 3.3, r: 0.7, h: 0.5, layer: 1 },
+
+        // Primary High Industrial Exhaust Stack / Chimney
+        { type: 'cylinder', x: 2.2, y: -2.6, z: 0.3, r: 0.45, h: 7.0, rows: 5 },
+        // Smokestack Gold Band / Emissions Monitor
+        { type: 'cylinder', x: 2.2, y: -2.6, z: 7.3, r: 0.55, h: 0.5, cls: 'hot', layer: 1 },
+        // Secondary Vent Stack
+        { type: 'cylinder', x: 2.2, y: -1.0, z: 0.3, r: 0.35, h: 5.0, rows: 4 },
+
+        // SCADA Industrial Automation & PLC Control Cabinet
+        { x: 0.6, y: 1.2, z: 0.3, w: 1.4, d: 1.4, h: 1.4, cls: 'hot', rows: 3 },
+        // Power Transformer / Grid Substation
+        { x: -1.4, y: 1.6, z: 0.3, w: 1.2, d: 1.0, h: 0.9, rows: 2 }
+      ],
+      links: [
+        // High-pressure industrial pipelines connecting silo to factory
+        [[-2.2, -2.8, 3.8], [-2.2, -1.0, 2.5], 'pipe'],
+        [[-0.2, -2.8, 2.6], [-0.2, -1.0, 2.5], 'pipe']
+      ]
+    }
   };
-  $$('svg[data-iso]').forEach((svg) => isoDraw(svg, ART[svg.dataset.iso] || []));
+  $$('svg[data-iso]').forEach((svg) => {
+    const data = ART[svg.dataset.iso] || [];
+    const boxes = Array.isArray(data) ? data : (data.boxes || []);
+    const opts = Array.isArray(data) ? {} : data;
+    isoDraw(svg, boxes, opts);
+  });
 
   /* ---------------- industries rail ---------------- */
   const rail = $('#indRail');
   if (rail) {
     const cards = [...rail.children];
     const now = $('#indNow');
-    const unit = () => cards[0].getBoundingClientRect().width + 16;
-    const idx = () => Math.min(cards.length - 1, Math.round(rail.scrollLeft / unit()));
+    const prevBtn = $('#indPrev');
+    const nextBtn = $('#indNext');
+    const unit = () => (cards[0] ? cards[0].getBoundingClientRect().width + 16 : 300);
+    const idx = () => Math.min(cards.length - 1, Math.max(0, Math.round(rail.scrollLeft / unit())));
     const go = (dir) => rail.scrollTo({ left: (idx() + dir) * unit(), behavior: reduce ? 'auto' : 'smooth' });
-    $('#indPrev').addEventListener('click', () => go(-1));
-    $('#indNext').addEventListener('click', () => go(1));
+
+    if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => go(1));
+
     rail.addEventListener('scroll', () => {
       const i = idx();
-      now.textContent = String(i + 1).padStart(2, '0');
+      if (now) now.textContent = String(i + 1).padStart(2, '0');
       cards.forEach((c, k) => c.classList.toggle('is-current', k === i));
     }, { passive: true });
-    let down = false, sx = 0, sl = 0;
+
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let isDragging = false;
+    let lastX = 0;
+    let lastTime = 0;
+    let velocity = 0;
+
     rail.addEventListener('pointerdown', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      down = true; sx = e.clientX; sl = rail.scrollLeft;
+      isDown = true;
+      isDragging = false;
+      startX = e.clientX;
+      startScroll = rail.scrollLeft;
+      lastX = e.clientX;
+      lastTime = performance.now();
+      velocity = 0;
     });
+
     addEventListener('pointermove', (e) => {
-      if (!down) return;
-      const dx = e.clientX - sx;
-      if (Math.abs(dx) > 4) rail.classList.add('is-drag');
-      rail.scrollLeft = sl - dx;
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      if (!isDragging && Math.abs(dx) > 4) {
+        isDragging = true;
+        rail.classList.add('is-drag');
+      }
+      if (isDragging) {
+        rail.scrollLeft = startScroll - dx;
+        const nowTime = performance.now();
+        const dt = nowTime - lastTime;
+        if (dt > 8) {
+          velocity = (e.clientX - lastX) / dt;
+          lastX = e.clientX;
+          lastTime = nowTime;
+        }
+      }
     });
-    addEventListener('pointerup', () => {
-      if (!down) return;
-      down = false;
-      const target = idx() * unit();
-      rail.classList.remove('is-drag');
-      rail.scrollTo({ left: target, behavior: 'smooth' });
-    });
+
+    const finishDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      if (isDragging) {
+        rail.classList.remove('is-drag');
+        const momentum = velocity * 160;
+        const targetScroll = rail.scrollLeft - momentum;
+        const targetIdx = Math.min(cards.length - 1, Math.max(0, Math.round(targetScroll / unit())));
+        rail.scrollTo({ left: targetIdx * unit(), behavior: 'smooth' });
+        setTimeout(() => { isDragging = false; }, 60);
+      }
+    };
+
+    addEventListener('pointerup', finishDrag);
+    addEventListener('pointercancel', finishDrag);
+
+    rail.addEventListener('click', (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
   }
+
+  /* ---------------- interactive stats ---------------- */
+  $$('.stat').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      // Calculate normalized distances from center (-1 to 1)
+      const dx = (x - cx) / cx; 
+      const dy = (y - cy) / cy; 
+      el.style.setProperty('--mx', dx);
+      el.style.setProperty('--my', dy);
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.setProperty('--mx', 0);
+      el.style.setProperty('--my', 0);
+    });
+  });
 
   addEventListener('load', () => hasGSAP && ST.refresh());
 })();

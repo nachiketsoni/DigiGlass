@@ -118,13 +118,10 @@
   <a class="btn btn--gold" href="#contact">Speak to a Security Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
 </div>
 
-<a class="alert-tab" href="#contact"><svg class="ico"><use href="#i-siren"/></svg><span>Under attack?</span></a>
-
 <main>
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
-  <canvas class="mosaic" data-mosaic="sides" aria-hidden="true"></canvas>
   <canvas class="hero__gl" id="heroGL" aria-hidden="true"></canvas>
   <div class="hero__fallback" aria-hidden="true"><svg viewBox="0 0 400 454"><use href="#dg-mark"/></svg></div>
   <div class="hero__shade" aria-hidden="true"></div>
@@ -133,8 +130,6 @@
     <h1 class="hero__title">
       <span class="line"><span class="gold-text">No blind spots.</span></span>
       <span class="line">
-        <span class="chip-ico chip-ico--shield" aria-hidden="true"><svg class="ico"><use href="#i-shield"/></svg></span>
-        <span class="chip-ico chip-ico--ring" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.5" fill="none" stroke="#0A0F1C" stroke-width="2.6"/></svg></span>
         <span class="gold-text">No exceptions.</span>
       </span>
     </h1>
@@ -156,52 +151,99 @@
       <li class="hud__opt">20,000+ devices monitored</li>
       <li class="hud__opt">3 SOCs, 24×7×365</li>
     </ul>
-    <a href="#operation" class="scroll-cue" aria-label="Scroll to content"><span>Scroll</span><i></i></a>
   </div>
 </section>
 
 <!-- ============ METRICS + CERTIFICATIONS ============ -->
 <section class="stats" aria-label="Operating metrics">
-  <div class="stat-row">
-    <div class="stat-row__track">
-      <div class="stat">
-        <span class="stat__num gold-text"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
-        <span class="stat__label"><b>MTTD</b>Mean Time to Detect</span>
-        <span class="stat__chip"><svg class="ico"><use href="#i-radar"/></svg></span>
-      </div>
-      <div class="stat">
-        <span class="stat__num stat__num--outline">1.55B</span>
-        <span class="stat__label"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
-        <span class="stat__chip"><svg class="ico"><use href="#i-data"/></svg></span>
-      </div>
-      <div class="stat">
-        <span class="stat__num gold-text">12%</span>
-        <span class="stat__label"><b>False-positive rate</b>Alerts requiring no escalation</span>
-        <span class="stat__chip"><svg class="ico"><use href="#i-check"/></svg></span>
-      </div>
-    </div>
-  </div>
-  <div class="stat-row">
-    <div class="stat-row__track">
-      <div class="stat">
-        <span class="stat__num stat__num--outline"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
-        <span class="stat__label"><b>MTTR</b>Response to P0 incidents</span>
-        <span class="stat__chip"><svg class="ico"><use href="#i-shield"/></svg></span>
-      </div>
-      <div class="stat">
-        <span class="stat__num gold-text">20+</span>
-        <span class="stat__label"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
-        <span class="stat__chip"><svg class="ico"><use href="#i-identity"/></svg></span>
-      </div>
-      <div class="stat">
-        <span class="stat__num stat__num--outline">100+</span>
-        <span class="stat__label"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
-        <span class="stat__chip"><svg class="ico"><use href="#i-network"/></svg></span>
-      </div>
-    </div>
-  </div>
-
   <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat" tabindex="0">
+        <div class="stat__inner">
+          <div class="stat__front">
+            <span class="stat__num"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
+            <span class="stat__label"><b>MTTD</b>Mean Time to Detect</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-radar"/></svg></span>
+          </div>
+          <div class="stat__back" aria-hidden="true">
+            <span class="stat__num"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
+            <span class="stat__label"><b>MTTD</b>Mean Time to Detect</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-radar"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat" tabindex="0">
+        <div class="stat__inner">
+          <div class="stat__front">
+            <span class="stat__num">1.55B</span>
+            <span class="stat__label"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-data"/></svg></span>
+          </div>
+          <div class="stat__back" aria-hidden="true">
+            <span class="stat__num">1.55B</span>
+            <span class="stat__label"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-data"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat" tabindex="0">
+        <div class="stat__inner">
+          <div class="stat__front">
+            <span class="stat__num">12%</span>
+            <span class="stat__label"><b>False-positive rate</b>Alerts requiring no escalation</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-check"/></svg></span>
+          </div>
+          <div class="stat__back" aria-hidden="true">
+            <span class="stat__num">12%</span>
+            <span class="stat__label"><b>False-positive rate</b>Alerts requiring no escalation</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-check"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat" tabindex="0">
+        <div class="stat__inner">
+          <div class="stat__front">
+            <span class="stat__num"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
+            <span class="stat__label"><b>MTTR</b>Response to P0 incidents</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-shield"/></svg></span>
+          </div>
+          <div class="stat__back" aria-hidden="true">
+            <span class="stat__num"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
+            <span class="stat__label"><b>MTTR</b>Response to P0 incidents</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-shield"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat" tabindex="0">
+        <div class="stat__inner">
+          <div class="stat__front">
+            <span class="stat__num">20+</span>
+            <span class="stat__label"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-identity"/></svg></span>
+          </div>
+          <div class="stat__back" aria-hidden="true">
+            <span class="stat__num">20+</span>
+            <span class="stat__label"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-identity"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat" tabindex="0">
+        <div class="stat__inner">
+          <div class="stat__front">
+            <span class="stat__num">100+</span>
+            <span class="stat__label"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-network"/></svg></span>
+          </div>
+          <div class="stat__back" aria-hidden="true">
+            <span class="stat__num">100+</span>
+            <span class="stat__label"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
+            <span class="stat__chip"><svg class="ico"><use href="#i-network"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="certs">
       <h3 class="certs__title">Recognised. Certified. Trusted.</h3>
       <ul class="certs__list">
@@ -439,7 +481,7 @@
 <section class="assess sec--light" id="assessment">
   <div class="wrap assess__grid">
     <div class="assess__copy">
-      <h2 class="assess__title" data-split>Assessment doesn't just tell you what is wrong. It shows you how your security operation needs to work.</h2>
+      <h2 class="assess__title" data-split>Assessment doesn't just tell you what is wrong.</h2>
       <p>The DigiGlass Security Operations Review maps your existing security tools, signals, ownership and operating processes to show where your security operation is fragmented, and what it takes to make it work as one.</p>
       <h3 class="assess__get">What you get</h3>
       <ul class="checks">
@@ -463,11 +505,6 @@
       <h2 class="h2" data-split>The same operation, translated to your context.</h2>
       <div class="inds__intro">
         <p>Every environment has different critical assets, threat patterns and continuity requirements. DigiGlass adapts one accountable security operation to the realities of how your organisation operates.</p>
-        <div class="inds__ctrl">
-    <button class="rail-btn" id="indPrev" aria-label="Previous industry"><svg class="ico"><use href="#i-arrow-l"/></svg></button>
-    <span class="inds__count"><b id="indNow">01</b> / 06</span>
-    <button class="rail-btn" id="indNext" aria-label="Next industry"><svg class="ico"><use href="#i-arrow-r"/></svg></button>
-        </div>
       </div>
     </header>
   </div>
