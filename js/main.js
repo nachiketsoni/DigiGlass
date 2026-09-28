@@ -131,9 +131,189 @@
   const eps = $('#eps');
   if (eps && !reduce) {
     setInterval(() => {
-      eps.textContent = (18000 + Math.round((Math.random() - 0.5) * 760)).toLocaleString('en-US');
+      eps.textContent = (18181 + Math.round((Math.random() - 0.5) * 760)).toLocaleString('en-US');
     }, 1100);
   }
+
+  /* ---------------- hero honeycomb highlight grid ---------------- */
+  (() => {
+    const canvas = $('#heroHoneycomb');
+    const hero = $('#top');
+    if (!canvas || !hero) return;
+
+    const ctx = canvas.getContext('2d');
+    let dpr = Math.min(2, window.devicePixelRatio || 1);
+    let w = 0, h = 0;
+
+    let R = 34;
+    let hexW = Math.sqrt(3) * R;
+    let rowH = 1.5 * R;
+    const gap = 2;
+
+    const cosA = [], sinA = [];
+    for (let k = 0; k < 6; k++) {
+      const a = (k * Math.PI) / 3 - Math.PI / 6;
+      cosA.push(Math.cos(a));
+      sinA.push(Math.sin(a));
+    }
+
+    let hexes = [];
+
+    const buildGrid = () => {
+      const rect = hero.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      if (!w || !h) return;
+
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      R = w < 768 ? 26 : (w < 1200 ? 30 : 34);
+      hexW = Math.sqrt(3) * R;
+      rowH = 1.5 * R;
+
+      hexes = [];
+      const cols = Math.ceil(w / hexW) + 2;
+      const rows = Math.ceil(h / rowH) + 2;
+
+      for (let r = -1; r < rows; r++) {
+        const cy = r * rowH;
+        const xOffset = (r % 2 !== 0) ? hexW / 2 : 0;
+        for (let c = -1; c < cols; c++) {
+          const cx = c * hexW + xOffset;
+          hexes.push({
+            x: cx,
+            y: cy,
+            glow: 0
+          });
+        }
+      }
+    };
+
+    let mouseX = -9999, mouseY = -9999;
+    let curMouseX = -9999, curMouseY = -9999;
+    let isHovering = false;
+    let hoverIntensity = 0;
+    const GLOW_RADIUS = 140;
+    const radSq = GLOW_RADIUS * GLOW_RADIUS;
+
+    const onPointerMove = (e) => {
+      const rect = hero.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      isHovering = true;
+      if (curMouseX < -1000) {
+        curMouseX = mouseX;
+        curMouseY = mouseY;
+      }
+    };
+
+    hero.addEventListener('pointerenter', onPointerMove, { passive: true });
+    hero.addEventListener('pointermove', onPointerMove, { passive: true });
+    hero.addEventListener('pointerleave', () => {
+      isHovering = false;
+    }, { passive: true });
+
+    let visible = false;
+    let animId = null;
+
+    const render = () => {
+      if (!visible) return;
+
+      ctx.clearRect(0, 0, w, h);
+
+      if (curMouseX > -1000) {
+        curMouseX += (mouseX - curMouseX) * 0.18;
+        curMouseY += (mouseY - curMouseY) * 0.18;
+      }
+
+      hoverIntensity += ((isHovering ? 1 : 0) - hoverIntensity) * 0.09;
+
+      if (hoverIntensity > 0.01 && curMouseX > -1000) {
+        const grad = ctx.createRadialGradient(curMouseX, curMouseY, 0, curMouseX, curMouseY, GLOW_RADIUS);
+        grad.addColorStop(0, `rgba(242, 213, 156, ${(0.09 * hoverIntensity).toFixed(3)})`);
+        grad.addColorStop(0.45, `rgba(201, 160, 99, ${(0.035 * hoverIntensity).toFixed(3)})`);
+        grad.addColorStop(1, 'rgba(10, 15, 28, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      const drawR = R - gap;
+
+      // 1. Ambient batch (delicate, faint watermark in the background)
+      ctx.beginPath();
+      for (let i = 0; i < hexes.length; i++) {
+        const hex = hexes[i];
+        let target = 0;
+        if (hoverIntensity > 0.01 && curMouseX > -1000) {
+          const dx = hex.x - curMouseX;
+          const dy = hex.y - curMouseY;
+          const dSq = dx * dx + dy * dy;
+          if (dSq < radSq) {
+            const d = Math.sqrt(dSq);
+            target = Math.pow(1 - d / GLOW_RADIUS, 1.7) * hoverIntensity * 0.9;
+          }
+        }
+
+        if (target > hex.glow) {
+          hex.glow += (target - hex.glow) * 0.28;
+        } else {
+          hex.glow += (target - hex.glow) * 0.065;
+        }
+
+        if (hex.glow <= 0.012) {
+          for (let k = 0; k < 6; k++) {
+            const px = hex.x + drawR * cosA[k];
+            const py = hex.y + drawR * sinA[k];
+            if (k === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+        }
+      }
+      ctx.strokeStyle = 'rgba(201, 160, 99, 0.022)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // 2. Active glowing hexagons (compact, vivid highlight right around the cursor)
+      for (let i = 0; i < hexes.length; i++) {
+        const hex = hexes[i];
+        if (hex.glow > 0.012) {
+          const g = hex.glow;
+          ctx.beginPath();
+          for (let k = 0; k < 6; k++) {
+            const px = hex.x + drawR * cosA[k];
+            const py = hex.y + drawR * sinA[k];
+            if (k === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+
+          ctx.fillStyle = `rgba(201, 160, 99, ${(g * 0.07).toFixed(3)})`;
+          ctx.fill();
+
+          ctx.strokeStyle = `rgba(244, 218, 164, ${(0.025 + g * 0.45).toFixed(3)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    new ResizeObserver(buildGrid).observe(hero);
+    buildGrid();
+
+    onView(hero, (isVis) => {
+      visible = isVis;
+      if (visible && !reduce) {
+        cancelAnimationFrame(animId);
+        animId = requestAnimationFrame(render);
+      }
+    });
+  })();
 
   /* ---------------- pixel mosaic canvases ---------------- */
   const mosaic = (cv) => {

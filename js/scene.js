@@ -149,15 +149,14 @@
      ========================================================= */
   function initHero(canvas) {
     const small = innerWidth < 800;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 1.75));
+    renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
-    const BG = new THREE.Color(0x0a0f1c);
-    scene.background = BG;
     scene.environment = studioEnv(renderer);
 
     const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
@@ -345,13 +344,6 @@
       new THREE.MeshBasicMaterial({ color: 0xc9a063, transparent: true, opacity: 0.03, depthWrite: false, side: THREE.BackSide })
     ));
 
-    /* ---- background ---- */
-    const bgGlow = new THREE.Mesh(
-      new THREE.PlaneGeometry(14, 14),
-      new THREE.MeshBasicMaterial({ map: glowTexture('#3a2a15', '#000000'), depthWrite: false, toneMapped: false, blending: THREE.AdditiveBlending })
-    );
-    bgGlow.position.z = -5;
-    hero.add(bgGlow);
 
     const DUST = small ? 200 : 400;
     const dArr = new Float32Array(DUST * 3);
