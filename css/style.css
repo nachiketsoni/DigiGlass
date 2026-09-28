@@ -623,7 +623,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .hero__title {
   position: absolute;
   left: 50%;
-  bottom: 00%;
+  bottom: 10%;
   transform: translate(-50%, -20%);
   width: -webkit-fit-content;
   width: -moz-fit-content;
