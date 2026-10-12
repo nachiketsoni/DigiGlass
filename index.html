@@ -3,22 +3,160 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DigiGlass </title>
+<title>DigiGlass</title>
 <meta name="description" content="DigiGlass connects and operates the security tools you already own as a single, accountable 24×7 security operation.">
 <meta name="theme-color" content="#0A0F1C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.cdnfonts.com">
-<link href="https://fonts.cdnfonts.com/css/monument-extended" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+tailwind.config = {
+  theme: {
+    screens: {
+      // desktop-first breakpoints, in the same cascade order as the original stylesheet
+      nav: { max: '1180px' },
+      tab: { max: '1080px' },
+      b1024: { max: '1024px' },
+      md: { max: '900px' },
+      port: { raw: '(orientation: portrait) and (max-width: 1100px)' },
+      b768: { max: '768px' },
+      sm: { max: '640px' },
+      lgup: { min: '1081px' },
+    },
+    extend: {
+      colors: {
+        vault: '#0A0F1C', deep: '#111A2E',
+        champagne: '#F2D59C', gilt: '#C9A063', bronze: '#8F5E2A',
+        mist: '#E8EBF0',
+        ivory: '#F4EFE6', ink: '#0A0F1C', alert: '#FF4B55',
+        'line-d': 'rgba(242, 213, 156, .14)', 'line-l': 'rgba(10, 15, 28, .12)',
+        'mute-d': 'rgba(244, 239, 230, .68)', 'mute-l': 'rgba(10, 15, 28, .66)',
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        hero: ['"Monument Extended"', 'Inter', 'sans-serif'],
+      },
+      transitionTimingFunction: {
+        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+      },
+      backgroundImage: {
+        gold: 'linear-gradient(100deg, #F4DAA4 0%, #D6AE6C 28%, #A9773C 52%, #E3C182 76%, #F4DAA4 100%)',
+        'gold-btn': 'linear-gradient(135deg, #FCEFD5 0%, #F6DEB2 18%, #E8C689 38%, #D9AC62 58%, #E7C587 78%, #FBF0D8 100%)',
+        'arrow-dark': 'linear-gradient(135deg, #1f2c45 0%, #152033 45%, #0d1422 100%)',
+        'shine-gold-a': 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,.1) 20%, rgba(255,255,255,.75) 50%, rgba(255,255,255,.1) 80%, transparent 100%)',
+        'shine-gold-b': 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,.35) 30%, rgba(255,255,255,.9) 42%, rgba(255,255,255,1) 45%, rgba(255,255,255,.9) 48%, rgba(255,255,255,.25) 53%, rgba(255,255,255,.75) 59%, rgba(255,255,255,.98) 62%, rgba(255,255,255,.65) 65%, rgba(255,255,255,.15) 75%, transparent 90%)',
+        'shine-ink-a': 'linear-gradient(90deg, transparent 0%, rgba(201,160,99,.05) 20%, rgba(242,213,156,.5) 50%, rgba(201,160,99,.05) 80%, transparent 100%)',
+        'shine-ink-b': 'linear-gradient(90deg, transparent 0%, rgba(255,230,180,0) 15%, rgba(255,240,200,.3) 30%, rgba(255,255,255,.85) 42%, rgba(255,255,255,1) 45%, rgba(255,250,230,.85) 48%, rgba(255,230,180,.25) 53%, rgba(255,255,255,.75) 59%, rgba(255,255,255,.98) 62%, rgba(255,245,210,.65) 65%, rgba(255,220,160,.18) 75%, transparent 90%)',
+        'shine-line-a': 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,.45) 50%, transparent 100%)',
+        'shine-line-b': 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,.65) 42%, rgba(255,255,255,1) 50%, rgba(255,255,255,.65) 58%, transparent 80%)',
+        'rail-gold': 'repeating-linear-gradient(90deg, transparent 0 70px, rgba(255,244,220,.95) 70px 84px, transparent 84px 180px), linear-gradient(90deg, rgba(169,119,57,.35), #D4AA6A 70%, #F6DDA8)',
+        noise: `url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E')`,
+        'select-arrow': `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F2D59C' stroke-width='1.8'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+      },
+      boxShadow: {
+        nav: 'inset 0 1px 1px 0 rgba(255,255,255,.473), inset 0 0 24px 0 rgba(242,213,156,.06), 0 20px 44px -10px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.3)',
+        arrow: 'inset 0 1px 1.5px rgba(255,255,255,.35), inset 0 -1px 2px rgba(0,0,0,.6), 0 2px 6px rgba(0,0,0,.3)',
+        'arrow-hover': 'inset 0 1px 2px rgba(255,255,255,.55), inset 0 -1px 2px rgba(0,0,0,.7), 0 4px 10px rgba(0,0,0,.35)',
+        'btn-gold': 'inset 0 1px 1.5px rgba(255,255,255,.9), inset 0 -1px 2px rgba(130,80,20,.25), 0 2px 10px rgba(0,0,0,.15)',
+        'btn-gold-hover': 'inset 0 1.5px 2px rgba(255,255,255,1), inset 0 -1.5px 2px rgba(130,80,20,.35), 0 8px 24px rgba(0,0,0,.28)',
+        'btn-ink': 'inset 0 1px 1px rgba(255,240,200,.15), 0 2px 10px rgba(0,0,0,.25)',
+        'btn-ink-hover': 'inset 0 1px 1.5px rgba(255,240,200,.35), 0 8px 26px rgba(0,0,0,.45)',
+        'ink-arrow': 'inset 0 1px 1.5px rgba(255,255,255,.85), inset 0 -1px 2px rgba(130,80,20,.3), 0 2px 8px rgba(0,0,0,.3)',
+        'ink-arrow-hover': 'inset 0 1px 2px rgba(255,255,255,.95), inset 0 -1px 2px rgba(130,80,20,.35), 0 4px 12px rgba(0,0,0,.35)',
+      },
+      keyframes: {
+        shine: {
+          '0%': { transform: 'translateX(-130%) rotate(25deg)', opacity: '0' },
+          '10%, 74%': { opacity: '1' },
+          '92%, 100%': { transform: 'translateX(460%) rotate(25deg)', opacity: '0' },
+        },
+        luster: {
+          '0%': { transform: 'translateX(-150%) rotate(25deg)', opacity: '0' },
+          '14%, 68%': { opacity: '.85' },
+          '86%, 100%': { transform: 'translateX(420%) rotate(25deg)', opacity: '0' },
+        },
+        failsafe: { to: { visibility: 'hidden' } },
+        draw: { to: { strokeDashoffset: '0' } },
+        words: { '0%': { transform: 'translateY(0)' }, '25%': { transform: 'translateY(-20px)' }, '50%': { transform: 'translateY(-40px)' }, '75%': { transform: 'translateY(-60px)' } },
+        shimmer: { to: { backgroundPosition: '-200% 0' } },
+        dash: { to: { backgroundPosition: '14px 0' } },
+        flow: { to: { strokeDashoffset: '-20' } },
+        fill: { to: { width: '100%' } },
+        dataFlow: { to: { strokeDashoffset: '-14' } },
+        railFlow: { to: { backgroundPosition: '-180px 0, 0 0' } },
+        scanDot: { to: { top: 'calc(100% - 26px)' } },
+        lensPulse: { '40%': { boxShadow: 'inset 0 1px 0 rgba(255,255,255,.08), 0 0 0 6px rgba(242,213,156,.12), 0 30px 80px -20px rgba(201,160,99,.6)' } },
+        swapIn: { from: { opacity: '0', transform: 'translateY(6px)' } },
+      },
+      animation: {
+        shine: 'shine 2.6s cubic-bezier(0.2, 0.85, 0.25, 1) infinite',
+        luster: 'luster 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite',
+        failsafe: 'failsafe .01s 6s forwards',
+        draw: 'draw 1.6s cubic-bezier(.2, .7, .1, 1) forwards',
+        words: 'words 1.6s steps(1) infinite',
+        shimmer: 'shimmer 7s linear infinite',
+        dash: 'dash .8s linear infinite',
+        flow: 'flow 1.1s linear infinite',
+        'spin-slow': 'spin 60s linear infinite',
+        fill: 'fill var(--dur, 7s) linear forwards',
+        'data-flow': 'dataFlow 1.6s linear infinite',
+        'rail-flow': 'railFlow 1.6s linear infinite',
+        'scan-dot': 'scanDot 2.4s cubic-bezier(.7, 0, .2, 1) infinite alternate',
+        'lens-pulse': 'lensPulse .5s cubic-bezier(.2, .7, .1, 1)',
+        'swap-in': 'swapIn .45s cubic-bezier(.2, .7, .1, 1)',
+      },
+    },
+  },
+  plugins: [
+    // state classes that main.js / scene.js put on <html>
+    ({ addVariant }) => {
+      addVariant('loaded', '.is-loaded &');
+      addVariant('no-gl', '.no-gl &');
+    },
+  ],
+};
+</script>
+<style type="text/tailwindcss">
+  @font-face { font-family: 'Monument Extended'; font-weight: 400; font-display: swap; src: url('fonts/MonumentExtended-Regular.woff') format('woff'); }
+  @font-face { font-family: 'Monument Extended'; font-weight: 800; font-display: swap; src: url('fonts/MonumentExtended-Ultrabold.woff') format('woff'); }
+
+  @layer base {
+    :root {
+      --pad: clamp(20px, 3.2vw, 48px);
+      --max: 1440px;
+      --sec: clamp(56px, 5.6vw, 88px);
+      --tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+    }
+    html { -webkit-text-size-adjust: 100%; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    h1, h2, h3, h4 { font-weight: 600; }
+    button { cursor: pointer; }
+    ::selection { background: #F2D59C; color: #0A0F1C; }
+    :focus-visible { outline: 2px solid #F2D59C; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  }
+
+  @layer components {
+    .ico { @apply fill-none stroke-current stroke-[1.6] [stroke-linecap:round] [stroke-linejoin:round]; }
+    .btn { @apply relative inline-flex items-center font-medium tracking-[.01em] rounded-[3px] whitespace-nowrap overflow-hidden [transition:transform_.35s_cubic-bezier(.2,.7,.1,1),box-shadow_.4s_cubic-bezier(.2,.7,.1,1),color_.3s,border-color_.3s,background-color_.3s] hover:-translate-y-0.5 active:translate-y-0 [&>*]:relative [&>*]:z-[2] before:content-[''] before:absolute before:-top-[120%] before:-left-[90%] before:w-[90%] before:h-[350%] before:pointer-events-none before:opacity-0 before:-translate-x-[150%] before:rotate-[25deg] before:z-[1] before:blur-[6px] after:content-[''] after:absolute after:-top-[120%] after:-left-[80%] after:w-[65%] after:h-[350%] after:pointer-events-none after:opacity-0 after:-translate-x-[130%] after:rotate-[25deg] after:z-[1] hover:before:animate-luster focus-visible:before:animate-luster hover:after:animate-shine focus-visible:after:animate-shine; }
+    .btn-gold { @apply pr-1.5 bg-gold-btn text-vault shadow-btn-gold hover:shadow-btn-gold-hover before:mix-blend-overlay before:bg-shine-gold-a after:bg-shine-gold-b after:[filter:drop-shadow(0_0_10px_rgba(255,255,255,.95))_drop-shadow(0_0_3px_rgba(255,245,210,1))]; }
+    .btn-ink { @apply pr-1.5 bg-vault border border-gilt/30 text-ivory shadow-btn-ink hover:bg-[#101726] hover:border-champagne/[.85] hover:shadow-btn-ink-hover before:mix-blend-screen before:bg-shine-ink-a after:mix-blend-screen after:bg-shine-ink-b after:[filter:drop-shadow(0_0_12px_rgba(242,213,156,.9))_drop-shadow(0_0_4px_rgba(255,255,255,1))]; }
+    .btn-arrow { @apply grid place-items-center rounded-[2px] overflow-hidden [transition:transform_.35s_cubic-bezier(.2,.7,.1,1),box-shadow_.35s_cubic-bezier(.2,.7,.1,1),filter_.35s_cubic-bezier(.2,.7,.1,1)] [&>svg]:w-[18px] [&>svg]:h-[18px] [&>svg]:relative [&>svg]:z-[2] [&>svg]:[transition:transform_.45s_cubic-bezier(.2,.7,.1,1)] group-hover:[&>svg]:translate-x-[3px]; }
+    .btn-arrow-dark { @apply bg-arrow-dark text-champagne shadow-arrow group-hover:shadow-arrow-hover; }
+    .btn-arrow-gold { @apply bg-gold-btn text-[#171105] shadow-ink-arrow group-hover:shadow-ink-arrow-hover; }
+  }
+</style>
 <link rel="icon" type="image/png" href="assets/digiglass-logo.png">
-<noscript><style>.loader{display:none}.w>span,.hero__title .line>span{transform:none!important}</style></noscript>
+<noscript><style>#loader{display:none}.w>span,.hero__title .line>span{transform:none!important}</style></noscript>
 </head>
-<body>
+<body class="m-0 bg-vault text-ivory font-sans font-normal text-[15.5px] leading-[1.6] antialiased overflow-x-clip sm:text-[16px]">
 
 <!-- ============ SVG SPRITE ============ -->
-<svg class="sprite" aria-hidden="true" focusable="false">
+<svg class="absolute w-0 h-0 overflow-hidden" aria-hidden="true" focusable="false">
   <defs>
     <linearGradient id="g-shield" x1="0" y1="41" x2="0" y2="454" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#9E713C"/><stop offset=".5" stop-color="#CDA468"/><stop offset="1" stop-color="#F3D69E"/>
@@ -35,9 +173,6 @@
   </defs>
 
   <!-- DigiGlass emblem logo -->
-  <symbol id="dg-mark" viewBox="0 0 590 702">
-    <image href="assets/digiglass-logo.png" xlink:href="assets/digiglass-logo.png" width="590" height="702"/>
-  </symbol>
   <!-- outline trace of digiglass-logo.png (same 590x702 space) for the loader draw -->
   <symbol id="dg-line" viewBox="0 0 590 702">
     <path d="M15.6 14L566 14L566.4 17L566.6 22L566.8 28L566.8 42L566.4 46L566.1 50L15.6 50Z"/>
@@ -49,7 +184,6 @@
 
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></symbol>
   <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10.5a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.4 9.6 4.5 4.5 0 0 0 7 18.5z"/></symbol>
   <symbol id="i-endpoint" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19.5h20"/></symbol>
@@ -59,288 +193,266 @@
   <symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></symbol>
   <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="15.5" cy="15" r=".8"/></symbol>
-  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></symbol>
-  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5M5 10.5v7.5M9.5 10.5v7.5M14.5 10.5v7.5M19 10.5v7.5M3 20.5h18"/></symbol>
-  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M3 12.5l18-7-6.5 15.5-2.8-6.2z"/><path d="M11.7 14.8L21 5.5"/></symbol>
-  <symbol id="i-car" viewBox="0 0 24 24"><path d="M4 16.5V13l2-4.5h12L20 13v3.5zM4 16.5V19h3v-2.5M17 16.5V19h3v-2.5"/><circle cx="7.6" cy="13.3" r=".9"/><circle cx="16.4" cy="13.3" r=".9"/></symbol>
-  <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 8h8v13M3 21h18M7.5 8h1.5M7.5 12h1.5M7.5 16h1.5M15 12h2M15 16h2"/></symbol>
-  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
-  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2.5h-15zM10 21h4"/></symbol>
-  <symbol id="i-layers" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></symbol>
-  <symbol id="i-factory" viewBox="0 0 24 24"><path d="M3 21V11l5 3v-3l5 3v-3l5 3V4h3v17zM7 17.5h2M12 17.5h2"/></symbol>
-  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5v2.5"/></symbol>
-  <symbol id="i-siren" viewBox="0 0 24 24"><path d="M6 18v-5a6 6 0 0 1 12 0v5M4 18h16v3H4zM12 3v2M4.2 6.2l1.4 1.4M19.8 6.2l-1.4 1.4"/></symbol>
   <symbol id="i-rosette" viewBox="0 0 24 24"><path d="M12 2.8l2.3 1.7 2.9-.1.9 2.7 2.3 1.8-.9 2.8.9 2.7-2.3 1.8-.9 2.7-2.9-.1-2.3 1.7-2.3-1.7-2.9.1-.9-2.7-2.3-1.8.9-2.7-.9-2.8 2.3-1.8.9-2.7 2.9.1z"/><path d="M8.7 12l2.3 2.3 4.4-4.6"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6.5V20l6-2.5 6 2.5 6-2.5V4l-6 2.5zM9 4v13.5M15 6.5V20"/></symbol>
   <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.6 13.8L7.2 21l4.8-2.6 4.8 2.6-1.4-7.2M12 6.5l.8 1.7 1.9.3-1.4 1.3.3 1.9-1.6-.9-1.7.9.4-1.9-1.4-1.3 1.9-.3z"/></symbol>
   <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z"/></symbol>
-  <symbol id="i-sprawl" viewBox="0 0 24 24"><rect x="2.5" y="4" width="9" height="7" rx="1"/><rect x="12.5" y="9" width="9" height="7" rx="1"/><rect x="5" y="14" width="8" height="6" rx="1"/></symbol>
-  <symbol id="i-ring" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></symbol>
 </svg>
 
 <!-- ============ LOADER ============ -->
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__center">
-    <svg class="loader__mark" viewBox="0 0 590 702"><use href="#dg-line"/></svg>
-    <div class="loader__words"><span>Integrate</span><span>Tune</span><span>Investigate</span><span>Improve</span></div>
+<div class="fixed inset-0 z-[200] grid place-items-center bg-vault [clip-path:inset(0_0_0_0)] [transition:clip-path_1.1s_cubic-bezier(.7,0,.2,1)] animate-failsafe loaded:[clip-path:inset(0_0_100%_0)]" id="loader" aria-hidden="true">
+  <div class="grid justify-items-center gap-[26px]">
+    <svg class="w-[84px] h-auto fill-none stroke-champagne stroke-[7]" viewBox="0 0 590 702"><use class="[stroke-dasharray:3000] [stroke-dashoffset:3000] animate-draw" href="#dg-line"/></svg>
+    <div class="h-5 overflow-hidden text-[14px] font-semibold text-mute-d text-center [&>span]:block [&>span]:h-5 [&>span]:animate-words"><span>Integrate</span><span>Tune</span><span>Investigate</span><span>Improve</span></div>
   </div>
-  <div class="loader__num"><span id="loadNum">0</span></div>
+  <div class="absolute right-[--pad] bottom-[calc(var(--pad)_-_10px)] text-[clamp(64px,10vw,150px)] font-semibold leading-none tracking-[-.04em] bg-gold bg-clip-text text-transparent tabular-nums"><span id="loadNum">0</span></div>
 </div>
 
 <!-- ============ NAV ============ -->
-<header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="DigiGlass home">
-    <img class="brand__mark" src="assets/digiglass-logo.png" alt="DigiGlass" width="28" height="33">
-    <span class="brand__word">DIGIGLASS</span>
+<header class="nav fixed top-3.5 inset-x-0 w-[calc(100%_-_28px)] max-w-[--max] mx-auto z-[60] flex items-center justify-between h-[68px] pl-[22px] pr-3 bg-[linear-gradient(135deg,rgba(255,255,255,.1)_0%,rgba(242,213,156,.05)_20%,rgba(10,15,28,.35)_100%)] backdrop-blur-[10px] backdrop-saturate-100 backdrop-contrast-[1.15] rounded shadow-nav [transition:transform_.6s_cubic-bezier(.2,.7,.1,1),background_.4s,border-color_.4s,box-shadow_.4s] overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:bg-black/[.489] before:pointer-events-none [&.is-hidden]:-translate-y-[calc(100%_+_20px)] sm:top-2.5 sm:w-[calc(100%_-_20px)] sm:h-[60px] sm:pl-3.5" id="nav">
+  <a class="relative z-[1] inline-flex items-center gap-3" href="#top" aria-label="DigiGlass home">
+    <img class="block h-auto aspect-[590/702] object-contain w-7" src="assets/digiglass-logo.png" alt="DigiGlass" width="28" height="33">
+    <span class="text-[18px] font-bold tracking-[.07em] bg-clip-text text-transparent sm:text-[16px] bg-[linear-gradient(90deg,#C29A5E,#EDD09A)]">DIGIGLASS</span>
   </a>
-  <nav class="nav__links" aria-label="Primary">
-    <a href="#why">Why DigiGlass</a>
-    <a href="#packages">Solutions</a>
-    <a href="#industries">Industries</a>
-    <a href="#assessment">Assessments</a>
+  <nav class="relative z-[1] flex gap-[clamp(20px,2.6vw,40px)] text-[14.5px] font-medium nav:hidden" aria-label="Primary">
+    <a class="relative mix-blend-exclusion py-1.5 text-ivory/[.86] transition-colors duration-300 hover:text-champagne after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-champagne after:scale-x-0 after:origin-right after:[transition:transform_.5s_cubic-bezier(.2,.7,.1,1)] hover:after:scale-x-100 hover:after:origin-left" href="#why">Why DigiGlass</a>
+    <a class="relative mix-blend-exclusion py-1.5 text-ivory/[.86] transition-colors duration-300 hover:text-champagne after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-champagne after:scale-x-0 after:origin-right after:[transition:transform_.5s_cubic-bezier(.2,.7,.1,1)] hover:after:scale-x-100 hover:after:origin-left" href="#packages">Solutions</a>
+    <a class="relative mix-blend-exclusion py-1.5 text-ivory/[.86] transition-colors duration-300 hover:text-champagne after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-champagne after:scale-x-0 after:origin-right after:[transition:transform_.5s_cubic-bezier(.2,.7,.1,1)] hover:after:scale-x-100 hover:after:origin-left" href="#industries">Industries</a>
+    <a class="relative mix-blend-exclusion py-1.5 text-ivory/[.86] transition-colors duration-300 hover:text-champagne after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-champagne after:scale-x-0 after:origin-right after:[transition:transform_.5s_cubic-bezier(.2,.7,.1,1)] hover:after:scale-x-100 hover:after:origin-left" href="#assessment">Assessments</a>
   </nav>
-  <div class="nav__cta">
-    <a class="btn btn--gold btn--sm" href="#contact">Speak to a Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
-    <button class="nav__menu" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+  <div class="relative z-[1] flex items-center gap-2">
+    <a class="group btn btn-gold h-[46px] gap-3.5 pl-[18px] text-[14px] sm:hidden" href="#contact">Speak to a Specialist <span class="btn-arrow btn-arrow-dark w-9 h-9"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+    <button class="group hidden nav:grid place-items-center content-center gap-1.5 w-[46px] h-[46px] border border-champagne/[.22] rounded-[3px] bg-champagne/[.06] backdrop-blur-[8px] transition-[background,border-color] duration-300" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i class="block w-[18px] h-[1.5px] bg-champagne [transition:transform_.4s_cubic-bezier(.2,.7,.1,1)] group-aria-expanded:translate-y-[3.75px] group-aria-expanded:rotate-45"></i><i class="block w-[18px] h-[1.5px] bg-champagne [transition:transform_.4s_cubic-bezier(.2,.7,.1,1)] group-aria-expanded:-translate-y-[3.75px] group-aria-expanded:-rotate-45"></i></button>
   </div>
 </header>
 
-<div class="menu" id="menu" aria-hidden="true">
-  <nav class="menu__links" aria-label="Mobile">
+<div class="fixed inset-0 z-[55] flex flex-col justify-end gap-10 pt-[120px] px-[--pad] pb-12 bg-vault [clip-path:inset(0_0_100%_0)] [transition:clip-path_.8s_cubic-bezier(.7,0,.2,1)] invisible [&.is-open]:[clip-path:inset(0)] [&.is-open]:visible" id="menu" aria-hidden="true">
+  <nav class="flex flex-col [&>a]:py-2.5 [&>a]:border-b [&>a]:border-line-d [&>a]:text-[clamp(30px,8vw,56px)] [&>a]:font-semibold [&>a]:tracking-[-.03em]" aria-label="Mobile">
     <a href="#why">Why DigiGlass</a>
     <a href="#packages">Solutions</a>
     <a href="#industries">Industries</a>
     <a href="#assessment">Assessments</a>
     <a href="#estimator">Cyber Impact Estimator</a>
   </nav>
-  <a class="btn btn--gold" href="#contact">Speak to a Security Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+  <a class="group btn btn-gold h-14 gap-[18px] pl-[22px] text-[14.5px] self-start" href="#contact">Speak to a Security Specialist <span class="btn-arrow btn-arrow-dark w-11 h-11"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
 </div>
 
-<main>
+<main class="[&_.w]:inline-block [&_.w]:overflow-hidden [&_.w]:align-top [&_.w]:pb-[.1em] [&_.w]:-mb-[.1em] [&_.w>span]:inline-block [&_.w>span]:translate-y-[108%] [&_.w>span]:[transition:transform_1.1s_cubic-bezier(.2,.7,.1,1)] [&_.w>span]:[transition-delay:calc(var(--i,0)_*_38ms)] [&_.is-in_.w>span]:translate-y-0 motion-reduce:[&_.w>span]:!transform-none">
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <canvas class="hero__honeycomb" id="heroHoneycomb" aria-hidden="true"></canvas>
-  <canvas class="hero__gl" id="heroGL" aria-hidden="true"></canvas>
-  <div class="hero__fallback" aria-hidden="true"><img src="assets/digiglass-logo.png" alt="" width="590" height="702"></div>
-  <div class="hero__shade" aria-hidden="true"></div>
+<section class="relative h-svh min-h-[700px] overflow-hidden bg-vault isolate md:min-h-0 port:min-h-[520px]" id="top">
+  <canvas class="absolute inset-0 w-full h-full z-0 pointer-events-none" id="heroHoneycomb" aria-hidden="true"></canvas>
+  <canvas class="absolute inset-0 w-full h-full z-[1] pointer-events-none no-gl:hidden" id="heroGL" aria-hidden="true"></canvas>
+  <div class="hidden no-gl:absolute no-gl:inset-0 no-gl:z-[1] no-gl:grid no-gl:place-items-center port:no-gl:bottom-1/2 port:no-gl:[place-items:end_center]" aria-hidden="true"><img class="no-gl:w-[min(34vmin,300px)] no-gl:h-auto no-gl:drop-shadow-[0_0_60px_rgba(201,160,99,.45)] no-gl:translate-x-[8%] port:no-gl:translate-x-0" src="assets/digiglass-logo.png" alt="" width="590" height="702"></div>
+  <div class="absolute inset-0 z-[2] pointer-events-none bg-[linear-gradient(180deg,rgba(10,15,28,.5)_0%,transparent_25%,transparent_65%,rgba(10,15,28,.85)_100%)]" aria-hidden="true"></div>
 
-  <div class="wrap hero__inner">
-    <h1 class="hero__title">
-      <span class="line"><span class="gold-text">No blind spots.</span></span>
-      <span class="line">
-        <span class="gold-text">No exceptions.</span>
+  <div class="w-full max-w-[--max] mx-auto px-[--pad] relative z-[3] h-full">
+    <h1 class="hero__title absolute left-1/2 bottom-[7%] -translate-x-1/2 -translate-y-[20%] w-fit whitespace-nowrap text-center font-hero text-[clamp(34px,6.5vw,900px)] font-normal leading-[.92] tracking-[.03em] uppercase md:bottom-[clamp(32px,9svh,120px)] md:translate-y-0 md:text-[clamp(20px,min(7.4vw,9svh),66px)] md:leading-none port:top-[calc(50%_+_min(25vw_+_40px,300px))] port:bottom-auto port:translate-y-0">
+      <span class="line flex items-center justify-center gap-[.16em] overflow-hidden pt-[.02em] pr-[.06em] pb-[.06em] pl-0 whitespace-nowrap flex-nowrap"><span class="bg-gold bg-[length:200%_100%] bg-clip-text text-transparent block translate-y-[110%] [transition:transform_1.3s_cubic-bezier(.2,.7,.1,1)_.15s] animate-shimmer whitespace-nowrap loaded:translate-y-0 motion-reduce:!transform-none">No blind spots.</span></span>
+      <span class="line flex items-center justify-center gap-[.16em] overflow-hidden pt-[.02em] pr-[.06em] pb-[.06em] pl-0 whitespace-nowrap flex-nowrap">
+        <span class="bg-gold bg-[length:200%_100%] bg-clip-text text-transparent block translate-y-[110%] [transition:transform_1.3s_cubic-bezier(.2,.7,.1,1)_.28s] animate-shimmer whitespace-nowrap loaded:translate-y-0 motion-reduce:!transform-none">No exceptions.</span>
       </span>
     </h1>
-
-    <!-- <div class="hero__aside">
-      <p class="hero__lead">You’ve invested in the tools. Now make them work as one.</p>
-      <p class="hero__body">Digiglass connects and operates what you already own as a single, accountable 24×7 security operation with clearly defined scope, ownership and response.</p>
-      <div class="hero__ctas">
-        <a class="btn btn--gold" href="#assessment">Map Your Security Operation <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
-        <a class="btn btn--ghost" href="#model">See how it works</a>
-      </div>
-    </div> -->
   </div>
 
- 
+
 </section>
 
 <!-- ============ METRICS + CERTIFICATIONS ============ -->
-<section class="stats" aria-label="Operating metrics">
-  <div class="wrap">
-    <header class="sec-head sec-head--split stats__head">
-      <h2 class="h2 gold-text gold-words" data-split>SLA Benchmarks</h2>
-      <p>Performance you can measure. Service you can hold accountable.</p>
+<section class="relative py-[--sec] overflow-hidden bg-vault before:content-[''] before:absolute before:inset-0 before:bg-noise before:mix-blend-overlay before:pointer-events-none before:opacity-50" aria-label="Operating metrics">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad]">
+    <header class="grid grid-cols-[1.25fr_1fr] items-end gap-[clamp(28px,6vw,100px)] tab:grid-cols-[1fr] tab:items-start mb-[clamp(36px,4.5vw,60px)]">
+      <h2 class="text-[clamp(34px,4.4vw,68px)] font-semibold leading-[1.02] tracking-[-.028em] text-balance bg-gold bg-[length:200%_100%] bg-clip-text text-transparent [&_.w>span]:bg-gold [&_.w>span]:bg-[length:200%_100%] [&_.w>span]:bg-clip-text [&_.w>span]:text-transparent" data-split>SLA Benchmarks</h2>
+      <p class="text-[17px] text-mute-d max-w-[46ch] justify-self-end tab:justify-self-start">Performance you can measure. Service you can hold accountable.</p>
     </header>
-    <div class="stats-grid">
-      <div class="stat" tabindex="0">
-        <div class="stat__inner">
-          <div class="stat__front">
-            <span class="stat__num"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
-            <span class="stat__label"><b>MTTD</b>Mean Time to Detect</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-radar"/></svg></span>
+    <div class="grid grid-cols-[repeat(3,1fr)] gap-[clamp(24px,3vw,40px)] mb-[clamp(60px,8vw,100px)] b1024:grid-cols-[repeat(2,1fr)] b768:grid-cols-[1fr]">
+      <div class="stat group/stat [--mx:0] [--my:0] [perspective:1200px] min-h-[200px]" tabindex="0">
+        <div class="relative w-full h-full [transition:transform_.8s_cubic-bezier(.34,1.56,.64,1)] [transform-style:preserve-3d] group-hover/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))] group-focus-within/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))]">
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#18233B,#0A0F1C)] border border-black shadow-[6px_6px_12px_rgba(0,0,0,.6),inset_0_1px_1px_rgba(201,160,99,.3)]">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-gilt [text-shadow:2px_4px_10px_rgba(0,0,0,.8)]"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-mute-d [text-shadow:1px_1px_2px_#000] [&_b]:text-ivory"><b>MTTD</b>Mean Time to Detect</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-champagne text-[#4A3011] border border-white/50 [&_svg]:drop-shadow-[1px_1px_1px_rgba(255,255,255,.4)] shadow-[3px_3px_6px_rgba(0,0,0,.6),inset_-3px_-3px_6px_rgba(100,50,10,.4),inset_3px_3px_6px_rgba(255,255,255,.8)]"><svg class="ico"><use href="#i-radar"/></svg></span>
           </div>
-          <div class="stat__back" aria-hidden="true">
-            <span class="stat__num"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
-            <span class="stat__label"><b>MTTD</b>Mean Time to Detect</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-radar"/></svg></span>
-          </div>
-        </div>
-      </div>
-      <div class="stat" tabindex="0">
-        <div class="stat__inner">
-          <div class="stat__front">
-            <span class="stat__num">1.55B</span>
-            <span class="stat__label"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-data"/></svg></span>
-          </div>
-          <div class="stat__back" aria-hidden="true">
-            <span class="stat__num">1.55B</span>
-            <span class="stat__label"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-data"/></svg></span>
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#F4EFE6,#F2D59C)] border border-bronze [transform:rotateY(180deg)] shadow-[0_4px_12px_rgba(0,0,0,.1)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_calc(50%_+_var(--mx)_*_60%)_calc(50%_+_var(--my)_*_60%),rgba(255,255,255,.8)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-[400ms] after:pointer-events-none after:mix-blend-overlay group-hover/stat:after:opacity-100 group-hover/stat:shadow-[calc(var(--mx)_*_-15px)_calc(var(--my)_*_-15px)_30px_rgba(0,0,0,.15),0_12px_30px_rgba(0,0,0,.3)]" aria-hidden="true">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-bronze"><span class="sr-only">Less than 5 minutes</span><span aria-hidden="true">&lt;5<small>min</small></span></span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-ink [&_b]:text-bronze"><b>MTTD</b>Mean Time to Detect</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-vault text-champagne border border-bronze shadow-[0_4px_8px_rgba(0,0,0,.1)] group-hover/stat:scale-[1.2] group-hover/stat:-translate-y-[7.2px] group-hover/stat:shadow-[0_8px_24px_rgba(0,0,0,.3)]"><svg class="ico"><use href="#i-radar"/></svg></span>
           </div>
         </div>
       </div>
-      <div class="stat" tabindex="0">
-        <div class="stat__inner">
-          <div class="stat__front">
-            <span class="stat__num">12%</span>
-            <span class="stat__label"><b>False-positive rate</b>Alerts requiring no escalation</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-check"/></svg></span>
+      <div class="stat group/stat [--mx:0] [--my:0] [perspective:1200px] min-h-[200px]" tabindex="0">
+        <div class="relative w-full h-full [transition:transform_.8s_cubic-bezier(.34,1.56,.64,1)] [transform-style:preserve-3d] group-hover/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))] group-focus-within/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))]">
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#18233B,#0A0F1C)] border border-black shadow-[6px_6px_12px_rgba(0,0,0,.6),inset_0_1px_1px_rgba(201,160,99,.3)]">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-gilt [text-shadow:2px_4px_10px_rgba(0,0,0,.8)]">1.55B</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-mute-d [text-shadow:1px_1px_2px_#000] [&_b]:text-ivory"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-champagne text-[#4A3011] border border-white/50 [&_svg]:drop-shadow-[1px_1px_1px_rgba(255,255,255,.4)] shadow-[3px_3px_6px_rgba(0,0,0,.6),inset_-3px_-3px_6px_rgba(100,50,10,.4),inset_3px_3px_6px_rgba(255,255,255,.8)]"><svg class="ico"><use href="#i-data"/></svg></span>
           </div>
-          <div class="stat__back" aria-hidden="true">
-            <span class="stat__num">12%</span>
-            <span class="stat__label"><b>False-positive rate</b>Alerts requiring no escalation</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-check"/></svg></span>
-          </div>
-        </div>
-      </div>
-      <div class="stat" tabindex="0">
-        <div class="stat__inner">
-          <div class="stat__front">
-            <span class="stat__num"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
-            <span class="stat__label"><b>MTTR</b>Response to P0 incidents</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-shield"/></svg></span>
-          </div>
-          <div class="stat__back" aria-hidden="true">
-            <span class="stat__num"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
-            <span class="stat__label"><b>MTTR</b>Response to P0 incidents</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-shield"/></svg></span>
-          </div>
-        </div>
-      </div> 
-      <div class="stat" tabindex="0">
-        <div class="stat__inner">
-          <div class="stat__front">
-            <span class="stat__num">20+</span>
-            <span class="stat__label"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-identity"/></svg></span>
-          </div>
-          <div class="stat__back" aria-hidden="true">
-            <span class="stat__num">20+</span>
-            <span class="stat__label"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-identity"/></svg></span>
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#F4EFE6,#F2D59C)] border border-bronze [transform:rotateY(180deg)] shadow-[0_4px_12px_rgba(0,0,0,.1)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_calc(50%_+_var(--mx)_*_60%)_calc(50%_+_var(--my)_*_60%),rgba(255,255,255,.8)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-[400ms] after:pointer-events-none after:mix-blend-overlay group-hover/stat:after:opacity-100 group-hover/stat:shadow-[calc(var(--mx)_*_-15px)_calc(var(--my)_*_-15px)_30px_rgba(0,0,0,.15),0_12px_30px_rgba(0,0,0,.3)]" aria-hidden="true">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-bronze">1.55B</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-ink [&_b]:text-bronze"><b>Events processed/day</b>Approximately, from 18,000 EPS across 20,000+ devices</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-vault text-champagne border border-bronze shadow-[0_4px_8px_rgba(0,0,0,.1)] group-hover/stat:scale-[1.2] group-hover/stat:-translate-y-[7.2px] group-hover/stat:shadow-[0_8px_24px_rgba(0,0,0,.3)]"><svg class="ico"><use href="#i-data"/></svg></span>
           </div>
         </div>
       </div>
-      <div class="stat" tabindex="0">
-        <div class="stat__inner">
-          <div class="stat__front">
-            <span class="stat__num">100+</span>
-            <span class="stat__label"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-network"/></svg></span>
+      <div class="stat group/stat [--mx:0] [--my:0] [perspective:1200px] min-h-[200px]" tabindex="0">
+        <div class="relative w-full h-full [transition:transform_.8s_cubic-bezier(.34,1.56,.64,1)] [transform-style:preserve-3d] group-hover/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))] group-focus-within/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))]">
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#18233B,#0A0F1C)] border border-black shadow-[6px_6px_12px_rgba(0,0,0,.6),inset_0_1px_1px_rgba(201,160,99,.3)]">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-gilt [text-shadow:2px_4px_10px_rgba(0,0,0,.8)]">12%</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-mute-d [text-shadow:1px_1px_2px_#000] [&_b]:text-ivory"><b>False-positive rate</b>Alerts requiring no escalation</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-champagne text-[#4A3011] border border-white/50 [&_svg]:drop-shadow-[1px_1px_1px_rgba(255,255,255,.4)] shadow-[3px_3px_6px_rgba(0,0,0,.6),inset_-3px_-3px_6px_rgba(100,50,10,.4),inset_3px_3px_6px_rgba(255,255,255,.8)]"><svg class="ico"><use href="#i-check"/></svg></span>
           </div>
-          <div class="stat__back" aria-hidden="true">
-            <span class="stat__num">100+</span>
-            <span class="stat__label"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
-            <span class="stat__chip"><svg class="ico"><use href="#i-network"/></svg></span>
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#F4EFE6,#F2D59C)] border border-bronze [transform:rotateY(180deg)] shadow-[0_4px_12px_rgba(0,0,0,.1)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_calc(50%_+_var(--mx)_*_60%)_calc(50%_+_var(--my)_*_60%),rgba(255,255,255,.8)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-[400ms] after:pointer-events-none after:mix-blend-overlay group-hover/stat:after:opacity-100 group-hover/stat:shadow-[calc(var(--mx)_*_-15px)_calc(var(--my)_*_-15px)_30px_rgba(0,0,0,.15),0_12px_30px_rgba(0,0,0,.3)]" aria-hidden="true">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-bronze">12%</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-ink [&_b]:text-bronze"><b>False-positive rate</b>Alerts requiring no escalation</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-vault text-champagne border border-bronze shadow-[0_4px_8px_rgba(0,0,0,.1)] group-hover/stat:scale-[1.2] group-hover/stat:-translate-y-[7.2px] group-hover/stat:shadow-[0_8px_24px_rgba(0,0,0,.3)]"><svg class="ico"><use href="#i-check"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat group/stat [--mx:0] [--my:0] [perspective:1200px] min-h-[200px]" tabindex="0">
+        <div class="relative w-full h-full [transition:transform_.8s_cubic-bezier(.34,1.56,.64,1)] [transform-style:preserve-3d] group-hover/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))] group-focus-within/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))]">
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#18233B,#0A0F1C)] border border-black shadow-[6px_6px_12px_rgba(0,0,0,.6),inset_0_1px_1px_rgba(201,160,99,.3)]">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-gilt [text-shadow:2px_4px_10px_rgba(0,0,0,.8)]"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-mute-d [text-shadow:1px_1px_2px_#000] [&_b]:text-ivory"><b>MTTR</b>Response to P0 incidents</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-champagne text-[#4A3011] border border-white/50 [&_svg]:drop-shadow-[1px_1px_1px_rgba(255,255,255,.4)] shadow-[3px_3px_6px_rgba(0,0,0,.6),inset_-3px_-3px_6px_rgba(100,50,10,.4),inset_3px_3px_6px_rgba(255,255,255,.8)]"><svg class="ico"><use href="#i-shield"/></svg></span>
+          </div>
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#F4EFE6,#F2D59C)] border border-bronze [transform:rotateY(180deg)] shadow-[0_4px_12px_rgba(0,0,0,.1)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_calc(50%_+_var(--mx)_*_60%)_calc(50%_+_var(--my)_*_60%),rgba(255,255,255,.8)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-[400ms] after:pointer-events-none after:mix-blend-overlay group-hover/stat:after:opacity-100 group-hover/stat:shadow-[calc(var(--mx)_*_-15px)_calc(var(--my)_*_-15px)_30px_rgba(0,0,0,.15),0_12px_30px_rgba(0,0,0,.3)]" aria-hidden="true">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-bronze"><span class="sr-only">Less than 30 minutes</span><span aria-hidden="true">&lt;30<small>min</small></span></span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-ink [&_b]:text-bronze"><b>MTTR</b>Response to P0 incidents</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-vault text-champagne border border-bronze shadow-[0_4px_8px_rgba(0,0,0,.1)] group-hover/stat:scale-[1.2] group-hover/stat:-translate-y-[7.2px] group-hover/stat:shadow-[0_8px_24px_rgba(0,0,0,.3)]"><svg class="ico"><use href="#i-shield"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat group/stat [--mx:0] [--my:0] [perspective:1200px] min-h-[200px]" tabindex="0">
+        <div class="relative w-full h-full [transition:transform_.8s_cubic-bezier(.34,1.56,.64,1)] [transform-style:preserve-3d] group-hover/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))] group-focus-within/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))]">
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#18233B,#0A0F1C)] border border-black shadow-[6px_6px_12px_rgba(0,0,0,.6),inset_0_1px_1px_rgba(201,160,99,.3)]">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-gilt [text-shadow:2px_4px_10px_rgba(0,0,0,.8)]">20+</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-mute-d [text-shadow:1px_1px_2px_#000] [&_b]:text-ivory"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-champagne text-[#4A3011] border border-white/50 [&_svg]:drop-shadow-[1px_1px_1px_rgba(255,255,255,.4)] shadow-[3px_3px_6px_rgba(0,0,0,.6),inset_-3px_-3px_6px_rgba(100,50,10,.4),inset_3px_3px_6px_rgba(255,255,255,.8)]"><svg class="ico"><use href="#i-identity"/></svg></span>
+          </div>
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#F4EFE6,#F2D59C)] border border-bronze [transform:rotateY(180deg)] shadow-[0_4px_12px_rgba(0,0,0,.1)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_calc(50%_+_var(--mx)_*_60%)_calc(50%_+_var(--my)_*_60%),rgba(255,255,255,.8)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-[400ms] after:pointer-events-none after:mix-blend-overlay group-hover/stat:after:opacity-100 group-hover/stat:shadow-[calc(var(--mx)_*_-15px)_calc(var(--my)_*_-15px)_30px_rgba(0,0,0,.15),0_12px_30px_rgba(0,0,0,.3)]" aria-hidden="true">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-bronze">20+</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-ink [&_b]:text-bronze"><b>Managed security clients</b>Active MDR, compliance &amp; lifecycle engagements</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-vault text-champagne border border-bronze shadow-[0_4px_8px_rgba(0,0,0,.1)] group-hover/stat:scale-[1.2] group-hover/stat:-translate-y-[7.2px] group-hover/stat:shadow-[0_8px_24px_rgba(0,0,0,.3)]"><svg class="ico"><use href="#i-identity"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="stat group/stat [--mx:0] [--my:0] [perspective:1200px] min-h-[200px]" tabindex="0">
+        <div class="relative w-full h-full [transition:transform_.8s_cubic-bezier(.34,1.56,.64,1)] [transform-style:preserve-3d] group-hover/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))] group-focus-within/stat:[transform:scale(1.06)_rotateX(calc(var(--my)_*_-12deg))_rotateY(calc(180deg_+_var(--mx)_*_12deg))]">
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#18233B,#0A0F1C)] border border-black shadow-[6px_6px_12px_rgba(0,0,0,.6),inset_0_1px_1px_rgba(201,160,99,.3)]">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-gilt [text-shadow:2px_4px_10px_rgba(0,0,0,.8)]">100+</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-mute-d [text-shadow:1px_1px_2px_#000] [&_b]:text-ivory"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-champagne text-[#4A3011] border border-white/50 [&_svg]:drop-shadow-[1px_1px_1px_rgba(255,255,255,.4)] shadow-[3px_3px_6px_rgba(0,0,0,.6),inset_-3px_-3px_6px_rgba(100,50,10,.4),inset_3px_3px_6px_rgba(255,255,255,.8)]"><svg class="ico"><use href="#i-network"/></svg></span>
+          </div>
+          <div class="absolute top-0 left-0 w-full h-full grid grid-cols-[1fr_auto] [grid-template-areas:'num_chip'_'label_label'] gap-4 items-start py-8 px-6 rounded-xl [backface-visibility:hidden] bg-[linear-gradient(145deg,#F4EFE6,#F2D59C)] border border-bronze [transform:rotateY(180deg)] shadow-[0_4px_12px_rgba(0,0,0,.1)] overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_calc(50%_+_var(--mx)_*_60%)_calc(50%_+_var(--my)_*_60%),rgba(255,255,255,.8)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-[400ms] after:pointer-events-none after:mix-blend-overlay group-hover/stat:after:opacity-100 group-hover/stat:shadow-[calc(var(--mx)_*_-15px)_calc(var(--my)_*_-15px)_30px_rgba(0,0,0,.15),0_12px_30px_rgba(0,0,0,.3)]" aria-hidden="true">
+            <span class="[grid-area:num] text-[clamp(38px,4vw,56px)] font-semibold leading-[1.02] tracking-[-.035em] whitespace-nowrap [&_small]:text-[.3em] [&_small]:tracking-normal [&_small]:ml-[.15em] text-bronze">100+</span>
+            <span class="[grid-area:label] flex flex-col text-[clamp(14px,1.1vw,17px)] leading-[1.3] [&_b]:mb-1 [&_b]:text-[1.2em] [&_b]:font-semibold text-ink [&_b]:text-bronze"><b>OEM partnerships</b>Palo Alto, Securonix, Microsoft, CrowdStrike +</span>
+            <span class="[grid-area:chip] flex-none grid place-items-center w-14 h-14 rounded-full transition-all duration-[600ms] ease-spring [&_svg]:w-[26px] [&_svg]:h-[26px] bg-vault text-champagne border border-bronze shadow-[0_4px_8px_rgba(0,0,0,.1)] group-hover/stat:scale-[1.2] group-hover/stat:-translate-y-[7.2px] group-hover/stat:shadow-[0_8px_24px_rgba(0,0,0,.3)]"><svg class="ico"><use href="#i-network"/></svg></span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="certs">
-      <div class="certs__head">
-        <h3 class="certs__title">TRUSTED BY SECURITY TEAMS ACROSS THE REGION</h3>
-        <p class="certs__sub">Organisations across industries rely on DigiGlass to operate their security environments.</p>
-        <p class="certs__foot">Operating round-the-clock</p>
+    <div class="grid grid-cols-[minmax(180px,1fr)_3.2fr] gap-10 items-start mt-[clamp(48px,5vw,72px)] pt-8 border-t border-line-d text-left tab:grid-cols-[1fr] tab:gap-7">
+      <div>
+        <h3 class="text-[22px] font-semibold leading-[1.2] tracking-[-.01em]">TRUSTED BY SECURITY TEAMS ACROSS THE REGION</h3>
+        <p class="mt-2 text-[14px] text-mute-d leading-normal">Organisations across industries rely on DigiGlass to operate their security environments.</p>
+        <p class="mt-3.5 text-[13px] font-semibold text-champagne uppercase tracking-[.04em]">Operating round-the-clock</p>
       </div>
-      <ul class="certs__list">
-        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-rosette"/></svg></span><strong>ISO 27001</strong><span>Audited security management</span></li>
-        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-map"/></svg></span><strong>NCA Certified, KSA</strong><span>Approved to operate in Saudi Arabia</span></li>
-        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-award"/></svg></span><strong>MSSP Excellence Award</strong><span>Securonix, 2025</span></li>
-        <li class="cert"><span class="cert__seal"><svg class="ico"><use href="#i-trophy"/></svg></span><strong>Leading MSS by Distributor</strong><span>Industry recognition, 2024</span></li>
+      <ul class="grid grid-cols-[repeat(4,1fr)] md:grid-cols-[repeat(2,1fr)] md:gap-y-8">
+        <li class="group/cert flex flex-col gap-1 px-6 border-l border-line-d md:odd:pl-0 md:odd:border-l-0"><span class="relative grid place-items-center w-14 h-14 mb-4 rounded-full bg-[radial-gradient(circle_at_32%_28%,#1d2944,#0A0F1C)] border border-champagne/[.35] text-champagne [&_svg]:w-[26px] [&_svg]:h-[26px] after:content-[''] after:absolute after:-inset-1.5 after:rounded-full after:border after:border-dashed after:border-champagne/30 after:[transition:transform_1.2s_cubic-bezier(.2,.7,.1,1)] group-hover/cert:after:rotate-[120deg]"><svg class="ico"><use href="#i-rosette"/></svg></span><strong class="text-[17px] font-semibold leading-[1.2]">ISO 27001</strong><span class="text-[14px] text-mute-d">Audited security management</span></li>
+        <li class="group/cert flex flex-col gap-1 px-6 border-l border-line-d md:odd:pl-0 md:odd:border-l-0"><span class="relative grid place-items-center w-14 h-14 mb-4 rounded-full bg-[radial-gradient(circle_at_32%_28%,#1d2944,#0A0F1C)] border border-champagne/[.35] text-champagne [&_svg]:w-[26px] [&_svg]:h-[26px] after:content-[''] after:absolute after:-inset-1.5 after:rounded-full after:border after:border-dashed after:border-champagne/30 after:[transition:transform_1.2s_cubic-bezier(.2,.7,.1,1)] group-hover/cert:after:rotate-[120deg]"><svg class="ico"><use href="#i-map"/></svg></span><strong class="text-[17px] font-semibold leading-[1.2]">NCA Certified, KSA</strong><span class="text-[14px] text-mute-d">Approved to operate in Saudi Arabia</span></li>
+        <li class="group/cert flex flex-col gap-1 px-6 border-l border-line-d md:odd:pl-0 md:odd:border-l-0"><span class="relative grid place-items-center w-14 h-14 mb-4 rounded-full bg-[radial-gradient(circle_at_32%_28%,#1d2944,#0A0F1C)] border border-champagne/[.35] text-champagne [&_svg]:w-[26px] [&_svg]:h-[26px] after:content-[''] after:absolute after:-inset-1.5 after:rounded-full after:border after:border-dashed after:border-champagne/30 after:[transition:transform_1.2s_cubic-bezier(.2,.7,.1,1)] group-hover/cert:after:rotate-[120deg]"><svg class="ico"><use href="#i-award"/></svg></span><strong class="text-[17px] font-semibold leading-[1.2]">MSSP Excellence Award</strong><span class="text-[14px] text-mute-d">Securonix, 2025</span></li>
+        <li class="group/cert flex flex-col gap-1 px-6 border-l border-line-d md:odd:pl-0 md:odd:border-l-0"><span class="relative grid place-items-center w-14 h-14 mb-4 rounded-full bg-[radial-gradient(circle_at_32%_28%,#1d2944,#0A0F1C)] border border-champagne/[.35] text-champagne [&_svg]:w-[26px] [&_svg]:h-[26px] after:content-[''] after:absolute after:-inset-1.5 after:rounded-full after:border after:border-dashed after:border-champagne/30 after:[transition:transform_1.2s_cubic-bezier(.2,.7,.1,1)] group-hover/cert:after:rotate-[120deg]"><svg class="ico"><use href="#i-trophy"/></svg></span><strong class="text-[17px] font-semibold leading-[1.2]">Leading MSS by Distributor</strong><span class="text-[14px] text-mute-d">Industry recognition, 2024</span></li>
       </ul>
     </div>
   </div>
 </section>
 
 <!-- ============ CORE PROPOSITION ============ -->
-<section class="prop sec--light" id="why">
-  <div class="wrap prop__grid">
-    <div class="prop__copy">
-      <h2 class="prop__title" id="propTitle">
-        <span class="l1">Your stack is not the problem.</span>
-        <span class="l2">The operating <span class="gap" id="gap" aria-hidden="true"><i></i></span>gap is.</span>
+<section class="group/prop py-[--sec] bg-mist text-ink [&_:focus-visible]:outline-bronze" id="why">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad] grid grid-cols-[1.12fr_1fr] gap-[clamp(40px,6vw,100px)] items-center tab:grid-cols-[1fr]">
+    <div>
+      <h2 class="text-[clamp(32px,3.6vw,56px)] font-semibold leading-[1.04] tracking-[-.03em]" id="propTitle">
+        <span class="block text-ink/[.42]">Your stack is not the problem.</span>
+        <span class="block lgup:whitespace-nowrap">The operating <span class="relative inline-block w-[1.8em] h-[.78em] mx-[.1em] align-[-.02em] before:content-[''] before:absolute before:top-[8%] before:bottom-[8%] before:w-[3px] before:bg-bronze before:rounded-sm before:left-0 after:content-[''] after:absolute after:top-[8%] after:bottom-[8%] after:w-[3px] after:bg-bronze after:rounded-sm after:right-0" id="gap" aria-hidden="true"><i class="absolute left-2 right-2 top-1/2 h-[3px] -mt-[1.5px] bg-[repeating-linear-gradient(90deg,#8F5E2A_0_7px,transparent_7px_14px)] bg-[length:14px_3px] animate-dash group-[.is-closed]/prop:bg-gold group-[.is-closed]/prop:bg-auto group-[.is-closed]/prop:animate-none group-[.is-closed]/prop:shadow-[0_0_12px_rgba(201,160,99,.6)]"></i></span>gap is.</span>
       </h2>
-      <p class="prop__sub">Your security tools are already in place. DigiGlas brings them together into one accountable security operation.</p>
-      <a class="btn btn--ink" href="#assessment">Security Operations Review <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+      <p class="max-w-[52ch] mt-[30px] text-[clamp(17px,1.3vw,19px)] text-ink/80">Your security tools are already in place. DigiGlas brings them together into one accountable security operation.</p>
+      <a class="group btn btn-ink h-14 gap-[18px] pl-[22px] text-[14.5px] mt-9" href="#assessment">Security Operations Review <span class="btn-arrow btn-arrow-gold w-11 h-11"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
     </div>
 
-    <figure class="orbit-card">
-      <figcaption class="orbit-card__head"><h3 class="kicker">SECURITY SIGNALS, ONE OPERATION</h3></figcaption>
-      <div class="orbit">
-        <svg class="orbit__lines" viewBox="0 0 600 600" aria-hidden="true">
-          <g class="orbit__spin">
-            <circle class="o-ticks" cx="300" cy="300" r="272"/>
+    <figure class="relative overflow-hidden p-[clamp(20px,2.4vw,32px)] bg-[radial-gradient(50%_45%_at_50%_50%,rgba(201,160,99,.16),transparent_70%)] bg-vault text-ivory rounded-[20px] shadow-[0_60px_120px_-60px_rgba(10,15,28,.7)] tab:max-w-[620px]">
+      <figcaption class="mb-3"><h3 class="inline-flex items-center gap-2.5 text-[14px] font-medium tracking-[.02em] before:content-[''] before:w-[9px] before:h-[9px] before:rounded-full before:border-2 before:border-current text-champagne">SECURITY SIGNALS, ONE OPERATION</h3></figcaption>
+      <div class="relative w-full max-w-[560px] aspect-square my-2 mx-auto">
+        <svg class="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 600 600" aria-hidden="true">
+          <g class="origin-[300px_300px] animate-spin-slow">
+            <circle class="fill-none stroke-champagne/25 stroke-[8] [stroke-dasharray:1_13]" cx="300" cy="300" r="272"/>
           </g>
-          <circle class="o-ring" cx="300" cy="300" r="210"/>
-          <circle class="o-ring o-ring--in" cx="300" cy="300" r="118"/>
-          <path class="flow" id="f0" d="M300 90L300 300"/>
-          <path class="flow" id="f1" d="M481.9 195L300 300"/>
-          <path class="flow" id="f2" d="M481.9 405L300 300"/>
-          <path class="flow" id="f3" d="M300 510L300 300"/>
-          <path class="flow" id="f4" d="M118.1 405L300 300"/>
-          <path class="flow" id="f5" d="M118.1 195L300 300"/>
-          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#f0"/></animateMotion></circle>
-          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".4s"><mpath href="#f1"/></animateMotion></circle>
-          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".9s"><mpath href="#f2"/></animateMotion></circle>
-          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.3s"><mpath href="#f3"/></animateMotion></circle>
-          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".2s"><mpath href="#f4"/></animateMotion></circle>
-          <circle class="pulse" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.7s"><mpath href="#f5"/></animateMotion></circle>
+          <circle class="fill-none stroke-champagne/20 [stroke-dasharray:2_7]" cx="300" cy="300" r="210"/>
+          <circle class="fill-none stroke-champagne/[.12]" cx="300" cy="300" r="118"/>
+          <path class="stroke-champagne/[.35] stroke-[1.2] [stroke-dasharray:3_7] animate-flow" id="f0" d="M300 90L300 300"/>
+          <path class="stroke-champagne/[.35] stroke-[1.2] [stroke-dasharray:3_7] animate-flow" id="f1" d="M481.9 195L300 300"/>
+          <path class="stroke-champagne/[.35] stroke-[1.2] [stroke-dasharray:3_7] animate-flow" id="f2" d="M481.9 405L300 300"/>
+          <path class="stroke-champagne/[.35] stroke-[1.2] [stroke-dasharray:3_7] animate-flow" id="f3" d="M300 510L300 300"/>
+          <path class="stroke-champagne/[.35] stroke-[1.2] [stroke-dasharray:3_7] animate-flow" id="f4" d="M118.1 405L300 300"/>
+          <path class="stroke-champagne/[.35] stroke-[1.2] [stroke-dasharray:3_7] animate-flow" id="f5" d="M118.1 195L300 300"/>
+          <circle class="fill-champagne drop-shadow-[0_0_6px_rgba(242,213,156,.9)]" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0s"><mpath href="#f0"/></animateMotion></circle>
+          <circle class="fill-champagne drop-shadow-[0_0_6px_rgba(242,213,156,.9)]" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".4s"><mpath href="#f1"/></animateMotion></circle>
+          <circle class="fill-champagne drop-shadow-[0_0_6px_rgba(242,213,156,.9)]" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".9s"><mpath href="#f2"/></animateMotion></circle>
+          <circle class="fill-champagne drop-shadow-[0_0_6px_rgba(242,213,156,.9)]" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.3s"><mpath href="#f3"/></animateMotion></circle>
+          <circle class="fill-champagne drop-shadow-[0_0_6px_rgba(242,213,156,.9)]" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin=".2s"><mpath href="#f4"/></animateMotion></circle>
+          <circle class="fill-champagne drop-shadow-[0_0_6px_rgba(242,213,156,.9)]" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.7s"><mpath href="#f5"/></animateMotion></circle>
         </svg>
-        <div class="orbit__core"><img class="orbit__logo" src="assets/digiglass-logo.png" alt="" width="590" height="702"></div>
-        <div class="orbit__node" style="--a:-90deg"><i><svg class="ico"><use href="#i-cloud"/></svg></i><span>Cloud</span></div>
-        <div class="orbit__node" style="--a:-30deg"><i><svg class="ico"><use href="#i-endpoint"/></svg></i><span>Endpoint</span></div>
-        <div class="orbit__node" style="--a:30deg"><i><svg class="ico"><use href="#i-identity"/></svg></i><span>Identity</span></div>
-        <div class="orbit__node" style="--a:90deg"><i><svg class="ico"><use href="#i-network"/></svg></i><span>Network</span></div>
-        <div class="orbit__node" style="--a:150deg"><i><svg class="ico"><use href="#i-mail"/></svg></i><span>Email &amp; Collaboration</span></div>
-        <div class="orbit__node" style="--a:210deg"><i><svg class="ico"><use href="#i-data"/></svg></i><span>Data</span></div>
+        <div class="absolute left-1/2 top-1/2 grid place-items-center w-1/4 aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_35%_30%,#1d2944,#0A0F1C_70%)] border border-champagne/[.45] shadow-[0_0_0_10px_rgba(201,160,99,.06),0_0_90px_rgba(201,160,99,.3)]"><img class="w-[44%] h-auto object-contain" src="assets/digiglass-logo.png" alt="" width="590" height="702"></div>
+        <div class="group/node [--ns:clamp(46px,5vw,60px)] absolute left-[calc(50%_+_cos(var(--a))_*_35%)] top-[calc(50%_+_sin(var(--a))_*_35%)] flex flex-col items-center gap-2 w-[110px] -translate-x-1/2 translate-y-[calc(var(--ns)_/_-2)] text-center sm:w-[84px]" style="--a:-90deg"><i class="grid place-items-center w-[--ns] h-[--ns] rounded-full bg-deep border border-champagne/[.35] text-champagne transition-[background,color] duration-[400ms] group-hover/node:bg-gold group-hover/node:text-vault [&_svg]:w-[22px] [&_svg]:h-[22px]"><svg class="ico"><use href="#i-cloud"/></svg></i><span class="text-[13px] font-semibold leading-[1.2] text-ivory/[.82] sm:text-[11.5px]">Cloud</span></div>
+        <div class="group/node [--ns:clamp(46px,5vw,60px)] absolute left-[calc(50%_+_cos(var(--a))_*_35%)] top-[calc(50%_+_sin(var(--a))_*_35%)] flex flex-col items-center gap-2 w-[110px] -translate-x-1/2 translate-y-[calc(var(--ns)_/_-2)] text-center sm:w-[84px]" style="--a:-30deg"><i class="grid place-items-center w-[--ns] h-[--ns] rounded-full bg-deep border border-champagne/[.35] text-champagne transition-[background,color] duration-[400ms] group-hover/node:bg-gold group-hover/node:text-vault [&_svg]:w-[22px] [&_svg]:h-[22px]"><svg class="ico"><use href="#i-endpoint"/></svg></i><span class="text-[13px] font-semibold leading-[1.2] text-ivory/[.82] sm:text-[11.5px]">Endpoint</span></div>
+        <div class="group/node [--ns:clamp(46px,5vw,60px)] absolute left-[calc(50%_+_cos(var(--a))_*_35%)] top-[calc(50%_+_sin(var(--a))_*_35%)] flex flex-col items-center gap-2 w-[110px] -translate-x-1/2 translate-y-[calc(var(--ns)_/_-2)] text-center sm:w-[84px]" style="--a:30deg"><i class="grid place-items-center w-[--ns] h-[--ns] rounded-full bg-deep border border-champagne/[.35] text-champagne transition-[background,color] duration-[400ms] group-hover/node:bg-gold group-hover/node:text-vault [&_svg]:w-[22px] [&_svg]:h-[22px]"><svg class="ico"><use href="#i-identity"/></svg></i><span class="text-[13px] font-semibold leading-[1.2] text-ivory/[.82] sm:text-[11.5px]">Identity</span></div>
+        <div class="group/node [--ns:clamp(46px,5vw,60px)] absolute left-[calc(50%_+_cos(var(--a))_*_35%)] top-[calc(50%_+_sin(var(--a))_*_35%)] flex flex-col items-center gap-2 w-[110px] -translate-x-1/2 translate-y-[calc(var(--ns)_/_-2)] text-center sm:w-[84px]" style="--a:90deg"><i class="grid place-items-center w-[--ns] h-[--ns] rounded-full bg-deep border border-champagne/[.35] text-champagne transition-[background,color] duration-[400ms] group-hover/node:bg-gold group-hover/node:text-vault [&_svg]:w-[22px] [&_svg]:h-[22px]"><svg class="ico"><use href="#i-network"/></svg></i><span class="text-[13px] font-semibold leading-[1.2] text-ivory/[.82] sm:text-[11.5px]">Network</span></div>
+        <div class="group/node [--ns:clamp(46px,5vw,60px)] absolute left-[calc(50%_+_cos(var(--a))_*_35%)] top-[calc(50%_+_sin(var(--a))_*_35%)] flex flex-col items-center gap-2 w-[110px] -translate-x-1/2 translate-y-[calc(var(--ns)_/_-2)] text-center sm:w-[84px]" style="--a:150deg"><i class="grid place-items-center w-[--ns] h-[--ns] rounded-full bg-deep border border-champagne/[.35] text-champagne transition-[background,color] duration-[400ms] group-hover/node:bg-gold group-hover/node:text-vault [&_svg]:w-[22px] [&_svg]:h-[22px]"><svg class="ico"><use href="#i-mail"/></svg></i><span class="text-[13px] font-semibold leading-[1.2] text-ivory/[.82] sm:text-[11.5px]">Email &amp; Collaboration</span></div>
+        <div class="group/node [--ns:clamp(46px,5vw,60px)] absolute left-[calc(50%_+_cos(var(--a))_*_35%)] top-[calc(50%_+_sin(var(--a))_*_35%)] flex flex-col items-center gap-2 w-[110px] -translate-x-1/2 translate-y-[calc(var(--ns)_/_-2)] text-center sm:w-[84px]" style="--a:210deg"><i class="grid place-items-center w-[--ns] h-[--ns] rounded-full bg-deep border border-champagne/[.35] text-champagne transition-[background,color] duration-[400ms] group-hover/node:bg-gold group-hover/node:text-vault [&_svg]:w-[22px] [&_svg]:h-[22px]"><svg class="ico"><use href="#i-data"/></svg></i><span class="text-[13px] font-semibold leading-[1.2] text-ivory/[.82] sm:text-[11.5px]">Data</span></div>
       </div>
-      <p class="orbit-card__foot">One accountable operating view</p>
+      <p class="mt-1.5 pt-4 border-t border-line-d text-[14px] text-mute-d text-center">One accountable operating view</p>
     </figure>
   </div>
 
 </section>
 
 <!-- ============ OPERATING MODEL ============ -->
-<section class="model" id="model" data-step="0">
-  <canvas class="mosaic" data-mosaic="center" aria-hidden="true"></canvas>
-  <div class="wrap model__head">
-    <h2 class="h2" data-split>Make your stack work as one managed security operation.</h2>
-    <div class="model__intro">
-      <p>Keep the tools you already have. DigiGlass connects their signals into one around-the-clock security operation, with defined processes for detection, investigation, response and reporting.</p>
-      <a class="btn btn--gold" href="#packages">Explore the DigiGlass Operating Model <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+<section class="relative py-[--sec] overflow-hidden bg-vault" id="model" data-step="0">
+  <canvas class="mosaic absolute inset-0 w-full h-full pointer-events-none" data-mosaic="center" aria-hidden="true"></canvas>
+  <div class="w-full max-w-[--max] mx-auto px-[--pad] relative z-[1] grid grid-cols-[1.3fr_1fr] items-end gap-[clamp(28px,5vw,80px)] text-left tab:grid-cols-[1fr]">
+    <h2 class="text-[clamp(34px,4.4vw,68px)] font-semibold leading-[1.02] tracking-[-.028em] text-balance" data-split>Make your stack work as one managed security operation.</h2>
+    <div class="justify-self-end max-w-[46ch] tab:justify-self-start">
+      <p class="mb-[22px] max-w-[46ch] text-mute-d">Keep the tools you already have. DigiGlass connects their signals into one around-the-clock security operation, with defined processes for detection, investigation, response and reporting.</p>
+      <a class="group btn btn-gold h-14 gap-[18px] pl-[22px] text-[14.5px]" href="#packages">Explore the DigiGlass Operating Model <span class="btn-arrow btn-arrow-dark w-11 h-11"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="model__tabs" role="tablist" aria-label="DigiGlass operating model">
-      <button class="mtab is-active" role="tab" id="mt0" aria-selected="true" aria-controls="mp0" data-step="0"><span class="mtab__bar"><i></i></span><span class="mtab__n">01</span><span class="mtab__t">Integrate</span></button>
-      <button class="mtab" role="tab" id="mt1" aria-selected="false" aria-controls="mp1" data-step="1" tabindex="-1"><span class="mtab__bar"><i></i></span><span class="mtab__n">02</span><span class="mtab__t">Tune</span></button>
-      <button class="mtab" role="tab" id="mt2" aria-selected="false" aria-controls="mp2" data-step="2" tabindex="-1"><span class="mtab__bar"><i></i></span><span class="mtab__n">03</span><span class="mtab__t">Investigate &amp; Respond</span></button>
-      <button class="mtab" role="tab" id="mt3" aria-selected="false" aria-controls="mp3" data-step="3" tabindex="-1"><span class="mtab__bar"><i></i></span><span class="mtab__n">04</span><span class="mtab__t">Improve</span></button>
+  <div class="w-full max-w-[--max] mx-auto px-[--pad] relative z-[1]">
+    <div class="grid grid-cols-[repeat(4,1fr)] gap-[clamp(10px,1.6vw,24px)] mt-[clamp(32px,3.5vw,52px)] sm:grid-cols-[repeat(2,1fr)]" role="tablist" aria-label="DigiGlass operating model">
+      <button class="mtab group relative flex items-center gap-3.5 pt-[22px] pb-2.5 text-left text-ivory/40 transition-colors duration-[400ms] hover:text-ivory/75 [&.is-active]:text-champagne is-active" role="tab" id="mt0" aria-selected="true" aria-controls="mp0" data-step="0"><span class="absolute inset-x-0 top-0 h-0.5 bg-line-d overflow-hidden"><i class="block w-0 h-full bg-gold group-[.is-active]:animate-fill [#model.is-manual_.mtab.is-active_&]:animate-none [#model.is-manual_.mtab.is-active_&]:w-full [#model:not(.in-view)_.mtab.is-active_&]:animate-none [#model:not(.in-view)_.mtab.is-active_&]:w-full"></i></span><span class="flex-none grid place-items-center w-9 h-9 border border-current rounded-full text-[12px] font-semibold transition-[background,color,border-color] duration-[400ms] group-[.is-active]:bg-gold group-[.is-active]:border-transparent group-[.is-active]:text-vault nav:hidden">01</span><span class="text-[clamp(17px,1.8vw,28px)] font-semibold leading-[1.05] tracking-[-.02em]">Integrate</span></button>
+      <button class="mtab group relative flex items-center gap-3.5 pt-[22px] pb-2.5 text-left text-ivory/40 transition-colors duration-[400ms] hover:text-ivory/75 [&.is-active]:text-champagne" role="tab" id="mt1" aria-selected="false" aria-controls="mp1" data-step="1" tabindex="-1"><span class="absolute inset-x-0 top-0 h-0.5 bg-line-d overflow-hidden"><i class="block w-0 h-full bg-gold group-[.is-active]:animate-fill [#model.is-manual_.mtab.is-active_&]:animate-none [#model.is-manual_.mtab.is-active_&]:w-full [#model:not(.in-view)_.mtab.is-active_&]:animate-none [#model:not(.in-view)_.mtab.is-active_&]:w-full"></i></span><span class="flex-none grid place-items-center w-9 h-9 border border-current rounded-full text-[12px] font-semibold transition-[background,color,border-color] duration-[400ms] group-[.is-active]:bg-gold group-[.is-active]:border-transparent group-[.is-active]:text-vault nav:hidden">02</span><span class="text-[clamp(17px,1.8vw,28px)] font-semibold leading-[1.05] tracking-[-.02em]">Tune</span></button>
+      <button class="mtab group relative flex items-center gap-3.5 pt-[22px] pb-2.5 text-left text-ivory/40 transition-colors duration-[400ms] hover:text-ivory/75 [&.is-active]:text-champagne" role="tab" id="mt2" aria-selected="false" aria-controls="mp2" data-step="2" tabindex="-1"><span class="absolute inset-x-0 top-0 h-0.5 bg-line-d overflow-hidden"><i class="block w-0 h-full bg-gold group-[.is-active]:animate-fill [#model.is-manual_.mtab.is-active_&]:animate-none [#model.is-manual_.mtab.is-active_&]:w-full [#model:not(.in-view)_.mtab.is-active_&]:animate-none [#model:not(.in-view)_.mtab.is-active_&]:w-full"></i></span><span class="flex-none grid place-items-center w-9 h-9 border border-current rounded-full text-[12px] font-semibold transition-[background,color,border-color] duration-[400ms] group-[.is-active]:bg-gold group-[.is-active]:border-transparent group-[.is-active]:text-vault nav:hidden">03</span><span class="text-[clamp(17px,1.8vw,28px)] font-semibold leading-[1.05] tracking-[-.02em]">Investigate &amp; Respond</span></button>
+      <button class="mtab group relative flex items-center gap-3.5 pt-[22px] pb-2.5 text-left text-ivory/40 transition-colors duration-[400ms] hover:text-ivory/75 [&.is-active]:text-champagne" role="tab" id="mt3" aria-selected="false" aria-controls="mp3" data-step="3" tabindex="-1"><span class="absolute inset-x-0 top-0 h-0.5 bg-line-d overflow-hidden"><i class="block w-0 h-full bg-gold group-[.is-active]:animate-fill [#model.is-manual_.mtab.is-active_&]:animate-none [#model.is-manual_.mtab.is-active_&]:w-full [#model:not(.in-view)_.mtab.is-active_&]:animate-none [#model:not(.in-view)_.mtab.is-active_&]:w-full"></i></span><span class="flex-none grid place-items-center w-9 h-9 border border-current rounded-full text-[12px] font-semibold transition-[background,color,border-color] duration-[400ms] group-[.is-active]:bg-gold group-[.is-active]:border-transparent group-[.is-active]:text-vault nav:hidden">04</span><span class="text-[clamp(17px,1.8vw,28px)] font-semibold leading-[1.05] tracking-[-.02em]">Improve</span></button>
     </div>
 
-    <div class="model__stage">
-      <canvas id="modelGL" aria-hidden="true"></canvas>
-      <div class="model__fallback" aria-hidden="true"><img src="assets/digiglass-logo.png" alt="" width="590" height="702"></div>
-      <div class="mpanel is-active" role="tabpanel" id="mp0" aria-labelledby="mt0">
-        <h3>Bring your security stack together</h3>
-        <div class="mpanel__side"><p>Connect relevant tools and signals into one operating model, without forcing a technology reset.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Integration and Onboarding</span></div>
+    <div class="relative grid min-h-[clamp(320px,30vw,430px)] mt-2 tab:flex tab:flex-col">
+      <canvas class="[grid-area:1/1] justify-self-center self-center w-[min(420px,32%)] h-[clamp(300px,29vw,420px)] tab:order-none tab:w-full tab:max-w-[520px] no-gl:hidden" id="modelGL" aria-hidden="true"></canvas>
+      <div class="[grid-area:1/1] justify-self-center self-center w-[min(420px,32%)] h-[clamp(300px,29vw,420px)] tab:order-none tab:w-full tab:max-w-[520px] hidden place-items-center no-gl:grid" aria-hidden="true"><img class="w-2/5 h-auto drop-shadow-[0_0_40px_rgba(201,160,99,.4)]" src="assets/digiglass-logo.png" alt="" width="590" height="702"></div>
+      <div class="mpanel group [grid-area:1/1] z-[1] grid grid-cols-[minmax(260px,1fr)_min(420px,32%)_minmax(320px,1.25fr)] items-center gap-[clamp(20px,2.5vw,40px)] pointer-events-none tab:hidden tab:grid-cols-[1fr] tab:gap-[18px] tab:text-center tab:[&.is-active]:grid is-active" role="tabpanel" id="mp0" aria-labelledby="mt0">
+        <h3 class="col-start-1 text-[clamp(26px,2.6vw,42px)] font-semibold leading-[1.06] tracking-[-.025em] opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[180ms]">Bring your security stack together</h3>
+        <div class="col-start-3 tab:col-start-1 [&_p]:text-mute-d [&_p]:max-w-[48ch] [&_p]:text-[15.5px] [&_p]:leading-[1.55] tab:[&_p]:mx-auto opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[280ms]"><p>Connect relevant tools and signals into one operating model, without forcing a technology reset.</p><span class="inline-flex items-center gap-2.5 mt-[22px] py-[7px] pr-4 pl-[7px] border border-line-d rounded-full text-[13.5px] font-medium text-ivory bg-vault/50 max-w-full [&_i]:flex-none [&_i]:grid [&_i]:place-items-center [&_i]:w-7 [&_i]:h-7 [&_i]:rounded-full [&_i]:bg-gold [&_i]:text-vault [&_svg]:w-[15px] [&_svg]:h-[15px] [&_svg]:[stroke-width:2.2]"><i><svg class="ico"><use href="#i-check"/></svg></i>Integration and Onboarding</span></div>
       </div>
-      <div class="mpanel" role="tabpanel" id="mp1" aria-labelledby="mt1">
-        <h3>Make the signals that matter stand out.</h3>
-        <div class="mpanel__side"><p>Reduce noise, improve detection relevance and align security use cases to your environment.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Detection content, use cases and thresholds</span></div>
+      <div class="mpanel group [grid-area:1/1] z-[1] grid grid-cols-[minmax(260px,1fr)_min(420px,32%)_minmax(320px,1.25fr)] items-center gap-[clamp(20px,2.5vw,40px)] pointer-events-none tab:hidden tab:grid-cols-[1fr] tab:gap-[18px] tab:text-center tab:[&.is-active]:grid" role="tabpanel" id="mp1" aria-labelledby="mt1">
+        <h3 class="col-start-1 text-[clamp(26px,2.6vw,42px)] font-semibold leading-[1.06] tracking-[-.025em] opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[180ms]">Make the signals that matter stand out.</h3>
+        <div class="col-start-3 tab:col-start-1 [&_p]:text-mute-d [&_p]:max-w-[48ch] [&_p]:text-[15.5px] [&_p]:leading-[1.55] tab:[&_p]:mx-auto opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[280ms]"><p>Reduce noise, improve detection relevance and align security use cases to your environment.</p><span class="inline-flex items-center gap-2.5 mt-[22px] py-[7px] pr-4 pl-[7px] border border-line-d rounded-full text-[13.5px] font-medium text-ivory bg-vault/50 max-w-full [&_i]:flex-none [&_i]:grid [&_i]:place-items-center [&_i]:w-7 [&_i]:h-7 [&_i]:rounded-full [&_i]:bg-gold [&_i]:text-vault [&_svg]:w-[15px] [&_svg]:h-[15px] [&_svg]:[stroke-width:2.2]"><i><svg class="ico"><use href="#i-check"/></svg></i>Detection content, use cases and thresholds</span></div>
       </div>
-      <div class="mpanel" role="tabpanel" id="mp2" aria-labelledby="mt2">
-        <h3>Turn alerts into coordinated action.</h3>
-        <div class="mpanel__side"><p>Triage and investigate what matters, coordinate escalation and execute agreed response actions within defined ownership.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Triage, investigation and response</span></div>
+      <div class="mpanel group [grid-area:1/1] z-[1] grid grid-cols-[minmax(260px,1fr)_min(420px,32%)_minmax(320px,1.25fr)] items-center gap-[clamp(20px,2.5vw,40px)] pointer-events-none tab:hidden tab:grid-cols-[1fr] tab:gap-[18px] tab:text-center tab:[&.is-active]:grid" role="tabpanel" id="mp2" aria-labelledby="mt2">
+        <h3 class="col-start-1 text-[clamp(26px,2.6vw,42px)] font-semibold leading-[1.06] tracking-[-.025em] opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[180ms]">Turn alerts into coordinated action.</h3>
+        <div class="col-start-3 tab:col-start-1 [&_p]:text-mute-d [&_p]:max-w-[48ch] [&_p]:text-[15.5px] [&_p]:leading-[1.55] tab:[&_p]:mx-auto opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[280ms]"><p>Triage and investigate what matters, coordinate escalation and execute agreed response actions within defined ownership.</p><span class="inline-flex items-center gap-2.5 mt-[22px] py-[7px] pr-4 pl-[7px] border border-line-d rounded-full text-[13.5px] font-medium text-ivory bg-vault/50 max-w-full [&_i]:flex-none [&_i]:grid [&_i]:place-items-center [&_i]:w-7 [&_i]:h-7 [&_i]:rounded-full [&_i]:bg-gold [&_i]:text-vault [&_svg]:w-[15px] [&_svg]:h-[15px] [&_svg]:[stroke-width:2.2]"><i><svg class="ico"><use href="#i-check"/></svg></i>Triage, investigation and response</span></div>
       </div>
-      <div class="mpanel" role="tabpanel" id="mp3" aria-labelledby="mt3">
-        <h3>Turn operations into measurable progress.</h3>
-        <div class="mpanel__side"><p>Use reporting and reviews to measure performance, identify improvements and strengthen your security posture over time.</p><span class="deliv"><i><svg class="ico"><use href="#i-check"/></svg></i>Reporting, reviews and continuous improvement</span></div>
+      <div class="mpanel group [grid-area:1/1] z-[1] grid grid-cols-[minmax(260px,1fr)_min(420px,32%)_minmax(320px,1.25fr)] items-center gap-[clamp(20px,2.5vw,40px)] pointer-events-none tab:hidden tab:grid-cols-[1fr] tab:gap-[18px] tab:text-center tab:[&.is-active]:grid" role="tabpanel" id="mp3" aria-labelledby="mt3">
+        <h3 class="col-start-1 text-[clamp(26px,2.6vw,42px)] font-semibold leading-[1.06] tracking-[-.025em] opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[180ms]">Turn operations into measurable progress.</h3>
+        <div class="col-start-3 tab:col-start-1 [&_p]:text-mute-d [&_p]:max-w-[48ch] [&_p]:text-[15.5px] [&_p]:leading-[1.55] tab:[&_p]:mx-auto opacity-0 translate-y-[18px] [transition:opacity_.45s,transform_.7s_cubic-bezier(.2,.7,.1,1)] group-[.is-active]:opacity-100 group-[.is-active]:translate-y-0 group-[.is-active]:pointer-events-auto group-[.is-active]:delay-[280ms]"><p>Use reporting and reviews to measure performance, identify improvements and strengthen your security posture over time.</p><span class="inline-flex items-center gap-2.5 mt-[22px] py-[7px] pr-4 pl-[7px] border border-line-d rounded-full text-[13.5px] font-medium text-ivory bg-vault/50 max-w-full [&_i]:flex-none [&_i]:grid [&_i]:place-items-center [&_i]:w-7 [&_i]:h-7 [&_i]:rounded-full [&_i]:bg-gold [&_i]:text-vault [&_svg]:w-[15px] [&_svg]:h-[15px] [&_svg]:[stroke-width:2.2]"><i><svg class="ico"><use href="#i-check"/></svg></i>Reporting, reviews and continuous improvement</span></div>
       </div>
     </div>
 
@@ -348,22 +460,22 @@
 </section>
 
 <!-- ============ IMPACT ESTIMATOR ============ -->
-<section class="calc sec--light" id="estimator">
-  <div class="wrap calc__grid">
-    <div class="calc__copy">
-      <h2 class="h2" data-split>What could a cyber incident cost your organisation?</h2>
-      <p>Estimate the potential financial impact of a cyber incident using industry breach-cost benchmarks and your organisation's revenue, exposure and security preparedness.</p>
-      <a class="text-link" href="#estimator">Open the full estimator <svg class="ico"><use href="#i-arrow"/></svg></a>
+<section class="py-[--sec] bg-mist text-ink [&_:focus-visible]:outline-bronze" id="estimator">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad] grid grid-cols-[1fr_1.1fr] gap-[clamp(40px,6vw,100px)] items-center tab:grid-cols-[1fr]">
+    <div>
+      <h2 class="text-[clamp(34px,4.4vw,68px)] font-semibold leading-[1.02] tracking-[-.028em] text-balance" data-split>What could a cyber incident cost your organisation?</h2>
+      <p class="max-w-[48ch] mt-[26px] text-mute-l">Estimate the potential financial impact of a cyber incident using industry breach-cost benchmarks and your organisation's revenue, exposure and security preparedness.</p>
+      <a class="inline-flex items-center gap-2.5 pb-[5px] font-semibold border-b-[1.5px] border-current [transition:gap_.4s_cubic-bezier(.2,.7,.1,1),color_.3s] hover:gap-4 hover:text-bronze [&_svg]:w-[18px] [&_svg]:h-[18px] mt-8" href="#estimator">Open the full estimator <svg class="ico"><use href="#i-arrow"/></svg></a>
     </div>
 
-    <form class="calc__panel" id="calc" onsubmit="return false">
-      <div class="field">
-        <div class="field__row"><label for="rev">Annual revenue</label><output id="revOut" for="rev">$250M</output></div>
-        <input type="range" id="rev" min="0" max="100" value="48" step="1">
+    <form class="grid grid-cols-[repeat(2,1fr)] gap-x-7 gap-y-6 p-[clamp(24px,3vw,40px)] bg-[radial-gradient(70%_60%_at_100%_0%,rgba(201,160,99,.14),transparent_70%)] bg-vault text-ivory rounded-[20px] shadow-[0_60px_120px_-60px_rgba(10,15,28,.7)] sm:grid-cols-[1fr]" id="calc" onsubmit="return false">
+      <div class="flex flex-col gap-3 min-w-0 m-0 p-0 border-0">
+        <div class="flex justify-between items-baseline"><label class="p-0 text-[13.5px] font-semibold text-ivory/[.62]" for="rev">Annual revenue</label><output class="text-[22px] font-semibold text-champagne tabular-nums" id="revOut" for="rev">$250M</output></div>
+        <input class="[--p:50%] appearance-none w-full h-1 my-3 rounded-sm bg-[linear-gradient(90deg,#C9A063_var(--p),rgba(244,239,230,.16)_var(--p))] cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[22px] [&::-webkit-slider-thumb]:h-[22px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-champagne [&::-webkit-slider-thumb]:border-[5px] [&::-webkit-slider-thumb]:border-solid [&::-webkit-slider-thumb]:border-vault [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_#F2D59C] [&::-moz-range-thumb]:w-3.5 [&::-moz-range-thumb]:h-3.5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-champagne [&::-moz-range-thumb]:border-4 [&::-moz-range-thumb]:border-solid [&::-moz-range-thumb]:border-vault [&::-moz-range-thumb]:shadow-[0_0_0_1px_#F2D59C]" type="range" id="rev" min="0" max="100" value="48" step="1">
       </div>
-      <div class="field">
-        <label for="ind">Industry</label>
-        <select id="ind">
+      <div class="flex flex-col gap-3 min-w-0 m-0 p-0 border-0">
+        <label class="p-0 text-[13.5px] font-semibold text-ivory/[.62]" for="ind">Industry</label>
+        <select class="appearance-none h-12 pr-10 pl-3.5 text-[15px] text-ivory bg-ivory/[.04] bg-select-arrow bg-[position:right_12px_center] bg-[length:18px] bg-no-repeat border border-line-d rounded cursor-pointer [&_option]:text-ink" id="ind">
           <option value="bfsi">BFSI &amp; Insurance</option>
           <option value="health">Healthcare</option>
           <option value="auto">Automotive &amp; Distribution</option>
@@ -372,37 +484,37 @@
           <option value="ot">OT &amp; Industrial</option>
         </select>
       </div>
-      <fieldset class="field seg">
-        <legend>Sensitive data exposure</legend>
-        <div class="seg__opts">
-          <input type="radio" name="expo" id="e1" value="low"><label for="e1">Low</label>
-          <input type="radio" name="expo" id="e2" value="moderate" checked><label for="e2">Moderate</label>
-          <input type="radio" name="expo" id="e3" value="high"><label for="e3">High</label>
+      <fieldset class="flex flex-col gap-3 min-w-0 m-0 p-0 border-0">
+        <legend class="p-0 text-[13.5px] font-semibold text-ivory/[.62]">Sensitive data exposure</legend>
+        <div class="grid grid-cols-[repeat(3,1fr)] gap-[3px] p-[3px] border border-line-d rounded">
+          <input class="absolute opacity-0 pointer-events-none" type="radio" name="expo" id="e1" value="low"><label class="grid place-items-center h-10 rounded-sm text-[14px] font-semibold text-ivory/70 cursor-pointer transition-[background,color] duration-300 hover:text-ivory [input:checked+&]:bg-gold [input:checked+&]:bg-[length:200%_100%] [input:checked+&]:text-vault [input:focus-visible+&]:outline [input:focus-visible+&]:outline-2 [input:focus-visible+&]:outline-champagne [input:focus-visible+&]:outline-offset-2" for="e1">Low</label>
+          <input class="absolute opacity-0 pointer-events-none" type="radio" name="expo" id="e2" value="moderate" checked><label class="grid place-items-center h-10 rounded-sm text-[14px] font-semibold text-ivory/70 cursor-pointer transition-[background,color] duration-300 hover:text-ivory [input:checked+&]:bg-gold [input:checked+&]:bg-[length:200%_100%] [input:checked+&]:text-vault [input:focus-visible+&]:outline [input:focus-visible+&]:outline-2 [input:focus-visible+&]:outline-champagne [input:focus-visible+&]:outline-offset-2" for="e2">Moderate</label>
+          <input class="absolute opacity-0 pointer-events-none" type="radio" name="expo" id="e3" value="high"><label class="grid place-items-center h-10 rounded-sm text-[14px] font-semibold text-ivory/70 cursor-pointer transition-[background,color] duration-300 hover:text-ivory [input:checked+&]:bg-gold [input:checked+&]:bg-[length:200%_100%] [input:checked+&]:text-vault [input:focus-visible+&]:outline [input:focus-visible+&]:outline-2 [input:focus-visible+&]:outline-champagne [input:focus-visible+&]:outline-offset-2" for="e3">High</label>
         </div>
       </fieldset>
-      <fieldset class="field seg">
-        <legend>Security preparedness</legend>
-        <div class="seg__opts">
-          <input type="radio" name="prep" id="p1" value="early"><label for="p1">Early</label>
-          <input type="radio" name="prep" id="p2" value="developing" checked><label for="p2">Developing</label>
-          <input type="radio" name="prep" id="p3" value="mature"><label for="p3">Mature</label>
+      <fieldset class="flex flex-col gap-3 min-w-0 m-0 p-0 border-0">
+        <legend class="p-0 text-[13.5px] font-semibold text-ivory/[.62]">Security preparedness</legend>
+        <div class="grid grid-cols-[repeat(3,1fr)] gap-[3px] p-[3px] border border-line-d rounded">
+          <input class="absolute opacity-0 pointer-events-none" type="radio" name="prep" id="p1" value="early"><label class="grid place-items-center h-10 rounded-sm text-[14px] font-semibold text-ivory/70 cursor-pointer transition-[background,color] duration-300 hover:text-ivory [input:checked+&]:bg-gold [input:checked+&]:bg-[length:200%_100%] [input:checked+&]:text-vault [input:focus-visible+&]:outline [input:focus-visible+&]:outline-2 [input:focus-visible+&]:outline-champagne [input:focus-visible+&]:outline-offset-2" for="p1">Early</label>
+          <input class="absolute opacity-0 pointer-events-none" type="radio" name="prep" id="p2" value="developing" checked><label class="grid place-items-center h-10 rounded-sm text-[14px] font-semibold text-ivory/70 cursor-pointer transition-[background,color] duration-300 hover:text-ivory [input:checked+&]:bg-gold [input:checked+&]:bg-[length:200%_100%] [input:checked+&]:text-vault [input:focus-visible+&]:outline [input:focus-visible+&]:outline-2 [input:focus-visible+&]:outline-champagne [input:focus-visible+&]:outline-offset-2" for="p2">Developing</label>
+          <input class="absolute opacity-0 pointer-events-none" type="radio" name="prep" id="p3" value="mature"><label class="grid place-items-center h-10 rounded-sm text-[14px] font-semibold text-ivory/70 cursor-pointer transition-[background,color] duration-300 hover:text-ivory [input:checked+&]:bg-gold [input:checked+&]:bg-[length:200%_100%] [input:checked+&]:text-vault [input:focus-visible+&]:outline [input:focus-visible+&]:outline-2 [input:focus-visible+&]:outline-champagne [input:focus-visible+&]:outline-offset-2" for="p3">Mature</label>
         </div>
       </fieldset>
 
-      <div class="calc__result" aria-live="polite">
-        <svg class="gauge" viewBox="0 0 120 68" aria-hidden="true">
-          <path class="gauge__track" d="M10 60a50 50 0 0 1 100 0"/>
-          <path class="gauge__val" id="gaugeVal" d="M10 60a50 50 0 0 1 100 0" pathLength="100"/>
+      <div class="col-span-full grid grid-cols-[auto_1fr] items-center gap-6 pt-[26px] border-t border-line-d sm:grid-cols-[1fr] sm:justify-items-start sm:gap-3.5" aria-live="polite">
+        <svg class="w-[clamp(110px,10vw,150px)] h-auto" viewBox="0 0 120 68" aria-hidden="true">
+          <path class="fill-none stroke-[9] [stroke-linecap:round] stroke-ivory/10" d="M10 60a50 50 0 0 1 100 0"/>
+          <path class="fill-none stroke-[9] [stroke-linecap:round] stroke-champagne [stroke-dasharray:100] [stroke-dashoffset:100] [transition:stroke-dashoffset_1s_cubic-bezier(.2,.7,.1,1)] drop-shadow-[0_0_6px_rgba(242,213,156,.5)]" id="gaugeVal" d="M10 60a50 50 0 0 1 100 0" pathLength="100"/>
         </svg>
         <div>
-          <span class="calc__label">Estimated incident impact</span>
-          <strong class="calc__out gold-text" id="calcOut">$0</strong>
-          <span class="calc__range" id="calcRange"></span>
+          <span class="block text-[13.5px] font-medium text-ivory/[.62]">Estimated incident impact</span>
+          <strong class="block text-[clamp(42px,4.6vw,70px)] font-semibold leading-[1.05] tracking-[-.035em] tabular-nums bg-gold bg-[length:200%_100%] bg-clip-text text-transparent" id="calcOut">$0</strong>
+          <span class="text-[14px] text-mute-d" id="calcRange"></span>
         </div>
       </div>
 
-      <details class="calc__how">
-        <summary>How is this calculated?</summary>
+      <details class="group/how col-span-full text-[13.5px] text-ivory/[.58] [&>p]:mt-2.5">
+        <summary class="inline-flex items-center gap-2.5 font-medium text-ivory cursor-pointer list-none [&::-webkit-details-marker]:hidden after:content-['+'] after:grid after:place-items-center after:w-[22px] after:h-[22px] after:border after:border-line-d after:rounded-full after:text-[14px] after:text-champagne group-open/how:after:content-['−']">How is this calculated?</summary>
         <p>Your estimate combines published breach-cost benchmarks with your organisation's size, exposure and preparedness inputs. Benchmark data is sourced from IBM's Cost of a Data Breach Report 2026.</p>
         <p>Source: IBM, Cost of a Data Breach Report 2026.</p>
         <p>Disclaimer: This calculator provides an illustrative planning estimate and does not predict the actual cost of a future incident.</p>
@@ -412,25 +524,25 @@
 </section>
 
 <!-- ============ PACKAGES ============ -->
-<section class="pkgs" id="packages">
-  <div class="wrap">
-    <header class="sec-head sec-head--split">
+<section class="py-[--sec] bg-[radial-gradient(50%_40%_at_15%_0%,rgba(201,160,99,.1),transparent_70%)] bg-vault" id="packages">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad]">
+    <header class="grid grid-cols-[1.25fr_1fr] items-end gap-[clamp(28px,6vw,100px)] tab:grid-cols-[1fr] tab:items-start">
       <div>
-        <p class="kicker">STAGE 2 : MDR PACKAGES</p>
-        <h2 class="h2" data-split>Tiered, cumulative managed detection &amp; response.</h2>
+        <p class="inline-flex items-center gap-2.5 text-[14px] font-medium tracking-[.02em] before:content-[''] before:w-[9px] before:h-[9px] before:rounded-full before:border-2 before:border-current text-gilt mb-[18px]">STAGE 2 : MDR PACKAGES</p>
+        <h2 class="text-[clamp(34px,4.4vw,68px)] font-semibold leading-[1.02] tracking-[-.028em] text-balance" data-split>Tiered, cumulative managed detection &amp; response.</h2>
       </div>
-      <div class="pkgs__intro">
-        <p>Choose the level of coverage that matches your risk.</p>
-        <p class="pkgs__unsure">Not sure which package fits your environment? <a class="text-link" href="#assessment">Find your starting point <svg class="ico"><use href="#i-arrow"/></svg></a></p>
+      <div class="justify-self-end max-w-[46ch] tab:justify-self-start">
+        <p class="text-mute-d">Choose the level of coverage that matches your risk.</p>
+        <p class="mt-[18px] text-[15px] text-ivory">Not sure which package fits your environment? <a class="inline-flex items-center gap-2.5 pb-[5px] font-semibold border-b-[1.5px] border-current [transition:gap_.4s_cubic-bezier(.2,.7,.1,1),color_.3s] hover:gap-4 hover:text-bronze [&_svg]:w-[18px] [&_svg]:h-[18px] ml-1 text-champagne" href="#assessment">Find your starting point <svg class="ico"><use href="#i-arrow"/></svg></a></p>
       </div>
     </header>
 
-    <div class="pkgs__grid">
-      <article class="pkg">
-        <div class="pkg__viz" aria-hidden="true"><div class="plates"><b></b><i style="--k:1"></i></div></div>
-        <h3 class="pkg__name">MDR Core</h3>
-        <p class="pkg__tag">Detect &amp; Respond</p>
-        <ul class="ticks">
+    <div class="grid grid-cols-[repeat(3,1fr)] gap-4 mt-[clamp(36px,4vw,56px)] items-stretch md:grid-cols-[1fr]">
+      <article class="group/pkg relative flex flex-col p-[clamp(24px,2.4vw,36px)] border border-line-d rounded-[14px] transition-[border-color] duration-500 hover:border-champagne/[.45] bg-[linear-gradient(180deg,rgba(24,35,59,.7),rgba(10,15,28,.2))]">
+        <div class="grid place-items-center h-[104px] -mt-2.5 mb-2 [perspective:900px]" aria-hidden="true"><div class="[--gap:20px] relative w-[92px] h-[92px] [transform:rotateX(58deg)_rotateZ(-42deg)] [transform-style:preserve-3d]"><b class="absolute inset-0 rounded border border-dashed border-ivory/30 [transform:translateZ(-6px)]"></b><i class="absolute inset-0 rounded border border-champagne/[.55] bg-champagne/[.07] shadow-[inset_0_0_30px_rgba(201,160,99,.12)] [transform:translateZ(calc(var(--k)_*_var(--gap)))] [transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] group-hover/pkg:[transform:translateZ(calc(var(--k)_*_34px))] last:bg-[linear-gradient(135deg,rgba(246,222,171,.95),rgba(176,127,67,.85))] last:border-[#F6DEAB] last:shadow-[0_0_70px_rgba(201,160,99,.45)]" style="--k:1"></i></div></div>
+        <h3 class="text-[clamp(26px,2.4vw,36px)] font-semibold tracking-[-.03em] leading-none">MDR Core</h3>
+        <p class="mt-2 font-medium italic text-champagne pb-3.5 border-b border-line-d">Detect &amp; Respond</p>
+        <ul class="[&>li]:relative [&>li]:py-1 [&>li]:pl-[26px] [&>li]:text-[14.5px] [&>li]:leading-[1.4] [&>li]:text-ivory/[.88] [&>li]:before:content-[''] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:top-1.5 [&>li]:before:w-[17px] [&>li]:before:h-[17px] [&>li]:before:bg-gilt [&>li]:before:[-webkit-mask:var(--tick)_center/contain_no-repeat] [&>li]:before:[mask:var(--tick)_center/contain_no-repeat] mt-3.5">
           <li>24/7 Security Monitoring</li>
           <li>Security Event Collection &amp; Correlation</li>
           <li>User &amp; Entity Behaviour Analytics</li>
@@ -443,12 +555,12 @@
           <li>Security Governance &amp; Compliance Monitoring</li>
         </ul>
       </article>
-      <article class="pkg">
-        <div class="pkg__viz" aria-hidden="true"><div class="plates"><b></b><i style="--k:1"></i><i style="--k:2"></i></div></div>
-        <h3 class="pkg__name">MDR Plus</h3>
-        <p class="pkg__tag">Protect Users &amp; Communication</p>
-        <p class="pkg__inc">Everything in MDR Core, plus:</p>
-        <ul class="ticks">
+      <article class="group/pkg relative flex flex-col p-[clamp(24px,2.4vw,36px)] border border-line-d rounded-[14px] transition-[border-color] duration-500 hover:border-champagne/[.45] bg-[linear-gradient(180deg,rgba(24,35,59,.7),rgba(10,15,28,.2))]">
+        <div class="grid place-items-center h-[104px] -mt-2.5 mb-2 [perspective:900px]" aria-hidden="true"><div class="[--gap:20px] relative w-[92px] h-[92px] [transform:rotateX(58deg)_rotateZ(-42deg)] [transform-style:preserve-3d]"><b class="absolute inset-0 rounded border border-dashed border-ivory/30 [transform:translateZ(-6px)]"></b><i class="absolute inset-0 rounded border border-champagne/[.55] bg-champagne/[.07] shadow-[inset_0_0_30px_rgba(201,160,99,.12)] [transform:translateZ(calc(var(--k)_*_var(--gap)))] [transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] group-hover/pkg:[transform:translateZ(calc(var(--k)_*_34px))] last:bg-[linear-gradient(135deg,rgba(246,222,171,.95),rgba(176,127,67,.85))] last:border-[#F6DEAB] last:shadow-[0_0_70px_rgba(201,160,99,.45)]" style="--k:1"></i><i class="absolute inset-0 rounded border border-champagne/[.55] bg-champagne/[.07] shadow-[inset_0_0_30px_rgba(201,160,99,.12)] [transform:translateZ(calc(var(--k)_*_var(--gap)))] [transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] group-hover/pkg:[transform:translateZ(calc(var(--k)_*_34px))] last:bg-[linear-gradient(135deg,rgba(246,222,171,.95),rgba(176,127,67,.85))] last:border-[#F6DEAB] last:shadow-[0_0_70px_rgba(201,160,99,.45)]" style="--k:2"></i></div></div>
+        <h3 class="text-[clamp(26px,2.4vw,36px)] font-semibold tracking-[-.03em] leading-none">MDR Plus</h3>
+        <p class="mt-2 font-medium italic text-champagne pb-3.5 border-b border-line-d">Protect Users &amp; Communication</p>
+        <p class="mt-3.5 mb-1.5 text-[13.5px] font-medium text-ivory/50">Everything in MDR Core, plus:</p>
+        <ul class="[&>li]:relative [&>li]:py-1 [&>li]:pl-[26px] [&>li]:text-[14.5px] [&>li]:leading-[1.4] [&>li]:text-ivory/[.88] [&>li]:before:content-[''] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:top-1.5 [&>li]:before:w-[17px] [&>li]:before:h-[17px] [&>li]:before:bg-gilt [&>li]:before:[-webkit-mask:var(--tick)_center/contain_no-repeat] [&>li]:before:[mask:var(--tick)_center/contain_no-repeat]">
           <li>Managed Email &amp; Collaboration Security</li>
           <li>Phishing &amp; Social-Engineering Simulations</li>
           <li>Security Awareness Training</li>
@@ -456,12 +568,12 @@
           <li>Device Management</li>
         </ul>
       </article>
-      <article class="pkg pkg--top">
-        <div class="pkg__viz" aria-hidden="true"><div class="plates"><b></b><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i></div></div>
-        <h3 class="pkg__name">MDR 360</h3>
-        <p class="pkg__tag">Extend Protection &amp; Build Resilience</p>
-        <p class="pkg__inc">Everything in MDR Plus, plus:</p>
-        <ul class="ticks">
+      <article class="group/pkg relative flex flex-col p-[clamp(24px,2.4vw,36px)] border border-line-d rounded-[14px] transition-[border-color] duration-500 hover:border-champagne/[.45] bg-[linear-gradient(180deg,rgba(201,160,99,.15),rgba(10,15,28,.2))]">
+        <div class="grid place-items-center h-[104px] -mt-2.5 mb-2 [perspective:900px]" aria-hidden="true"><div class="[--gap:20px] relative w-[92px] h-[92px] [transform:rotateX(58deg)_rotateZ(-42deg)] [transform-style:preserve-3d]"><b class="absolute inset-0 rounded border border-dashed border-ivory/30 [transform:translateZ(-6px)]"></b><i class="absolute inset-0 rounded border border-champagne/[.55] bg-champagne/[.07] shadow-[inset_0_0_30px_rgba(201,160,99,.12)] [transform:translateZ(calc(var(--k)_*_var(--gap)))] [transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] group-hover/pkg:[transform:translateZ(calc(var(--k)_*_34px))] last:bg-[linear-gradient(135deg,rgba(246,222,171,.95),rgba(176,127,67,.85))] last:border-[#F6DEAB] last:shadow-[0_0_70px_rgba(201,160,99,.45)]" style="--k:1"></i><i class="absolute inset-0 rounded border border-champagne/[.55] bg-champagne/[.07] shadow-[inset_0_0_30px_rgba(201,160,99,.12)] [transform:translateZ(calc(var(--k)_*_var(--gap)))] [transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] group-hover/pkg:[transform:translateZ(calc(var(--k)_*_34px))] last:bg-[linear-gradient(135deg,rgba(246,222,171,.95),rgba(176,127,67,.85))] last:border-[#F6DEAB] last:shadow-[0_0_70px_rgba(201,160,99,.45)]" style="--k:2"></i><i class="absolute inset-0 rounded border border-champagne/[.55] bg-champagne/[.07] shadow-[inset_0_0_30px_rgba(201,160,99,.12)] [transform:translateZ(calc(var(--k)_*_var(--gap)))] [transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] group-hover/pkg:[transform:translateZ(calc(var(--k)_*_34px))] last:bg-[linear-gradient(135deg,rgba(246,222,171,.95),rgba(176,127,67,.85))] last:border-[#F6DEAB] last:shadow-[0_0_70px_rgba(201,160,99,.45)]" style="--k:3"></i></div></div>
+        <h3 class="text-[clamp(26px,2.4vw,36px)] font-semibold tracking-[-.03em] leading-none">MDR 360</h3>
+        <p class="mt-2 font-medium italic text-champagne pb-3.5 border-b border-line-d">Extend Protection &amp; Build Resilience</p>
+        <p class="mt-3.5 mb-1.5 text-[13.5px] font-medium text-ivory/50">Everything in MDR Plus, plus:</p>
+        <ul class="[&>li]:relative [&>li]:py-1 [&>li]:pl-[26px] [&>li]:text-[14.5px] [&>li]:leading-[1.4] [&>li]:text-ivory/[.88] [&>li]:before:content-[''] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:top-1.5 [&>li]:before:w-[17px] [&>li]:before:h-[17px] [&>li]:before:bg-gilt [&>li]:before:[-webkit-mask:var(--tick)_center/contain_no-repeat] [&>li]:before:[mask:var(--tick)_center/contain_no-repeat]">
           <li>Vulnerability &amp; Exposure Management</li>
           <li>Security Advisory &amp; Risk Reviews</li>
           <li>Incident &amp; Ransomware Readiness</li>
@@ -476,111 +588,111 @@
 </section>
 
 <!-- ============ ASSESSMENT ============ -->
-<section class="assess sec--light" id="assessment">
-  <div class="wrap assess__grid">
-    <div class="assess__copy">
-      <h2 class="assess__title" data-split>See How Your Security Operation Works</h2>
-      <p>The DigiGlass Security Operations Review maps your tools, signals and ownership to identify gaps and show you how to operate them as one.</p>
-      <h3 class="assess__get">What you get</h3>
-      <ul class="checks">
+<section class="py-[--sec] bg-mist text-ink [&_:focus-visible]:outline-bronze" id="assessment">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad]">
+    <div class="grid grid-cols-[1.1fr_1fr] [grid-template-areas:'t_g'_'p_l'_'c_l'] gap-x-[clamp(40px,6vw,100px)] items-start tab:grid-cols-[1fr] tab:[grid-template-areas:'t'_'p'_'g'_'l'_'c']">
+      <h2 class="[grid-area:t] text-[clamp(28px,3.1vw,48px)] font-semibold leading-[1.08] tracking-[-.025em] text-balance" data-split>See How Your Security Operation Works</h2>
+      <p class="[grid-area:p] max-w-[54ch] mt-6 text-mute-l">The DigiGlass Security Operations Review maps your tools, signals and ownership to identify gaps and show you how to operate them as one.</p>
+      <h3 class="[grid-area:g] m-0 self-end text-[15px] font-semibold tab:mt-[30px]">What you get</h3>
+      <ul class="[grid-area:l] [&>li]:grid [&>li]:grid-cols-[30px_1fr] [&>li]:gap-3.5 [&>li]:items-start [&>li]:py-3.5 [&>li]:border-b [&>li]:border-line-l [&>li]:text-[16.5px] [&>li]:leading-[1.45] [&_i]:grid [&_i]:place-items-center [&_i]:w-[26px] [&_i]:h-[26px] [&_i]:rounded-full [&_i]:bg-vault [&_i]:text-champagne [&_svg]:w-3.5 [&_svg]:h-3.5 [&_svg]:[stroke-width:2.4]">
         <li><i><svg class="ico"><use href="#i-check"/></svg></i>Your current security environment mapped</li>
         <li><i><svg class="ico"><use href="#i-check"/></svg></i>Key gaps in integration, visibility and ownership</li>
         <li><i><svg class="ico"><use href="#i-check"/></svg></i>Clear roles for monitoring, investigation and response</li>
         <li><i><svg class="ico"><use href="#i-check"/></svg></i>A prioritised improvement roadmap</li>
       </ul>
-      <div class="ctas">
-        <a class="btn btn--ink" href="#contact">Map Your Security Operation <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
-        <a class="btn btn--line" href="#contact">Speak to a Security Specialist</a>
+      <div class="[grid-area:c] flex flex-wrap gap-2.5 mt-9">
+        <a class="group btn btn-ink h-14 gap-[18px] pl-[22px] text-[14.5px]" href="#contact">Map Your Security Operation <span class="btn-arrow btn-arrow-gold w-11 h-11"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+        <a class="group btn pr-[22px] border border-ink/30 text-ink hover:border-ink hover:bg-ink/[.03] hover:shadow-[0_6px_18px_rgba(0,0,0,.08)] before:bg-shine-line-a after:bg-shine-line-b after:[filter:drop-shadow(0_0_8px_rgba(255,255,255,.9))] h-14 gap-[18px] pl-[22px] text-[14.5px]" href="#contact">Speak to a Security Specialist</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ INDUSTRIES + TECHNOLOGY ============ -->
-<section class="inds" id="industries">
-  <div class="wrap">
-    <header class="sec-head sec-head--split">
-      <h2 class="h2" data-split>The same operation, translated to your context.</h2>
-      <div class="inds__intro">
-        <p>Every organisation has different assets, risks and operational needs. DigiGlass adapts one accountable security operation to fit how your business operates.</p>
+<section class="py-[--sec] overflow-hidden bg-vault" id="industries">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad]">
+    <header class="grid grid-cols-[1.25fr_1fr] items-end gap-[clamp(28px,6vw,100px)] tab:grid-cols-[1fr] tab:items-start">
+      <h2 class="text-[clamp(34px,4.4vw,68px)] font-semibold leading-[1.02] tracking-[-.028em] text-balance" data-split>The same operation, translated to your context.</h2>
+      <div class="justify-self-end max-w-[46ch] tab:justify-self-start">
+        <p class="text-mute-d">Every organisation has different assets, risks and operational needs. DigiGlass adapts one accountable security operation to fit how your business operates.</p>
       </div>
     </header>
   </div>
 
-  <div class="inds__rail" id="indRail">
-    <article class="ind is-current"><div class="ind__art"><svg class="iso" data-iso="bfsi" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>BFSI &amp; Insurance</h3><p>Regulatory pressure, sensitive data and zero tolerance for disruption.</p></div></article>
-    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="health" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Healthcare</h3><p>Sensitive data, distributed systems and continuity-critical operations.</p></div></article>
-    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="auto" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Automotive &amp; Distribution</h3><p>Distributed estates, customer data and cloud-connected operations.</p></div></article>
-    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="digital" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Digital &amp; Cloud-native</h3><p>Cloud workloads, identity and data move faster than traditional security operations.</p></div></article>
-    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="realestate" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>Real Estate &amp; Hospitality</h3><p>Multiple properties, disconnected systems and consistent security requirements.</p></div></article>
-    <article class="ind"><div class="ind__art"><svg class="iso" data-iso="ot" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="ind__body"><h3>OT &amp; Industrial</h3><p>Operational continuity comes first.</p></div></article>
+  <div class="flex gap-4 mt-[clamp(36px,4vw,56px)] pt-0 pr-[--pad] pb-1.5 pl-[max(var(--pad),calc((100vw_-_var(--max))_/_2_+_var(--pad)))] overflow-x-auto snap-x snap-mandatory scroll-pl-[max(var(--pad),calc((100vw_-_var(--max))_/_2_+_var(--pad)))] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab select-none touch-pan-y [&.is-drag]:snap-none [&.is-drag]:!scroll-auto [&.is-drag]:cursor-grabbing [&_.iso-box]:[transition:transform_.8s_cubic-bezier(.2,.7,.1,1)] [&_.iso-box]:[transition-delay:calc(var(--d)_*_45ms)] [&_.ind:hover_.iso-box]:[transform:translateY(-7px)] [&_.iso-top]:fill-champagne/[.22] [&_.iso-l]:fill-gilt/10 [&_.iso-r]:fill-bronze/20 [&_.iso-box_:is(path,ellipse)]:stroke-champagne/75 [&_.iso-box_:is(path,ellipse)]:[stroke-width:1] [&_.iso-box_:is(path,ellipse)]:[stroke-linejoin:round] [&_.iso-row]:fill-none [&_.iso-row]:stroke-champagne/[.35] [&_.iso-row]:[stroke-width:1] [&_.iso-box.hot_.iso-top]:fill-champagne [&_.iso-box.hot_.iso-l]:fill-gilt [&_.iso-box.hot_.iso-r]:fill-bronze [&_.iso-box.hot_:is(path,ellipse)]:stroke-[#F6DEAB] [&_.iso-box.plate_path]:stroke-champagne/30 [&_.iso-box.plate_.iso-top]:fill-champagne/5 [&_.iso-box.wheel_.iso-top]:fill-[rgba(24,35,59,.92)] [&_.iso-box.wheel_.iso-l]:fill-[rgba(16,23,38,.96)] [&_.iso-box.wheel_.iso-r]:fill-[rgba(10,14,24,.98)] [&_.iso-box.wheel_path]:stroke-champagne/50 [&_.map-link]:fill-none [&_.map-link]:stroke-champagne/75 [&_.map-link]:[stroke-width:1.2] [&_.map-link]:[stroke-linecap:round] [&_.map-link.data-flow]:[stroke-dasharray:4_3] [&_.map-link.data-flow]:animate-data-flow [&_.map-link.pipe]:stroke-champagne/[.85] [&_.map-link.pipe]:[stroke-width:2.2] [&_.cloud-back]:fill-bronze/[.22] [&_.cloud-back]:stroke-champagne/[.45] [&_.cloud-back]:[stroke-width:1] [&_.cloud-facet]:fill-gilt/[.16] [&_.cloud-facet]:stroke-champagne/60 [&_.cloud-facet]:[stroke-width:1] [&_.cloud-front]:fill-champagne/[.26] [&_.cloud-front]:stroke-[#F6DEAB] [&_.cloud-front]:[stroke-width:1.4] [&_.cloud-front]:drop-shadow-[0_4px_16px_rgba(242,213,156,.3)]" id="indRail">
+    <article class="ind flex-none flex flex-col w-[clamp(260px,25vw,370px)] snap-start bg-[linear-gradient(180deg,rgba(24,35,59,.8),rgba(10,15,28,.4))] border border-line-d rounded-2xl overflow-hidden transition-[border-color] duration-500 select-none [-webkit-user-drag:none] hover:border-champagne/40 [&.is-current]:border-champagne/40 [.is-drag_&]:pointer-events-none is-current"><div class="grid place-items-center aspect-[16/10] border-b border-line-d [background:radial-gradient(55%_55%_at_50%_58%,rgba(201,160,99,.18),transparent_70%),linear-gradient(rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px,linear-gradient(90deg,rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px]"><svg class="iso w-[88%] h-auto overflow-visible" data-iso="bfsi" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="pt-5 px-[22px] pb-6"><h3 class="text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-.02em] leading-[1.1]">BFSI &amp; Insurance</h3><p class="mt-2.5 text-[15.5px] text-mute-d">Regulatory pressure, sensitive data and zero tolerance for disruption.</p></div></article>
+    <article class="ind flex-none flex flex-col w-[clamp(260px,25vw,370px)] snap-start bg-[linear-gradient(180deg,rgba(24,35,59,.8),rgba(10,15,28,.4))] border border-line-d rounded-2xl overflow-hidden transition-[border-color] duration-500 select-none [-webkit-user-drag:none] hover:border-champagne/40 [&.is-current]:border-champagne/40 [.is-drag_&]:pointer-events-none"><div class="grid place-items-center aspect-[16/10] border-b border-line-d [background:radial-gradient(55%_55%_at_50%_58%,rgba(201,160,99,.18),transparent_70%),linear-gradient(rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px,linear-gradient(90deg,rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px]"><svg class="iso w-[88%] h-auto overflow-visible" data-iso="health" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="pt-5 px-[22px] pb-6"><h3 class="text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-.02em] leading-[1.1]">Healthcare</h3><p class="mt-2.5 text-[15.5px] text-mute-d">Sensitive data, distributed systems and continuity-critical operations.</p></div></article>
+    <article class="ind flex-none flex flex-col w-[clamp(260px,25vw,370px)] snap-start bg-[linear-gradient(180deg,rgba(24,35,59,.8),rgba(10,15,28,.4))] border border-line-d rounded-2xl overflow-hidden transition-[border-color] duration-500 select-none [-webkit-user-drag:none] hover:border-champagne/40 [&.is-current]:border-champagne/40 [.is-drag_&]:pointer-events-none"><div class="grid place-items-center aspect-[16/10] border-b border-line-d [background:radial-gradient(55%_55%_at_50%_58%,rgba(201,160,99,.18),transparent_70%),linear-gradient(rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px,linear-gradient(90deg,rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px]"><svg class="iso w-[88%] h-auto overflow-visible" data-iso="auto" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="pt-5 px-[22px] pb-6"><h3 class="text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-.02em] leading-[1.1]">Automotive &amp; Distribution</h3><p class="mt-2.5 text-[15.5px] text-mute-d">Distributed estates, customer data and cloud-connected operations.</p></div></article>
+    <article class="ind flex-none flex flex-col w-[clamp(260px,25vw,370px)] snap-start bg-[linear-gradient(180deg,rgba(24,35,59,.8),rgba(10,15,28,.4))] border border-line-d rounded-2xl overflow-hidden transition-[border-color] duration-500 select-none [-webkit-user-drag:none] hover:border-champagne/40 [&.is-current]:border-champagne/40 [.is-drag_&]:pointer-events-none"><div class="grid place-items-center aspect-[16/10] border-b border-line-d [background:radial-gradient(55%_55%_at_50%_58%,rgba(201,160,99,.18),transparent_70%),linear-gradient(rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px,linear-gradient(90deg,rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px]"><svg class="iso w-[88%] h-auto overflow-visible" data-iso="digital" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="pt-5 px-[22px] pb-6"><h3 class="text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-.02em] leading-[1.1]">Digital &amp; Cloud-native</h3><p class="mt-2.5 text-[15.5px] text-mute-d">Cloud workloads, identity and data move faster than traditional security operations.</p></div></article>
+    <article class="ind flex-none flex flex-col w-[clamp(260px,25vw,370px)] snap-start bg-[linear-gradient(180deg,rgba(24,35,59,.8),rgba(10,15,28,.4))] border border-line-d rounded-2xl overflow-hidden transition-[border-color] duration-500 select-none [-webkit-user-drag:none] hover:border-champagne/40 [&.is-current]:border-champagne/40 [.is-drag_&]:pointer-events-none"><div class="grid place-items-center aspect-[16/10] border-b border-line-d [background:radial-gradient(55%_55%_at_50%_58%,rgba(201,160,99,.18),transparent_70%),linear-gradient(rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px,linear-gradient(90deg,rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px]"><svg class="iso w-[88%] h-auto overflow-visible" data-iso="realestate" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="pt-5 px-[22px] pb-6"><h3 class="text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-.02em] leading-[1.1]">Real Estate &amp; Hospitality</h3><p class="mt-2.5 text-[15.5px] text-mute-d">Multiple properties, disconnected systems and consistent security requirements.</p></div></article>
+    <article class="ind flex-none flex flex-col w-[clamp(260px,25vw,370px)] snap-start bg-[linear-gradient(180deg,rgba(24,35,59,.8),rgba(10,15,28,.4))] border border-line-d rounded-2xl overflow-hidden transition-[border-color] duration-500 select-none [-webkit-user-drag:none] hover:border-champagne/40 [&.is-current]:border-champagne/40 [.is-drag_&]:pointer-events-none"><div class="grid place-items-center aspect-[16/10] border-b border-line-d [background:radial-gradient(55%_55%_at_50%_58%,rgba(201,160,99,.18),transparent_70%),linear-gradient(rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px,linear-gradient(90deg,rgba(242,213,156,.05)_1px,transparent_1px)_0_0/28px_28px]"><svg class="iso w-[88%] h-auto overflow-visible" data-iso="ot" viewBox="0 0 320 260" aria-hidden="true"></svg></div><div class="pt-5 px-[22px] pb-6"><h3 class="text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-.02em] leading-[1.1]">OT &amp; Industrial</h3><p class="mt-2.5 text-[15.5px] text-mute-d">Operational continuity comes first.</p></div></article>
   </div>
 
-  <div class="inds__tech">
-    <div class="wrap tech__head">
-      <h3 class="tech__title">Technology systems we operate across:</h3>
-      <p class="tech__hint">Every tool that enters the lens comes out as part of one operation.</p>
+  <div class="mt-[clamp(40px,4vw,60px)] pt-[clamp(32px,3vw,44px)] border-t border-line-d">
+    <div class="w-full max-w-[--max] mx-auto px-[--pad] flex justify-between items-end flex-wrap gap-x-10 gap-y-3">
+      <h3 class="text-[clamp(22px,2vw,30px)] font-semibold tracking-[-.015em] leading-[1.15] text-ivory">Technology systems we operate across:</h3>
+      <p class="max-w-[40ch] text-[15px] text-mute-d">Every tool that enters the lens comes out as part of one operation.</p>
     </div>
     <ul class="sr-only"><li>Palo Alto Networks</li><li>Sectrio</li><li>Securonix</li><li>Legit Security</li><li>Check Point</li><li>Klassify</li><li>CyberArk</li><li>Cato Networks</li><li>Upwind</li><li>Indusface</li></ul>
 
-    <div class="prail" id="prail" aria-hidden="true">
-      <div class="prail__viewport">
-        <div class="prail__line"><i></i></div>
-        <div class="prail__track">
-        <div class="pr-item pr-logo" data-i="0" data-name="Palo Alto Networks" data-tag="Network security">
-          <img class="pr-l pr-l--dim" src="assets/partners/paloalto.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/paloalto.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/paloalto.png" alt="" draggable="false">
+    <div class="[--k:.42] [--lh:151px] [--lens:clamp(160px,17vw,280px)] [--pad-t:46px] [--node:30px] tab:[--k:.34] sm:[--k:.24] sm:[--lens:128px] sm:[--pad-t:40px] sm:[--node:24px] relative mt-[clamp(20px,2.4vw,32px)] select-none touch-pan-y cursor-grab [&.is-drag]:cursor-grabbing" id="prail" aria-hidden="true">
+      <div class="prail__viewport relative overflow-hidden pt-[--pad-t] pb-[calc(var(--node)_+_26px)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_9%,#000_91%,transparent)] [mask-image:linear-gradient(90deg,transparent,#000_9%,#000_91%,transparent)]">
+        <div class="absolute inset-x-0 top-[calc(var(--pad-t)_+_var(--lh)_*_var(--k)_+_var(--node))] h-0.5 -mt-px before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-1/2 before:bg-rail-gold before:bg-[length:180px_100%,100%_100%] before:animate-rail-flow before:shadow-[0_0_12px_rgba(242,213,156,.35)] after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-1/2 after:bg-[repeating-linear-gradient(90deg,rgba(244,239,230,.28)_0_4px,transparent_4px_11px)] motion-reduce:before:animate-none"><i></i></div>
+        <div class="prail__track flex items-center gap-[220px] pr-[220px] w-max h-[calc(var(--lh)_*_var(--k))] origin-[0_50%] will-change-transform">
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)]" data-i="0" data-name="Palo Alto Networks" data-tag="Network security">
+          <img class="block max-w-none pointer-events-none opacity-30 [clip-path:inset(0_0_0_var(--p))]" src="assets/partners/paloalto.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(67%)_sepia(1)_saturate(1.8)_hue-rotate(-2deg)_brightness(.84)] [clip-path:inset(0_calc(100%_-_var(--p))_0_0)]" src="assets/partners/paloalto.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(1)_drop-shadow(0_0_6px_#F2D59C)] [clip-path:inset(0_calc(100%_-_var(--p)_-_var(--e))_0_var(--p))]" src="assets/partners/paloalto.png" alt="" draggable="false">
         </div>
-        <div class="pr-item pr-word" data-i="1" data-name="Sectrio" data-tag="OT &amp; IoT security"><span>Sectrio</span></div>
-        <div class="pr-item pr-logo" data-i="2" data-name="Securonix" data-tag="SIEM &amp; UEBA">
-          <img class="pr-l pr-l--dim" src="assets/partners/securonix.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/securonix.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/securonix.png" alt="" draggable="false">
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)] flex items-center" data-i="1" data-name="Sectrio" data-tag="OT &amp; IoT security"><span class="text-[78px] font-bold leading-none tracking-[-.025em] whitespace-nowrap bg-clip-text text-transparent bg-[linear-gradient(90deg,#F6DDA8_0%,#B98A4E_var(--p),#FFF4DC_var(--p),#FFF4DC_calc(var(--p)_+_var(--e)),rgba(244,239,230,.3)_calc(var(--p)_+_var(--e)))]">Sectrio</span></div>
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)]" data-i="2" data-name="Securonix" data-tag="SIEM &amp; UEBA">
+          <img class="block max-w-none pointer-events-none opacity-30 [clip-path:inset(0_0_0_var(--p))]" src="assets/partners/securonix.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(67%)_sepia(1)_saturate(1.8)_hue-rotate(-2deg)_brightness(.84)] [clip-path:inset(0_calc(100%_-_var(--p))_0_0)]" src="assets/partners/securonix.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(1)_drop-shadow(0_0_6px_#F2D59C)] [clip-path:inset(0_calc(100%_-_var(--p)_-_var(--e))_0_var(--p))]" src="assets/partners/securonix.png" alt="" draggable="false">
         </div>
-        <div class="pr-item pr-word" data-i="3" data-name="Legit Security" data-tag="Application security"><span>Legit</span></div>
-        <div class="pr-item pr-logo" data-i="4" data-name="Check Point" data-tag="Network &amp; cloud security">
-          <img class="pr-l pr-l--dim" src="assets/partners/checkpoint.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/checkpoint.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/checkpoint.png" alt="" draggable="false">
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)] flex items-center" data-i="3" data-name="Legit Security" data-tag="Application security"><span class="text-[78px] font-bold leading-none tracking-[-.025em] whitespace-nowrap bg-clip-text text-transparent bg-[linear-gradient(90deg,#F6DDA8_0%,#B98A4E_var(--p),#FFF4DC_var(--p),#FFF4DC_calc(var(--p)_+_var(--e)),rgba(244,239,230,.3)_calc(var(--p)_+_var(--e)))]">Legit</span></div>
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)]" data-i="4" data-name="Check Point" data-tag="Network &amp; cloud security">
+          <img class="block max-w-none pointer-events-none opacity-30 [clip-path:inset(0_0_0_var(--p))]" src="assets/partners/checkpoint.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(67%)_sepia(1)_saturate(1.8)_hue-rotate(-2deg)_brightness(.84)] [clip-path:inset(0_calc(100%_-_var(--p))_0_0)]" src="assets/partners/checkpoint.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(1)_drop-shadow(0_0_6px_#F2D59C)] [clip-path:inset(0_calc(100%_-_var(--p)_-_var(--e))_0_var(--p))]" src="assets/partners/checkpoint.png" alt="" draggable="false">
         </div>
-        <div class="pr-item pr-word" data-i="5" data-name="Klassify" data-tag="Data classification"><span>Klassify</span></div>
-        <div class="pr-item pr-logo" data-i="6" data-name="CyberArk" data-tag="Identity security">
-          <img class="pr-l pr-l--dim" src="assets/partners/cyberark.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/cyberark.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/cyberark.png" alt="" draggable="false">
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)] flex items-center" data-i="5" data-name="Klassify" data-tag="Data classification"><span class="text-[78px] font-bold leading-none tracking-[-.025em] whitespace-nowrap bg-clip-text text-transparent bg-[linear-gradient(90deg,#F6DDA8_0%,#B98A4E_var(--p),#FFF4DC_var(--p),#FFF4DC_calc(var(--p)_+_var(--e)),rgba(244,239,230,.3)_calc(var(--p)_+_var(--e)))]">Klassify</span></div>
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)]" data-i="6" data-name="CyberArk" data-tag="Identity security">
+          <img class="block max-w-none pointer-events-none opacity-30 [clip-path:inset(0_0_0_var(--p))]" src="assets/partners/cyberark.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(67%)_sepia(1)_saturate(1.8)_hue-rotate(-2deg)_brightness(.84)] [clip-path:inset(0_calc(100%_-_var(--p))_0_0)]" src="assets/partners/cyberark.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(1)_drop-shadow(0_0_6px_#F2D59C)] [clip-path:inset(0_calc(100%_-_var(--p)_-_var(--e))_0_var(--p))]" src="assets/partners/cyberark.png" alt="" draggable="false">
         </div>
-        <div class="pr-item pr-word" data-i="7" data-name="Cato Networks" data-tag="SASE"><span>Cato Networks</span></div>
-        <div class="pr-item pr-logo" data-i="8" data-name="Upwind" data-tag="Cloud security">
-          <img class="pr-l pr-l--dim" src="assets/partners/upwind.png" alt="" draggable="false"><img class="pr-l pr-l--gold" src="assets/partners/upwind.png" alt="" draggable="false"><img class="pr-l pr-l--edge" src="assets/partners/upwind.png" alt="" draggable="false">
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)] flex items-center" data-i="7" data-name="Cato Networks" data-tag="SASE"><span class="text-[78px] font-bold leading-none tracking-[-.025em] whitespace-nowrap bg-clip-text text-transparent bg-[linear-gradient(90deg,#F6DDA8_0%,#B98A4E_var(--p),#FFF4DC_var(--p),#FFF4DC_calc(var(--p)_+_var(--e)),rgba(244,239,230,.3)_calc(var(--p)_+_var(--e)))]">Cato Networks</span></div>
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)]" data-i="8" data-name="Upwind" data-tag="Cloud security">
+          <img class="block max-w-none pointer-events-none opacity-30 [clip-path:inset(0_0_0_var(--p))]" src="assets/partners/upwind.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(67%)_sepia(1)_saturate(1.8)_hue-rotate(-2deg)_brightness(.84)] [clip-path:inset(0_calc(100%_-_var(--p))_0_0)]" src="assets/partners/upwind.png" alt="" draggable="false"><img class="block max-w-none pointer-events-none absolute left-0 top-0 [filter:brightness(0)_invert(1)_drop-shadow(0_0_6px_#F2D59C)] [clip-path:inset(0_calc(100%_-_var(--p)_-_var(--e))_0_var(--p))]" src="assets/partners/upwind.png" alt="" draggable="false">
         </div>
-        <div class="pr-item pr-word" data-i="9" data-name="Indusface" data-tag="Web app &amp; API security"><span>Indusface</span></div>
+        <div class="pr-item [--p:0%] [--e:0%] flex-none relative origin-center transition-[filter] duration-[400ms] [&.is-hot]:[filter:drop-shadow(0_0_calc(16px_/_var(--k))_rgba(242,213,156,.5))] after:content-[''] after:absolute after:left-1/2 after:top-[calc(50%_+_var(--lh)_/_2_+_var(--node)_/_var(--k))] after:w-[calc(9px_/_var(--k))] after:h-[calc(9px_/_var(--k))] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-vault after:[border:calc(1.5px_/_var(--k))_solid_rgba(244,239,230,.35)] after:transition-[background,border-color,box-shadow] after:duration-[400ms] [&.is-past]:after:bg-champagne [&.is-past]:after:border-champagne [&.is-past]:after:shadow-[0_0_0_calc(4px_/_var(--k))_rgba(242,213,156,.14),0_0_calc(14px_/_var(--k))_rgba(242,213,156,.7)] flex items-center" data-i="9" data-name="Indusface" data-tag="Web app &amp; API security"><span class="text-[78px] font-bold leading-none tracking-[-.025em] whitespace-nowrap bg-clip-text text-transparent bg-[linear-gradient(90deg,#F6DDA8_0%,#B98A4E_var(--p),#FFF4DC_var(--p),#FFF4DC_calc(var(--p)_+_var(--e)),rgba(244,239,230,.3)_calc(var(--p)_+_var(--e)))]">Indusface</span></div>
         </div>
       </div>
-      <div class="prail__lens">
-        <span class="prail__badge"><img src="assets/digiglass-logo.png" alt="" width="590" height="702"></span>
-        <b class="c c--tl"></b><b class="c c--tr"></b><b class="c c--bl"></b><b class="c c--br"></b>
-        <span class="prail__scan"></span>
+      <div class="prail__lens absolute left-1/2 top-3 bottom-2.5 w-[--lens] -translate-x-1/2 pointer-events-none rounded bg-[radial-gradient(60%_50%_at_50%_45%,rgba(242,213,156,.12),transparent_75%),linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01))] border border-champagne/[.18] shadow-[inset_0_1px_0_rgba(255,255,255,.08),0_30px_80px_-30px_rgba(201,160,99,.35)] [.is-pulse_&]:animate-lens-pulse">
+        <span class="absolute left-1/2 top-0 grid place-items-center w-[38px] h-[38px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-vault border border-champagne/50 shadow-[0_0_0_5px_#0A0F1C]"><img class="w-4 h-auto object-contain" src="assets/digiglass-logo.png" alt="" width="590" height="702"></span>
+        <b class="absolute w-[18px] h-[18px] border-2 border-gilt -left-px -top-px border-r-0 border-b-0 rounded-tl"></b><b class="absolute w-[18px] h-[18px] border-2 border-gilt -right-px -top-px border-l-0 border-b-0 rounded-tr"></b><b class="absolute w-[18px] h-[18px] border-2 border-gilt -left-px -bottom-px border-r-0 border-t-0 rounded-bl"></b><b class="absolute w-[18px] h-[18px] border-2 border-gilt -right-px -bottom-px border-l-0 border-t-0 rounded-br"></b>
+        <span class="absolute left-1/2 top-[22px] bottom-4 w-0.5 -ml-px bg-[linear-gradient(180deg,transparent,#F6DDA8_18%,#FFF4DC_50%,#F6DDA8_82%,transparent)] shadow-[0_0_14px_rgba(242,213,156,.9),0_0_40px_rgba(242,213,156,.45)] after:content-[''] after:absolute after:left-1/2 after:top-0 after:w-2 after:h-[26px] after:-ml-1 after:rounded-sm after:bg-[#FFF4DC] after:shadow-[0_0_18px_#F2D59C] after:animate-scan-dot motion-reduce:after:animate-none"></span>
       </div>
     </div>
-    <div class="prail__readout" aria-hidden="true">
-      <span class="prail__idx"><b id="prIdx">01</b>/10</span>
-      <span class="prail__name" id="prName">Palo Alto Networks</span>
-      <span class="prail__tag" id="prTag">Network security</span>
+    <div class="prail__readout flex justify-center items-center gap-3 w-max max-w-[calc(100%_-_2_*_var(--pad))] mt-1 mx-auto py-2 pr-4 pl-2 border border-line-d rounded bg-deep/80 text-[14px] whitespace-nowrap sm:text-[13px] sm:gap-2" aria-hidden="true">
+      <span class="py-1 px-2 rounded-sm bg-gold text-vault text-[12px] font-bold tabular-nums [&_b]:font-bold"><b id="prIdx">01</b>/10</span>
+      <span class="font-semibold text-ivory [.is-swap_&]:animate-swap-in" id="prName">Palo Alto Networks</span>
+      <span class="text-mute-d before:content-[''] before:inline-block before:w-[5px] before:h-[5px] before:mr-3 before:mb-0.5 before:rounded-full before:bg-gilt [.is-swap_&]:animate-swap-in sm:hidden" id="prTag">Network security</span>
     </div>
 
-    <p class="wrap tech__note">Listed technologies reflect environments DigiGlass operates and integrates with. Official technology partnerships are shown separately.</p>
+    <p class="w-full max-w-[--max] mx-auto px-[--pad] mt-[clamp(28px,3vw,44px)] text-[13.5px] text-mute-l">Listed technologies reflect environments DigiGlass operates and integrates with. Official technology partnerships are shown separately.</p>
   </div>
 </section>
 
 </main>
 
 <!-- ============ 14 · FOOTER ============ -->
-<footer class="foot sec--light" id="contact">
-  <div class="wrap">
-    <div class="foot__top">
-      <div class="foot__brand">
-        <a class="brand brand--light" href="#top" aria-label="DigiGlass home">
-          <img class="brand__mark" src="assets/digiglass-logo.png" alt="DigiGlass" width="34" height="40">
-          <span class="brand__word">DIGIGLASS</span>
+<footer class="relative pt-[clamp(56px,6vw,80px)] pb-6 overflow-hidden bg-mist text-ink [&_:focus-visible]:outline-bronze" id="contact">
+  <div class="w-full max-w-[--max] mx-auto px-[--pad]">
+    <div class="grid grid-cols-[1.1fr_2fr] gap-[clamp(40px,6vw,100px)] tab:grid-cols-[1fr]">
+      <div>
+        <a class="relative z-[1] inline-flex items-center gap-3" href="#top" aria-label="DigiGlass home">
+          <img class="block h-auto aspect-[590/702] object-contain w-[34px]" src="assets/digiglass-logo.png" alt="DigiGlass" width="34" height="40">
+          <span class="text-[18px] font-bold tracking-[.07em] bg-clip-text text-transparent sm:text-[16px] bg-[linear-gradient(90deg,#A67A45,#C9A063)]">DIGIGLASS</span>
         </a>
-        <p class="foot__tag">One security operation. Whatever the stack.</p>
-        <p class="foot__about">A Redington Gulf company and the managed security arm of a $13.5B global technology group.</p>
-        <a class="btn btn--ink" href="#contact">Speak to a Security Specialist <span class="btn__arrow"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
+        <p class="mt-[26px] text-[22px] font-semibold leading-[1.2] tracking-[-.015em] max-w-[20ch]">One security operation. Whatever the stack.</p>
+        <p class="mt-3.5 mb-7 max-w-[38ch] text-[15px] text-mute-l">A Redington Gulf company and the managed security arm of a $13.5B global technology group.</p>
+        <a class="group btn btn-ink h-14 gap-[18px] pl-[22px] text-[14.5px]" href="#contact">Speak to a Security Specialist <span class="btn-arrow btn-arrow-gold w-11 h-11"><svg class="ico"><use href="#i-arrow-r"/></svg></span></a>
       </div>
-      <nav class="foot__nav" aria-label="Footer">
+      <nav class="grid grid-cols-[repeat(4,1fr)] gap-6 md:grid-cols-[repeat(2,1fr)] md:gap-y-9 [&_h4]:mb-3.5 [&_h4]:text-[13.5px] [&_h4]:font-semibold [&_h4]:text-bronze [&_li_a]:inline-block [&_li_a]:py-[3px] [&_li_a]:text-[15px] [&_li_a]:leading-[1.35] [&_li_a]:text-ink/[.78] [&_li_a]:[transition:color_.3s,transform_.4s_cubic-bezier(.2,.7,.1,1)] [&_li_a:hover]:text-bronze [&_li_a:hover]:translate-x-1" aria-label="Footer">
         <div><h4>Solutions</h4><ul>
           <li><a href="#">Security Operations</a></li><li><a href="#">Managed Detection &amp; Response</a></li><li><a href="#">Cloud Security</a></li><li><a href="#">Data Security</a></li><li><a href="#">Privacy &amp; AI Governance</a></li><li><a href="#">OT &amp; Industrial Security</a></li><li><a href="#">Identity Security</a></li><li><a href="#">Network &amp; Perimeter Security</a></li>
         </ul></div>
@@ -596,27 +708,27 @@
       </nav>
     </div>
 
-    <div class="foot__ops-sep" aria-hidden="true">
-      <img class="foot__ops-sep-img" src="assets/unlockNext.svg" alt="Unlock Next" loading="lazy">
+    <div class="group/sep w-screen relative left-1/2 -translate-x-1/2 mt-[clamp(40px,4vw,60px)] mb-0.5 overflow-hidden" aria-hidden="true">
+      <img class="block w-screen max-w-none h-auto aspect-[3342/148] brightness-0 opacity-35 [transition:opacity_.35s_cubic-bezier(.2,.7,.1,1)] group-hover/sep:opacity-75" src="assets/unlockNext.svg" alt="Unlock Next" loading="lazy">
     </div>
 
-    <div class="foot__ops">
-      <p class="foot__ops-h">DigiGlass operation</p>
-      <p class="foot__ops-h foot__ops-h--r">Redington Group backing</p>
-      <div class="op"><strong>3</strong><span>Security Operations Centres, operating 24×7×365</span></div>
-      <div class="op"><strong>25+</strong><span>Cybersecurity specialists across threat, compliance, cloud, OT and privacy</span></div>
-      <div class="op"><strong>20+</strong><span>Direct technology alliances</span></div>
-      <div class="op op--gold"><strong>$13.5B</strong><span>Redington global revenue, FY26</span><small>Source: Redington FY26 Corporate Presentation</small></div>
+    <div class="grid grid-cols-[repeat(4,1fr)] border-b border-line-l md:grid-cols-[repeat(2,1fr)]">
+      <p class="pt-[18px] text-[13.5px] font-semibold text-bronze md:hidden col-span-3">DigiGlass operation</p>
+      <p class="pt-[18px] text-[13.5px] font-semibold text-bronze md:hidden col-span-1 pl-6 border-l border-line-l">Redington Group backing</p>
+      <div class="flex flex-col gap-1.5 pt-3.5 pr-6 pb-5 border-line-l md:py-[22px] md:pr-4 md:pl-0 md:border-l-0 pl-0 md:border-b"><strong class="text-[clamp(34px,3vw,48px)] font-semibold leading-none tracking-[-.04em]">3</strong><span class="max-w-[26ch] text-[14.5px] text-mute-l">Security Operations Centres, operating 24×7×365</span></div>
+      <div class="flex flex-col gap-1.5 pt-3.5 pr-6 pb-5 border-line-l md:py-[22px] md:pr-4 md:pl-0 md:border-l-0 pl-6 border-l md:border-b"><strong class="text-[clamp(34px,3vw,48px)] font-semibold leading-none tracking-[-.04em]">25+</strong><span class="max-w-[26ch] text-[14.5px] text-mute-l">Cybersecurity specialists across threat, compliance, cloud, OT and privacy</span></div>
+      <div class="flex flex-col gap-1.5 pt-3.5 pr-6 pb-5 border-line-l md:py-[22px] md:pr-4 md:pl-0 md:border-l-0 pl-6 border-l"><strong class="text-[clamp(34px,3vw,48px)] font-semibold leading-none tracking-[-.04em]">20+</strong><span class="max-w-[26ch] text-[14.5px] text-mute-l">Direct technology alliances</span></div>
+      <div class="flex flex-col gap-1.5 pt-3.5 pr-6 pb-5 border-line-l md:py-[22px] md:pr-4 md:pl-0 md:border-l-0 pl-6 border-l"><strong class="text-[clamp(34px,3vw,48px)] font-semibold leading-none tracking-[-.04em] bg-[linear-gradient(90deg,#8F5E2A,#C9A063)] bg-clip-text text-transparent">$13.5B</strong><span class="max-w-[26ch] text-[14.5px] text-mute-l">Redington global revenue, FY26</span><small class="text-[12px] text-ink/45">Source: Redington FY26 Corporate Presentation</small></div>
     </div>
 
-    <div class="foot__meta">
-      <a class="text-link" href="#">See the technology ecosystem <svg class="ico"><use href="#i-arrow"/></svg></a>
+    <div class="flex justify-between items-center flex-wrap gap-4 mt-7 text-[14.5px] text-mute-l">
+      <a class="inline-flex items-center gap-2.5 pb-[5px] font-semibold border-b-[1.5px] border-current [transition:gap_.4s_cubic-bezier(.2,.7,.1,1),color_.3s] hover:gap-4 hover:text-bronze [&_svg]:w-[18px] [&_svg]:h-[18px] text-ink" href="#">See the technology ecosystem <svg class="ico"><use href="#i-arrow"/></svg></a>
       <span>United Arab Emirates, Saudi Arabia and wider Middle East &amp; Africa</span>
     </div>
 
-    <div class="foot__bar">
+    <div class="flex justify-between flex-wrap gap-4 mt-7 pt-[22px] border-t border-line-l text-[13px] text-ink/55 sm:flex-col">
       <span>© 2026 Digiglass. All rights reserved.</span>
-      <nav aria-label="Legal"><a href="#">Privacy Notice</a><a href="#">Terms of Use</a><a href="#">Cookie Preferences</a><a href="#">Accessibility Statement</a></nav>
+      <nav class="flex flex-wrap gap-[22px] [&_a:hover]:text-bronze" aria-label="Legal"><a href="#">Privacy Notice</a><a href="#">Terms of Use</a><a href="#">Cookie Preferences</a><a href="#">Accessibility Statement</a></nav>
     </div>
   </div>
 </footer>
