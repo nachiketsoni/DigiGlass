@@ -1,6 +1,6 @@
 /* DigiGlass | WebGL scenes
    Hero:  cyber globe with threat network nodes, data streams,
-          and the DigiGlass shield at the core inside a hexagonal energy barrier.
+          and the DigiGlass gold emblem at the core inside a hexagonal energy barrier.
    Model: one obsidian-and-gold form per step of the operating model.
    Loaded with a dynamic import so the page also works when opened from file://. */
 (async () => {
@@ -57,35 +57,6 @@
     const tex = pm.fromScene(s, 0.035).texture;
     pm.dispose();
     return tex;
-  }
-
-  // The DigiGlass monogram as extrudable shapes (same geometry as the SVG sprite).
-  function monogram() {
-    const S = 1 / 100, ox = 200, oy = 227;
-    const p = (x, y) => [(x - ox) * S, -(y - oy) * S];
-    const shape = (cmds) => {
-      const sh = new THREE.Shape();
-      cmds.forEach(([op, ...a]) => {
-        if (op === 'M') sh.moveTo(...p(a[0], a[1]));
-        else if (op === 'L') sh.lineTo(...p(a[0], a[1]));
-        else sh.bezierCurveTo(...p(a[0], a[1]), ...p(a[2], a[3]), ...p(a[4], a[5]));
-      });
-      sh.closePath();
-      return sh;
-    };
-    const parts = [
-      shape([['M', 0, 0], ['L', 400, 0], ['L', 400, 32], ['L', 0, 32]]),
-      shape([['M', 187, 160], ['L', 187, 41], ['L', 0, 41], ['L', 0, 258], ['C', 0, 340, 100, 420, 187, 454], ['L', 187, 270], ['L', 172, 270], ['L', 172, 410], ['C', 100, 385, 18, 330, 18, 250], ['L', 18, 73], ['L', 172, 73], ['L', 172, 160]]),
-      shape([['M', 210, 41], ['L', 400, 41], ['L', 400, 93], ['L', 370, 93], ['L', 370, 73], ['L', 242, 73], ['L', 242, 160], ['L', 210, 160]]),
-      shape([['M', 210, 270], ['L', 242, 270], ['L', 242, 400], ['C', 320, 368, 370, 310, 370, 218], ['L', 314, 218], ['L', 314, 191], ['L', 400, 191], ['L', 400, 258], ['C', 400, 360, 300, 425, 210, 454]]),
-    ];
-    const [rx, ry] = p(202, 215);
-    const ring = new THREE.Shape();
-    ring.absarc(rx, ry, 0.77, 0, Math.PI * 2, false);
-    const hole = new THREE.Path();
-    hole.absarc(rx, ry, 0.5, 0, Math.PI * 2, true);
-    ring.holes.push(hole);
-    return { parts, ring };
   }
 
   // Average normals across vertices that share a position (sphere seams and poles).
@@ -318,19 +289,23 @@
     for (let i = 0; i < STREAMS; i++) stData.push({ arc: i % Math.max(1, arcs.length), t: Math.random(), v: 0.15 + Math.random() * 0.35 });
 
     /* ---- central shield ---- */
-    const { parts, ring } = monogram();
-    const goldMat = new THREE.MeshPhysicalMaterial({ color: 0xdcb272, metalness: 1, roughness: 0.2, clearcoat: 0.5, clearcoatRoughness: 0.15, envMapIntensity: 1.5 });
-    const goldLt = new THREE.MeshPhysicalMaterial({ color: 0xf1d096, metalness: 1, roughness: 0.16, clearcoat: 0.6, envMapIntensity: 1.6 });
-    const bevel = { bevelEnabled: true, bevelThickness: 0.035, bevelSize: 0.022, bevelSegments: 3, curveSegments: 40 };
+    // The original gold artwork (590x702) on a plane, untouched by tone mapping so the gold stays exact.
+    // Darkened copies stacked just behind it give a thin extruded edge while it tilts.
+    const S = 0.723 / 100;
+    const emblemTex = new THREE.TextureLoader().load('assets/digiglass-logo.png');
+    emblemTex.colorSpace = THREE.SRGBColorSpace;
+    emblemTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    const emblemGeo = new THREE.PlaneGeometry(590 * S, 702 * S);
     const logo = new THREE.Group();
-    parts.forEach(sh => {
-      const g = new THREE.ExtrudeGeometry(sh, { depth: 0.32, ...bevel });
-      g.translate(0, 0, -0.16);
-      logo.add(new THREE.Mesh(g, goldMat));
+    [[-4.5, 0.24], [-3, 0.4], [-1.5, 0.62], [0, 1]].forEach(([z, k], i) => {
+      const m = new THREE.Mesh(emblemGeo, new THREE.MeshBasicMaterial({
+        map: emblemTex, color: new THREE.Color().setRGB(k, k, k, THREE.SRGBColorSpace),
+        transparent: true, depthWrite: false, toneMapped: false
+      }));
+      m.position.z = z * S;
+      m.renderOrder = 10 + i;
+      logo.add(m);
     });
-    const rGeo = new THREE.ExtrudeGeometry(ring, { depth: 0.44, ...bevel });
-    rGeo.translate(0, 0, -0.22);
-    logo.add(new THREE.Mesh(rGeo, goldLt));
     logo.scale.setScalar(0.5);
     hero.add(logo);
 
@@ -382,23 +357,32 @@
 
     /* ---- layout ---- */
     const place = { x: 0, y: 0, s: 1 };
+    const titleEl = document.querySelector('.hero__title');
+    const navEl = document.querySelector('.nav');
     const resize = () => {
       const w = canvas.clientWidth, h = canvas.clientHeight;
       if (!w || !h) return;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      if (camera.aspect < 0.8) {
-        const halfH0 = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
-        const cy = Math.min(250, h * 0.27);
-        Object.assign(place, { x: 0, y: ((h / 2 - cy) / (h / 2)) * halfH0 * 0.5, s: Math.min(0.48, (halfH0 * camera.aspect * 0.8) / GR) });
-      } else if (camera.aspect < 1.25) {
-        Object.assign(place, { x: 0.5, y: 0.35, s: 0.68 });
+      if ((camera.aspect < 1.25 || h < 600) && titleEl) {
+        // portrait / tablet / short screens: fill the band between nav and title,
+        // with the title tucked into the globe's lower edge like the desktop layout
+        const ppu = h / 2 / (Math.tan((camera.fov * Math.PI) / 360) * camera.position.z);
+        const cr = canvas.getBoundingClientRect();
+        const top = (navEl ? navEl.getBoundingClientRect().bottom - cr.top : 80) + 16;
+        const bottom = titleEl.getBoundingClientRect().top - cr.top;
+        const R = Math.max(60, Math.min(w * 0.42, 420, (bottom - top) / 1.62));
+        const cy = bottom - R * 0.62;
+        Object.assign(place, { x: 0, y: (h / 2 - cy) / ppu, s: R / (GR * ppu) });
       } else {
         Object.assign(place, { x: 0.3, y: 0.2, s: 0.72 });
       }
     };
-    new ResizeObserver(resize).observe(canvas);
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+    if (titleEl) ro.observe(titleEl);
+    document.fonts && document.fonts.ready.then(resize);
     resize();
 
     /* ---- threat pulse pool ---- */
@@ -434,8 +418,9 @@
       globe.rotation.y += dt * 0.07 * spin;
       globe.rotation.x = 0.18 + mouse.y * 0.12 * spin;
 
-      logo.rotation.y = (Math.sin(t * 0.4) * 0.28 + mouse.x * 0.4) * spin + (1 - e) * -2.5;
-      logo.rotation.x = -mouse.y * 0.22 * spin;
+      // flat artwork: keep the tilt restrained (~9deg) so it never turns edge-on
+      logo.rotation.y = (Math.sin(t * 0.4) * 0.05 + mouse.x * 0.157) * spin + (1 - e) * -0.6;
+      logo.rotation.x = -mouse.y * 0.157 * spin;
       logo.position.y = Math.sin(t * 0.7) * 0.05 * spin;
 
       barrierFlash = damp(barrierFlash, 0, 4, dt);
