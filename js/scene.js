@@ -292,7 +292,7 @@
     // The original gold artwork (590x702) on a plane, untouched by tone mapping so the gold stays exact.
     // Darkened copies stacked just behind it give a thin extruded edge while it tilts.
     const S = 0.723 / 100;
-    const emblemTex = new THREE.TextureLoader().load('assets/digiglass-logo.png');
+    const emblemTex = new THREE.TextureLoader().load('assets/logos/digiglass-logo.png');
     emblemTex.colorSpace = THREE.SRGBColorSpace;
     emblemTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const emblemGeo = new THREE.PlaneGeometry(590 * S, 702 * S);
