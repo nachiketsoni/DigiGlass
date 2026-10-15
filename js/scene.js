@@ -13,7 +13,7 @@
   try {
     const probe = document.createElement('canvas');
     if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) throw new Error('WebGL unavailable');
-    THREE = await import('https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js');
+    THREE = window.THREE; if (!THREE) throw new Error('three.js missing');
   } catch (err) {
     root.classList.add('no-gl');
     console.warn('[DigiGlass] 3D disabled:', err.message);
@@ -292,7 +292,7 @@
     // The original gold artwork (590x702) on a plane, untouched by tone mapping so the gold stays exact.
     // Darkened copies stacked just behind it give a thin extruded edge while it tilts.
     const S = 0.723 / 100;
-    const emblemTex = new THREE.TextureLoader().load('assets/logos/digiglass-logo.png');
+    const emblemTex = new THREE.TextureLoader().load(window.DG_LOGO || 'assets/logos/digiglass-logo.png');
     emblemTex.colorSpace = THREE.SRGBColorSpace;
     emblemTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const emblemGeo = new THREE.PlaneGeometry(590 * S, 702 * S);
